@@ -1,5 +1,7 @@
 import type { ReactElement } from "react";
 
+import { ChatPage } from "./pages/ChatPage";
+
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <section>
@@ -17,12 +19,12 @@ type AppRoute = {
 export const routes: AppRoute[] = [
   {
     path: "/",
-    element: <PlaceholderPage title="Chat" />,
+    element: <ChatPage />,
     navLabel: "Chat"
   },
   {
     path: "/chat",
-    element: <PlaceholderPage title="Chat" />,
+    element: <ChatPage />,
     navLabel: "Chat"
   },
   {
