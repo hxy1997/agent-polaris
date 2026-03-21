@@ -7,4 +7,5 @@ frontend/dist/
 frontend/tsconfig.tsbuildinfo
 .codex-run/
 .idea/
-sessions/
+/platform/
+/sessions/

@@ -3,6 +3,7 @@ import json
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 
+from app.bootstrap.runtime_initializer import ensure_platform_initialized
 from app.core.settings import Settings
 from app.schemas.chat import (
     ChatHistoryEntryResponse,
@@ -18,6 +19,7 @@ from app.services.session_service import SessionService
 
 router = APIRouter(prefix="/api/chat", tags=["chat"])
 settings = Settings()
+ensure_platform_initialized(settings.platform_root)
 session_service = SessionService(
     platform_root=settings.platform_root,
     session_root=settings.session_root,
