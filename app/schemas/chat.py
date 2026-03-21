@@ -13,3 +13,12 @@ class CreateSessionRequest(BaseModel):
 class ChatSessionResponse(BaseModel):
     session_id: str
     scene_id: str
+
+
+class ChatMessageRequest(BaseModel):
+    content: str
+
+
+class ChatMessageResponse(BaseModel):
+    session_id: str
+    status: str

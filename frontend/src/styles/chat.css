@@ -40,6 +40,57 @@
   line-height: 1.7;
 }
 
+.chat-shell__conversation {
+  min-height: 180px;
+}
+
+.conversation {
+  display: grid;
+  gap: 14px;
+}
+
+.conversation__empty {
+  padding: 20px 22px;
+  border: 1px dashed #d8dee6;
+  border-radius: 24px;
+  color: #5c6675;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.conversation__empty p {
+  margin: 0;
+}
+
+.conversation__message {
+  max-width: min(78%, 620px);
+  padding: 16px 18px;
+  border-radius: 24px;
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.05);
+}
+
+.conversation__message span {
+  display: block;
+  margin-bottom: 10px;
+  color: #5c6675;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.conversation__message p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.conversation__message--user {
+  justify-self: end;
+  background: #eef5ff;
+}
+
+.conversation__message--assistant {
+  background: rgba(255, 255, 255, 0.94);
+}
+
 .composer {
   display: grid;
   gap: 16px;
