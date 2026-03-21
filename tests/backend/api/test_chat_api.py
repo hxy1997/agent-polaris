@@ -25,18 +25,41 @@ def test_stream_chat_session_emits_event_stream():
         def list_scenes(self):
             return []
 
-        def create_session(self, scene_id: str):
-            return type("Session", (), {"session_id": "session-001", "scene_id": scene_id})()
+        def create_session(self, scene_id: str, user_id: str | None = None):
+            return type(
+                "Session",
+                (),
+                {"session_id": "session-001", "scene_id": scene_id, "user_id": user_id or "0000"},
+            )()
 
         def get_session(self, session_id: str):
-            return type("Session", (), {"session_id": session_id, "scene_id": "sales-assistant"})()
+            return type(
+                "Session",
+                (),
+                {"session_id": session_id, "scene_id": "sales-assistant", "user_id": "0000"},
+            )()
 
-        def add_message(self, session_id: str, content: str):
+        def add_message(self, session_id: str, content: str, user_id: str | None = None):
             self.content = content
             return type("Response", (), {"session_id": session_id, "status": "accepted"})()
 
         def stream_session(self, session_id: str):
             yield "Need a concise follow-up"
+
+        def list_history(self, scene_id: str, user_id: str | None = None):
+            return []
+
+        def get_session_messages(self, session_id: str, user_id: str | None = None):
+            return type(
+                "Messages",
+                (),
+                {
+                    "session_id": session_id,
+                    "scene_id": "sales-assistant",
+                    "user_id": user_id or "0000",
+                    "messages": [],
+                },
+            )()
 
     chat_api.session_service = FakeSessionService()
     client = TestClient(app)
@@ -60,17 +83,40 @@ def test_add_message_returns_422_when_scene_model_config_is_incomplete():
         def list_scenes(self):
             return []
 
-        def create_session(self, scene_id: str):
-            return type("Session", (), {"session_id": "session-001", "scene_id": scene_id})()
+        def create_session(self, scene_id: str, user_id: str | None = None):
+            return type(
+                "Session",
+                (),
+                {"session_id": "session-001", "scene_id": scene_id, "user_id": user_id or "0000"},
+            )()
 
         def get_session(self, session_id: str):
-            return type("Session", (), {"session_id": session_id, "scene_id": "sales-assistant"})()
+            return type(
+                "Session",
+                (),
+                {"session_id": session_id, "scene_id": "sales-assistant", "user_id": "0000"},
+            )()
 
-        def add_message(self, session_id: str, content: str):
+        def add_message(self, session_id: str, content: str, user_id: str | None = None):
             raise ValueError("Scene model configuration is incomplete")
 
         def stream_session(self, session_id: str):
             return iter(())
+
+        def list_history(self, scene_id: str, user_id: str | None = None):
+            return []
+
+        def get_session_messages(self, session_id: str, user_id: str | None = None):
+            return type(
+                "Messages",
+                (),
+                {
+                    "session_id": session_id,
+                    "scene_id": "sales-assistant",
+                    "user_id": user_id or "0000",
+                    "messages": [],
+                },
+            )()
 
     chat_api.session_service = FakeSessionService()
     client = TestClient(app)

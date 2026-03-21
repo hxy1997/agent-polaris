@@ -21,8 +21,7 @@ afterEach(() => {
 test("renders route shell", async () => {
   render(<App />);
 
-  expect(await screen.findByRole("heading", { level: 1, name: "Polaris" })).toBeInTheDocument();
-  expect(screen.getByText("内部智能体平台")).toBeInTheDocument();
-  expect(screen.getByRole("link", { name: "对话" })).toBeInTheDocument();
-  expect(screen.getByRole("link", { name: "管理台" })).toBeInTheDocument();
+  expect(await screen.findByText("Polaris")).toBeInTheDocument();
+  expect(screen.getByText("对话模式")).toBeInTheDocument();
+  expect(screen.getAllByText("管理后台").length).toBeGreaterThan(0);
 });

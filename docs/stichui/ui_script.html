@@ -1,4 +1,4 @@
-<!-- Design System -->
+<!-- Polaris Chat Home (Glassmorphism) -->
 <!DOCTYPE html>
 
 <html lang="zh-CN"><head>
@@ -6,7 +6,6 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
@@ -77,8 +76,15 @@
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       }
       .glass-panel {
-        background: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.8);
         backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
       }
       .primary-gradient {
         background: linear-gradient(135deg, #0058be 0%, #2170e4 100%);
@@ -87,1037 +93,11 @@
 </head>
 <body class="bg-background font-body text-on-surface antialiased overflow-hidden">
 <!-- TopNavBar -->
-<header class="fixed top-0 w-full h-16 z-50 flex justify-between items-center px-6 bg-[#ffffff] dark:bg-[#191c1e] shadow-[0_12px_36px_rgba(16,24,40,0.06)]">
+<header class="fixed top-0 w-full h-16 z-50 flex justify-between items-center px-6 glass-nav border-b border-white/20 shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
 <div class="flex items-center gap-8">
 <span class="text-xl font-bold text-[#191c1e] dark:text-[#ffffff] tracking-tight">Polaris</span>
 <!-- Scene Selector -->
-<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors group">
-<span class="text-sm font-medium text-secondary group-hover:text-primary">场景: 售前助手</span>
-<span class="material-symbols-outlined text-secondary text-[18px]">keyboard_arrow_down</span>
-</button>
-</div>
-<nav class="hidden md:flex items-center gap-6 font-['IBM_Plex_Sans'] text-sm tracking-tight">
-<a class="text-[#0058be] border-b-2 border-[#0058be] font-semibold py-5" href="#">Chat Mode</a>
-<a class="text-[#555f6e] hover:text-[#191c1e] py-5 transition-colors" href="#">Admin Console</a>
-</nav>
-<div class="flex items-center gap-4">
-<button class="p-2 rounded-full hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors active:scale-95 duration-200">
-<span class="material-symbols-outlined text-secondary">notifications</span>
-</button>
-<button class="p-2 rounded-full hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors active:scale-95 duration-200">
-<span class="material-symbols-outlined text-secondary">help</span>
-</button>
-<div class="h-8 w-8 rounded-full overflow-hidden ml-2 bg-surface-container-high">
-<img alt="User profile avatar" data-alt="User profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCak9Z_Kqu10N4kvifxxmqmVc_157-y50NLPQ6f9EpZ1EZCx4-7IeFQWUeV9degmyvxDUHpV8R_by9uWdlpsSROZVQi76l_x6wKzQI0oZ84YB9uupKkMyr2DIcwo2dTpbZrB7jb2YBm5mNlKJ0UHBZkI1cPBMZczfOKumjtlFrfPcJQDRKoGOABHL9mr2TMK_d99mH26y1eMI_eUWEbV2nrlWwSXo1Cf9qHosWYvwzBtYLhG_7mqRoFTZZntxFJCKRyktcuDT_lC0s"/>
-</div>
-</div>
-</header>
-<!-- SideNavBar (Left Rail) -->
-<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[72px] z-40 bg-[#ffffff] dark:bg-[#191c1e] flex flex-col items-center py-4 gap-6 font-['IBM_Plex_Sans'] text-[11px] font-medium">
-<!-- Home -->
-<a class="group flex flex-col items-center gap-1 text-[#0058be] bg-[#f2f4f6] dark:bg-[#2c2e30] border-l-4 border-[#0058be] w-full py-2 transition-all duration-300 ease-in-out" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
-<span>Home</span>
-</a>
-<!-- New Session -->
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
-<span class="material-symbols-outlined">add_circle</span>
-<span>New Session</span>
-</a>
-<!-- History -->
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
-<span class="material-symbols-outlined">history</span>
-<span>History</span>
-</a>
-<!-- Favorites -->
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
-<span class="material-symbols-outlined">star</span>
-<span>Favorites</span>
-</a>
-<!-- Settings -->
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span>Settings</span>
-</a>
-<div class="mt-auto pb-4">
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
-<span class="material-symbols-outlined">admin_panel_settings</span>
-<span>Admin</span>
-</a>
-</div>
-</aside>
-<!-- Main Content Area -->
-<main class="ml-[72px] mt-16 h-[calc(100vh-64px)] w-[calc(100vw-72px)] overflow-y-auto scroll-smooth">
-<div class="max-w-[1320px] mx-auto px-10 flex flex-col items-center">
-<!-- Hero Group -->
-<section class="mt-[174px] w-full max-w-[720px] text-center mb-8">
-<h1 class="text-4xl font-bold text-on-surface tracking-tight mb-4 headline">售前助手</h1>
-<p class="text-lg text-secondary body-md">帮你读取资料、整理需求、生成客户沟通内容</p>
-</section>
-<!-- Composer Card -->
-<section class="w-full max-w-[720px] bg-surface-container-lowest rounded-2xl shadow-[0_12px_36px_rgba(16,24,40,0.06)] overflow-hidden">
-<div class="p-6">
-<textarea class="w-full h-32 bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-outline-variant resize-none font-body text-base" placeholder="输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"></textarea>
-<div class="flex items-center justify-between mt-4">
-<div class="flex items-center gap-2">
-<button class="p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-secondary transition-colors group">
-<span class="material-symbols-outlined">upload_file</span>
-</button>
-<button class="p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-secondary transition-colors group">
-<span class="material-symbols-outlined">link</span>
-</button>
-</div>
-<button class="primary-gradient text-on-primary-container px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:opacity-90 transition-opacity active:scale-95">
-<span class="text-sm">发送</span>
-<span class="material-symbols-outlined text-[20px]">send</span>
-</button>
-</div>
-</div>
-</section>
-<!-- Suggestion Row -->
-<section class="w-full max-w-[720px] mt-8 flex flex-wrap gap-3 justify-center">
-<button class="px-5 py-2.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-sm font-medium rounded-full transition-all border border-transparent hover:border-primary/20">
-                    总结产品卖点
-                </button>
-<button class="px-5 py-2.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-sm font-medium rounded-full transition-all border border-transparent hover:border-primary/20">
-                    生成客户回复
-                </button>
-<button class="px-5 py-2.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-sm font-medium rounded-full transition-all border border-transparent hover:border-primary/20">
-                    竞品对比
-                </button>
-<button class="px-5 py-2.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-sm font-medium rounded-full transition-all border border-transparent hover:border-primary/20">
-                    整理会议纪要
-                </button>
-</section>
-<!-- Background Aesthetic Accents (Digital Atelier) -->
-<div class="fixed top-0 right-0 -z-10 w-[500px] h-[500px] opacity-10 pointer-events-none">
-<div class="absolute top-0 right-0 w-full h-full bg-primary rounded-full blur-[120px]"></div>
-</div>
-<div class="fixed bottom-0 left-[72px] -z-10 w-[400px] h-[400px] opacity-5 pointer-events-none">
-<div class="absolute bottom-0 left-0 w-full h-full bg-surface-tint rounded-full blur-[100px]"></div>
-</div>
-</div>
-</main>
-</body></html>
-
-<!-- Polaris Chat Home -->
-<!DOCTYPE html>
-
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Polaris Admin - Overview</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary-fixed": "#d8e2ff",
-              "on-secondary-container": "#5b6574",
-              "inverse-primary": "#adc6ff",
-              "on-surface": "#191c1e",
-              "on-tertiary-fixed": "#311400",
-              "surface-container-lowest": "#ffffff",
-              "background": "#f8f9fb",
-              "on-secondary-fixed-variant": "#3e4756",
-              "secondary-fixed": "#d9e3f5",
-              "surface-tint": "#005ac2",
-              "tertiary-container": "#b75b00",
-              "error-container": "#ffdad6",
-              "primary-container": "#2170e4",
-              "on-error": "#ffffff",
-              "surface-dim": "#d9dadc",
-              "surface-bright": "#f8f9fb",
-              "inverse-surface": "#2e3132",
-              "on-primary-fixed-variant": "#004395",
-              "outline-variant": "#c2c6d6",
-              "surface": "#f8f9fb",
-              "tertiary-fixed": "#ffdcc6",
-              "surface-container-highest": "#e1e2e4",
-              "secondary": "#555f6e",
-              "on-secondary": "#ffffff",
-              "inverse-on-surface": "#f0f1f3",
-              "surface-variant": "#e1e2e4",
-              "on-primary-container": "#fefcff",
-              "on-primary": "#ffffff",
-              "surface-container": "#edeef0",
-              "on-secondary-fixed": "#121c29",
-              "on-surface-variant": "#424754",
-              "primary": "#0058be",
-              "surface-container-high": "#e7e8ea",
-              "secondary-container": "#d9e3f5",
-              "on-tertiary-container": "#fffbff",
-              "primary-fixed-dim": "#adc6ff",
-              "on-primary-fixed": "#001a42",
-              "tertiary": "#924700",
-              "error": "#ba1a1a",
-              "on-background": "#191c1e",
-              "outline": "#727785",
-              "on-tertiary": "#ffffff",
-              "on-error-container": "#93000a",
-              "tertiary-fixed-dim": "#ffb786",
-              "on-tertiary-fixed-variant": "#723600",
-              "secondary-fixed-dim": "#bdc7d8",
-              "surface-container-low": "#f2f4f6"
-            },
-            fontFamily: {
-              "headline": ["Inter", "PingFang SC", "sans-serif"],
-              "body": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-              "label": ["IBM Plex Sans", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-          },
-        },
-      }
-    </script>
-<style>
-        body { font-family: 'IBM Plex Sans', 'PingFang SC', sans-serif; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-        }
-    </style>
-</head>
-<body class="bg-background text-on-surface antialiased">
-<!-- Top Header -->
-<header class="fixed top-0 w-full h-16 z-50 bg-surface-container-lowest shadow-[0_12px_36px_rgba(16,24,40,0.06)] flex justify-between items-center px-6">
-<div class="flex items-center gap-8">
-<span class="text-xl font-bold text-on-surface tracking-tight">Polaris Admin</span>
-<div class="relative group">
-<span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-lg">search</span>
-<input class="w-64 pl-10 pr-4 py-1.5 bg-surface-container-low border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/40 transition-all outline-none" placeholder="Search Scene" type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-primary font-medium rounded-lg hover:bg-surface-container transition-colors text-sm">
-<span class="material-symbols-outlined text-lg">add</span>
-                New Scene
-            </button>
-<button class="px-6 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary font-medium rounded-lg shadow-sm active:scale-95 transition-all text-sm">
-                Publish
-            </button>
-<div class="h-8 w-px bg-outline-variant/30 mx-2"></div>
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-secondary hover:text-on-surface cursor-pointer">notifications</span>
-<span class="material-symbols-outlined text-secondary hover:text-on-surface cursor-pointer">help</span>
-<img class="w-8 h-8 rounded-full border border-outline-variant/20 object-cover" data-alt="User avatar icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_UYpq31IHL4P-HP9wYmmatj0tV0RNurfBlbKWg9F9uUuHLgZkgMLSh96Y7zJ0EvKgBOuLwur-i1mZaS6whiRlTEoFQmTM1yriob7KSd5Odl9KexvXyYOgwBlG7KO96_PqALtIi9T5y8Mseld1qwRQ31f3Yp7DHsZyQlOvC6oF6TWzD5J-871T3OctYpoe8q_sa_NRJkch00oldjsun2d3anqNbWdqoMSB-hybH-hSpmZmXkdEgdAGUq28lNQEWxDjRu7TPRVGlI0"/>
-</div>
-</div>
-</header>
-<div class="flex pt-16 min-h-screen">
-<!-- Left Scene Tree -->
-<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[280px] z-40 bg-surface-container-low flex flex-col pt-6 overflow-y-auto">
-<div class="px-6 mb-8">
-<div class="flex items-center gap-3 mb-1">
-<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-on-primary shadow-sm">
-<span class="material-symbols-outlined text-lg">account_tree</span>
-</div>
-<div>
-<h2 class="text-sm font-bold text-on-surface">Polaris Admin</h2>
-<p class="text-[10px] text-secondary uppercase tracking-widest font-semibold">Console</p>
-</div>
-</div>
-</div>
-<!-- Group: 基础场景 -->
-<div class="mb-6">
-<div class="px-6 mb-2 flex items-center justify-between group cursor-pointer">
-<span class="text-[11px] font-bold text-secondary uppercase tracking-wider">基础场景</span>
-<span class="material-symbols-outlined text-sm text-secondary group-hover:rotate-90 transition-transform">chevron_right</span>
-</div>
-<div class="space-y-1">
-<a class="flex items-center gap-3 px-6 py-2.5 text-secondary hover:bg-surface-container transition-all group" href="#">
-<span class="material-symbols-outlined text-lg">schema</span>
-<span class="text-sm font-medium">corp-default</span>
-</a>
-</div>
-</div>
-<!-- Group: 业务场景 -->
-<div>
-<div class="px-6 mb-2 flex items-center justify-between group cursor-pointer">
-<span class="text-[11px] font-bold text-secondary uppercase tracking-wider">业务场景</span>
-<span class="material-symbols-outlined text-sm text-secondary transition-transform rotate-90">chevron_right</span>
-</div>
-<div class="space-y-1">
-<a class="flex items-center gap-3 px-6 py-2.5 bg-surface-container-lowest text-primary font-bold rounded-l-xl ml-2 transition-all" href="#">
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
-<span class="text-sm">售前助手</span>
-</a>
-<a class="flex items-center gap-3 px-6 py-2.5 text-secondary hover:bg-surface-container transition-all group" href="#">
-<span class="material-symbols-outlined text-lg">analytics</span>
-<span class="text-sm font-medium">数据分析助手</span>
-</a>
-<a class="flex items-center gap-3 px-6 py-2.5 text-secondary hover:bg-surface-container transition-all group" href="#">
-<span class="material-symbols-outlined text-lg">support_agent</span>
-<span class="text-sm font-medium">售后支持</span>
-</a>
-</div>
-</div>
-<div class="mt-auto p-6">
-<div class="p-4 bg-surface-container rounded-xl">
-<p class="text-[11px] text-secondary font-medium mb-2">Storage Usage</p>
-<div class="w-full h-1.5 bg-outline-variant/30 rounded-full overflow-hidden">
-<div class="w-3/4 h-full bg-primary rounded-full"></div>
-</div>
-<p class="text-[10px] text-on-surface-variant mt-2">7.2 GB of 10 GB used</p>
-</div>
-</div>
-</aside>
-<!-- Right Detail Panel -->
-<main class="ml-[280px] flex-1 p-8 bg-background max-w-[1080px]">
-<!-- Tab Row -->
-<nav class="flex items-center gap-8 mb-8 border-b border-outline-variant/20 overflow-x-auto no-scrollbar">
-<a class="pb-4 text-sm font-semibold text-primary border-b-2 border-primary whitespace-nowrap" href="#">概览</a>
-<a class="pb-4 text-sm font-medium text-secondary hover:text-on-surface transition-colors whitespace-nowrap" href="#">模型</a>
-<a class="pb-4 text-sm font-medium text-secondary hover:text-on-surface transition-colors whitespace-nowrap" href="#">提示词</a>
-<a class="pb-4 text-sm font-medium text-secondary hover:text-on-surface transition-colors whitespace-nowrap" href="#">Skills</a>
-<a class="pb-4 text-sm font-medium text-secondary hover:text-on-surface transition-colors whitespace-nowrap" href="#">工作空间</a>
-<a class="pb-4 text-sm font-medium text-secondary hover:text-on-surface transition-colors whitespace-nowrap" href="#">发布</a>
-</nav>
-<!-- Scene Summary Card -->
-<section class="mb-8">
-<div class="relative overflow-hidden bg-surface-container-lowest rounded-2xl p-8 shadow-[0_12px_36px_rgba(16,24,40,0.06)] border border-outline-variant/10">
-<div class="absolute top-0 right-0 p-6">
-<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest rounded-full">Active Environment</span>
-</div>
-<div class="flex items-start gap-6">
-<div class="w-16 h-16 bg-primary-container rounded-2xl flex items-center justify-center text-on-primary-container shrink-0">
-<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
-</div>
-<div class="flex-1">
-<div class="flex items-baseline gap-3 mb-2">
-<h1 class="text-3xl font-extrabold text-on-surface tracking-tight">售前助手</h1>
-<span class="text-secondary text-sm font-medium">Scene ID: scn_0x9212</span>
-</div>
-<div class="grid grid-cols-3 gap-8 mt-6">
-<div class="flex flex-col gap-1">
-<span class="text-[10px] text-secondary font-bold uppercase tracking-wider">Base Scene</span>
-<span class="text-sm font-semibold text-on-surface flex items-center gap-1">
-<span class="material-symbols-outlined text-sm">settings_input_component</span>
-                                        corp-default
-                                    </span>
-</div>
-<div class="flex flex-col gap-1">
-<span class="text-[10px] text-secondary font-bold uppercase tracking-wider">Status</span>
-<span class="text-sm font-semibold text-on-surface flex items-center gap-1">
-<span class="w-2 h-2 bg-amber-500 rounded-full"></span>
-                                        Drafting
-                                    </span>
-</div>
-<div class="flex flex-col gap-1">
-<span class="text-[10px] text-secondary font-bold uppercase tracking-wider">Online Version</span>
-<span class="text-sm font-semibold text-on-surface">v2026.03.21.1</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Two Column Detailed Info -->
-<div class="grid grid-cols-2 gap-6">
-<!-- Visibility & Access -->
-<div class="bg-surface-container-low rounded-2xl p-6 flex flex-col gap-6">
-<div class="flex items-center justify-between">
-<h3 class="font-bold text-on-surface">Access Control</h3>
-<button class="text-primary text-xs font-semibold hover:underline">Edit</button>
-</div>
-<div class="space-y-4">
-<div class="p-4 bg-surface-container-lowest rounded-xl">
-<p class="text-[10px] text-secondary font-bold uppercase mb-2">Visibility Range</p>
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-lg">group</span>
-<span class="text-sm font-medium">Enterprise Wide (Default)</span>
-</div>
-</div>
-<div class="p-4 bg-surface-container-lowest rounded-xl">
-<p class="text-[10px] text-secondary font-bold uppercase mb-2">Associated Base Scene</p>
-<p class="text-sm font-medium">Global Enterprise Default Assistant</p>
-<p class="text-xs text-secondary mt-1">Inheriting 12 base skills and 3 workspace configs.</p>
-</div>
-</div>
-</div>
-<!-- Version Info -->
-<div class="bg-surface-container-low rounded-2xl p-6 flex flex-col gap-6">
-<div class="flex items-center justify-between">
-<h3 class="font-bold text-on-surface">Draft Intelligence</h3>
-<span class="material-symbols-outlined text-secondary cursor-pointer hover:text-on-surface">history</span>
-</div>
-<div class="space-y-4">
-<div class="p-4 bg-surface-container-lowest rounded-xl flex items-center justify-between">
-<div>
-<p class="text-[10px] text-secondary font-bold uppercase mb-1">Current Draft</p>
-<p class="text-sm font-semibold text-on-surface">v2026.04.12-rc1</p>
-</div>
-<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant text-[10px] font-bold rounded">UNPUBLISHED</span>
-</div>
-<div class="p-4 bg-surface-container-lowest rounded-xl">
-<p class="text-[10px] text-secondary font-bold uppercase mb-2">Quick Actions</p>
-<div class="flex gap-2">
-<button class="flex-1 px-3 py-2 bg-surface-container text-on-surface text-xs font-semibold rounded-lg hover:bg-surface-container-highest transition-colors">Compare versions</button>
-<button class="flex-1 px-3 py-2 bg-surface-container text-on-surface text-xs font-semibold rounded-lg hover:bg-surface-container-highest transition-colors">Sync Base</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Detailed Stats / Activity (Bonus Visual Polish) -->
-<section class="mt-8">
-<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
-<h3 class="font-bold text-on-surface mb-6">Interaction Performance</h3>
-<div class="grid grid-cols-4 gap-4">
-<div class="p-4 bg-background rounded-xl">
-<p class="text-secondary text-[11px] font-medium mb-1">Total Calls (24h)</p>
-<p class="text-2xl font-bold text-on-surface tracking-tight">12,482</p>
-<span class="text-[10px] text-emerald-600 font-bold flex items-center gap-0.5">
-<span class="material-symbols-outlined text-xs">trending_up</span>
-                                12.5%
-                            </span>
-</div>
-<div class="p-4 bg-background rounded-xl">
-<p class="text-secondary text-[11px] font-medium mb-1">Avg. Latency</p>
-<p class="text-2xl font-bold text-on-surface tracking-tight">1.2s</p>
-<span class="text-[10px] text-secondary font-medium">Stable</span>
-</div>
-<div class="p-4 bg-background rounded-xl">
-<p class="text-secondary text-[11px] font-medium mb-1">Accuracy Rate</p>
-<p class="text-2xl font-bold text-on-surface tracking-tight">98.2%</p>
-<div class="w-full h-1 bg-outline-variant/20 rounded-full mt-2">
-<div class="w-[98%] h-full bg-emerald-500 rounded-full"></div>
-</div>
-</div>
-<div class="p-4 bg-background rounded-xl">
-<p class="text-secondary text-[11px] font-medium mb-1">Token Efficiency</p>
-<p class="text-2xl font-bold text-on-surface tracking-tight">0.85</p>
-<p class="text-[10px] text-secondary">per session</p>
-</div>
-</div>
-</div>
-</section>
-</main>
-</div>
-</body></html>
-
-<!-- Polaris Admin Overview -->
-<!DOCTYPE html>
-
-<html class="light" lang="zh-CN"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary-fixed": "#d8e2ff",
-              "on-secondary-container": "#5b6574",
-              "inverse-primary": "#adc6ff",
-              "on-surface": "#191c1e",
-              "on-tertiary-fixed": "#311400",
-              "surface-container-lowest": "#ffffff",
-              "background": "#f8f9fb",
-              "on-secondary-fixed-variant": "#3e4756",
-              "secondary-fixed": "#d9e3f5",
-              "surface-tint": "#005ac2",
-              "tertiary-container": "#b75b00",
-              "error-container": "#ffdad6",
-              "primary-container": "#2170e4",
-              "on-error": "#ffffff",
-              "surface-dim": "#d9dadc",
-              "surface-bright": "#f8f9fb",
-              "inverse-surface": "#2e3132",
-              "on-primary-fixed-variant": "#004395",
-              "outline-variant": "#c2c6d6",
-              "surface": "#f8f9fb",
-              "tertiary-fixed": "#ffdcc6",
-              "surface-container-highest": "#e1e2e4",
-              "secondary": "#555f6e",
-              "on-secondary": "#ffffff",
-              "inverse-on-surface": "#f0f1f3",
-              "surface-variant": "#e1e2e4",
-              "on-primary-container": "#fefcff",
-              "on-primary": "#ffffff",
-              "surface-container": "#edeef0",
-              "on-secondary-fixed": "#121c29",
-              "on-surface-variant": "#424754",
-              "primary": "#0058be",
-              "surface-container-high": "#e7e8ea",
-              "secondary-container": "#d9e3f5",
-              "on-tertiary-container": "#fffbff",
-              "primary-fixed-dim": "#adc6ff",
-              "on-primary-fixed": "#001a42",
-              "tertiary": "#924700",
-              "error": "#ba1a1a",
-              "on-background": "#191c1e",
-              "outline": "#727785",
-              "on-tertiary": "#ffffff",
-              "on-error-container": "#93000a",
-              "tertiary-fixed-dim": "#ffb786",
-              "on-tertiary-fixed-variant": "#723600",
-              "secondary-fixed-dim": "#bdc7d8",
-              "surface-container-low": "#f2f4f6"
-            },
-            fontFamily: {
-              "headline": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-              "body": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-              "label": ["IBM Plex Sans", "PingFang SC", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-          },
-        },
-      }
-    </script>
-<style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      }
-      body {
-        font-family: 'IBM Plex Sans', 'PingFang SC', sans-serif;
-      }
-    </style>
-</head>
-<body class="bg-background text-on-surface overflow-hidden">
-<!-- TopNavBar -->
-<header class="fixed top-0 w-full h-16 z-50 bg-[#ffffff] dark:bg-[#191c1e] shadow-[0_12px_36px_rgba(16,24,40,0.06)] flex justify-between items-center px-6">
-<div class="flex items-center gap-4">
-<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
-<span class="text-sm font-semibold text-on-surface">场景: 售前助手</span>
-<span class="material-symbols-outlined text-sm text-secondary group-hover:text-primary transition-colors">expand_more</span>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<nav class="hidden md:flex gap-8 items-center">
-<a class="text-[#0058be] border-b-2 border-[#0058be] font-semibold text-sm tracking-tight py-5" href="#">Chat Mode</a>
-<a class="text-[#555f6e] hover:text-[#191c1e] text-sm tracking-tight py-5 transition-colors" href="#">Admin Console</a>
-</nav>
-<div class="flex items-center gap-3">
-<button class="p-2 rounded-full hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors active:scale-95">
-<span class="material-symbols-outlined text-secondary">notifications</span>
-</button>
-<button class="p-2 rounded-full hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors active:scale-95">
-<span class="material-symbols-outlined text-secondary">help</span>
-</button>
-<div class="w-8 h-8 rounded-full overflow-hidden ml-2 bg-primary-fixed border border-outline-variant/20">
-<img alt="User profile avatar" data-alt="Corporate professional user avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwtdgf5h-YlAmOUGu9FF6zj3U_wP6e8okKPAKy6qTCv2YIWREuH4xmrcz86-CvqoPXM2cgf3-nnNz2NY0Je8K0KF6Xlv5kP8zjrWzyWR-4oDiD8zIc1xr7PCFJGyqYjnBjPd2pNC-N_9hYEwaMaGXXjfF4esGGMLiSiDjQffaxz8r5DYyEEzMe-3Z0OZUgo3aqg0OjrGQGiwS8JX10zFFQ5KBgvTWyeiLa0EnvzFLNzOX7YPINuTJJQ89MmrSRbdHM0RLkzpY3N1s"/>
-</div>
-</div>
-</div>
-</header>
-<!-- SideNavBar (Left Rail) -->
-<aside class="fixed left-0 top-16 h-full w-[72px] z-40 bg-[#ffffff] dark:bg-[#191c1e] flex flex-col items-center py-4 gap-6">
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#0058be] bg-[#f2f4f6] dark:bg-[#2c2e30] border-l-4 border-[#0058be] w-full py-2">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">Home</span>
-</div>
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300">
-<span class="material-symbols-outlined">add_circle</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">New Session</span>
-</div>
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300">
-<span class="material-symbols-outlined">history</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">History</span>
-</div>
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300">
-<span class="material-symbols-outlined">star</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">Favorites</span>
-</div>
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 mt-auto mb-20">
-<span class="material-symbols-outlined">settings</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">Settings</span>
-</div>
-</aside>
-<!-- Main Content Area -->
-<main class="ml-[72px] pt-16 h-screen overflow-y-auto bg-background flex flex-col items-center">
-<!-- Message Column -->
-<div class="w-full max-w-[840px] mt-12 mb-40 px-6 flex flex-col gap-8">
-<!-- Date Divider -->
-<div class="flex items-center justify-center gap-4">
-<div class="h-[1px] flex-grow bg-surface-container-highest"></div>
-<span class="text-xs text-secondary font-medium tracking-widest px-4 py-1 rounded-full bg-surface-container-low">今天</span>
-<div class="h-[1px] flex-grow bg-surface-container-highest"></div>
-</div>
-<!-- User Message -->
-<div class="flex justify-end items-start gap-4">
-<div class="max-w-[70%] bg-[#EEF5FF] p-4 rounded-xl rounded-tr-none shadow-sm">
-<p class="text-on-surface text-sm leading-relaxed">帮我整理这个客户的核心诉求</p>
-</div>
-<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center flex-shrink-0">
-<span class="material-symbols-outlined text-sm text-on-secondary-fixed">person</span>
-</div>
-</div>
-<!-- Assistant Message Group -->
-<div class="flex flex-col gap-3">
-<!-- Tool Status Row -->
-<div class="flex items-center gap-3 px-12">
-<div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low rounded-lg">
-<span class="material-symbols-outlined text-[14px] text-primary">database</span>
-<span class="text-[11px] text-secondary font-medium">已读取: 销售资料库</span>
-</div>
-<div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low rounded-lg">
-<span class="material-symbols-outlined text-[14px] text-primary">bolt</span>
-<span class="text-[11px] text-secondary font-medium">调用技能 2 个</span>
-</div>
-<button class="text-[11px] text-primary font-bold hover:underline ml-1">查看过程</button>
-</div>
-<!-- AI Response Card -->
-<div class="flex justify-start items-start gap-4">
-<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0 shadow-sm">
-<span class="material-symbols-outlined text-white text-[20px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
-</div>
-<div class="max-w-[85%] bg-surface-container-lowest p-6 rounded-2xl rounded-tl-none shadow-[0_4px_12px_rgba(16,24,40,0.04)]">
-<p class="text-on-surface text-sm leading-relaxed mb-4">已根据销售资料和会议记录整理出以下 3 点核心诉求：</p>
-<div class="space-y-4">
-<div class="flex gap-3">
-<span class="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] flex items-center justify-center font-bold">1</span>
-<div>
-<h4 class="text-sm font-bold text-on-surface mb-1">系统稳定性与可扩展性</h4>
-<p class="text-secondary text-sm leading-relaxed">客户目前正处于业务高速扩张期，对平台在高并发场景下的稳定性有极高要求，并希望架构能支持未来三年的平滑扩展。</p>
-</div>
-</div>
-<div class="flex gap-3">
-<span class="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] flex items-center justify-center font-bold">2</span>
-<div>
-<h4 class="text-sm font-bold text-on-surface mb-1">全链路数据闭环</h4>
-<p class="text-secondary text-sm leading-relaxed">迫切需要打通现有的 CRM 与 ERP 系统，实现从线索捕获到订单完成的全流程数据监控与分析。</p>
-</div>
-</div>
-<div class="flex gap-3">
-<span class="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] flex items-center justify-center font-bold">3</span>
-<div>
-<h4 class="text-sm font-bold text-on-surface mb-1">智能化的售后支持</h4>
-<p class="text-secondary text-sm leading-relaxed">希望能引入 AI 驱动的自动化客服，降低 40% 以上的人工响应成本。</p>
-</div>
-</div>
-</div>
-<div class="mt-6 pt-6 border-t border-surface-container flex items-center gap-4">
-<button class="flex items-center gap-1.5 text-xs text-secondary hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-[16px]">content_copy</span>
-<span>复制内容</span>
-</button>
-<button class="flex items-center gap-1.5 text-xs text-secondary hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-[16px]">refresh</span>
-<span>重新生成</span>
-</button>
-<div class="ml-auto flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px] text-secondary cursor-pointer hover:text-primary">thumb_up</span>
-<span class="material-symbols-outlined text-[18px] text-secondary cursor-pointer hover:text-error">thumb_down</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Composer Dock (Fixed Bottom) -->
-<div class="fixed bottom-8 w-full max-w-[840px] px-6 z-30">
-<div class="bg-surface-container-lowest border border-surface-container-high rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.08)] p-4">
-<div class="flex flex-col gap-3">
-<div class="flex items-center gap-3 px-2">
-<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-xs text-secondary hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-[16px]">upload_file</span>
-<span>上传文件</span>
-</button>
-<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-xs text-secondary hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-[16px]">add_task</span>
-<span>追加要求</span>
-</button>
-</div>
-<div class="flex items-center gap-3 px-2">
-<textarea class="w-full bg-transparent border-none focus:ring-0 text-sm placeholder:text-secondary/50 resize-none py-2" placeholder="继续追问..." rows="1"></textarea>
-<button class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-95 transition-all">
-<span class="material-symbols-outlined text-[20px]">send</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Context Hint -->
-<div class="flex justify-center mt-3">
-<span class="text-[10px] text-secondary/60 flex items-center gap-1">
-<span class="material-symbols-outlined text-[12px]">info</span>
-                    AI 生成内容仅供参考，请核实关键信息
-                </span>
-</div>
-</div>
-</main>
-<!-- Floating Action Background Elements for "Atelier" feel -->
-<div class="fixed top-20 right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-<div class="fixed bottom-20 left-20 w-48 h-48 bg-primary-container/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-</body></html>
-
-<!-- Polaris Conversation View -->
-<!DOCTYPE html>
-
-<html class="light" lang="zh-CN"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary-fixed": "#d8e2ff",
-                        "on-secondary-container": "#5b6574",
-                        "inverse-primary": "#adc6ff",
-                        "on-surface": "#191c1e",
-                        "on-tertiary-fixed": "#311400",
-                        "surface-container-lowest": "#ffffff",
-                        "background": "#f8f9fb",
-                        "on-secondary-fixed-variant": "#3e4756",
-                        "secondary-fixed": "#d9e3f5",
-                        "surface-tint": "#005ac2",
-                        "tertiary-container": "#b75b00",
-                        "error-container": "#ffdad6",
-                        "primary-container": "#2170e4",
-                        "on-error": "#ffffff",
-                        "surface-dim": "#d9dadc",
-                        "surface-bright": "#f8f9fb",
-                        "inverse-surface": "#2e3132",
-                        "on-primary-fixed-variant": "#004395",
-                        "outline-variant": "#c2c6d6",
-                        "surface": "#f8f9fb",
-                        "tertiary-fixed": "#ffdcc6",
-                        "surface-container-highest": "#e1e2e4",
-                        "secondary": "#555f6e",
-                        "on-secondary": "#ffffff",
-                        "inverse-on-surface": "#f0f1f3",
-                        "surface-variant": "#e1e2e4",
-                        "on-primary-container": "#fefcff",
-                        "on-primary": "#ffffff",
-                        "surface-container": "#edeef0",
-                        "on-secondary-fixed": "#121c29",
-                        "on-surface-variant": "#424754",
-                        "primary": "#0058be",
-                        "surface-container-high": "#e7e8ea",
-                        "secondary-container": "#d9e3f5",
-                        "on-tertiary-container": "#fffbff",
-                        "primary-fixed-dim": "#adc6ff",
-                        "on-primary-fixed": "#001a42",
-                        "tertiary": "#924700",
-                        "error": "#ba1a1a",
-                        "on-background": "#191c1e",
-                        "outline": "#727785",
-                        "on-tertiary": "#ffffff",
-                        "on-error-container": "#93000a",
-                        "tertiary-fixed-dim": "#ffb786",
-                        "on-tertiary-fixed-variant": "#723600",
-                        "secondary-fixed-dim": "#bdc7d8",
-                        "surface-container-low": "#f2f4f6"
-                    },
-                    fontFamily: {
-                        "headline": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-                        "body": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-                        "label": ["IBM Plex Sans", "PingFang SC", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
-            },
-        }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        body { font-family: 'IBM Plex Sans', 'PingFang SC', sans-serif; }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-        }
-    </style>
-</head>
-<body class="bg-background text-on-surface min-h-screen flex flex-col">
-<!-- TopAppBar Shared Component -->
-<header class="fixed top-0 w-full h-16 z-50 bg-[#ffffff] dark:bg-[#191c1e] shadow-[0_12px_36px_rgba(16,24,40,0.06)] flex justify-between items-center px-6 font-['IBM_Plex_Sans'] text-sm tracking-tight">
-<div class="flex items-center gap-8">
-<span class="text-xl font-bold text-[#191c1e] dark:text-[#ffffff]">Polaris</span>
-<nav class="flex gap-6">
-<a class="text-[#555f6e] hover:text-[#191c1e] hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors px-3 py-1 rounded-md" href="#">Chat Mode</a>
-<a class="text-[#0058be] border-b-2 border-[#0058be] font-semibold px-3 py-1" href="#">Admin Console</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative">
-<span class="material-symbols-outlined text-secondary hover:bg-[#f2f4f6] p-2 rounded-full cursor-pointer transition-colors">notifications</span>
-</div>
-<span class="material-symbols-outlined text-secondary hover:bg-[#f2f4f6] p-2 rounded-full cursor-pointer transition-colors">help</span>
-<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container ml-2">
-<img alt="User profile avatar" data-alt="User profile avatar circle image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFyHONCSRlPsojUS1_KoQWhi-D4SyoF-giOAIzwF9q4PVI4y1R1yNqyqzIehHDtnHWHAwZky7h9wqU8p1vGiRd6vDFxfQQg_45dCQOg5ZpFuKCuNVTreeDWb2nKs7wdSIHqHLsxRSMOYCaWa16ujr1vZqczSHpIkvtB-C0AvW4KsKPFFJrtjulZN-HGTvx_WUbowZ6sR3LbaxF3rO6h2-mooSQznDWahDPcPneGDIVFawPLsYebnGEpdSACXpkuDkzbnw794kffm8"/>
-</div>
-</div>
-</header>
-<!-- Main Layout Container -->
-<div class="flex pt-16 h-[calc(100vh-64px)] overflow-hidden">
-<!-- SideNavBar Shared Component (Admin Console Variant) -->
-<aside class="w-[280px] flex flex-col pt-4 bg-[#f2f4f6] dark:bg-[#2c2e30] h-full overflow-y-auto">
-<div class="px-6 mb-8">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined">shield_person</span>
-</div>
-<div>
-<h2 class="text-lg font-semibold text-[#191c1e]">Polaris Admin</h2>
-<p class="text-xs text-secondary">Console</p>
-</div>
-</div>
-</div>
-<nav class="flex-1 space-y-1">
-<div class="px-4 py-2 text-xs font-bold text-secondary tracking-widest uppercase">System</div>
-<a class="flex items-center gap-3 py-3 px-4 text-[#555f6e] hover:bg-[#edeef0] dark:hover:bg-[#383a3c] transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
-<span>Resources</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 bg-[#ffffff] dark:bg-[#191c1e] text-[#0058be] font-bold rounded-l-xl ml-2 transition-all duration-200 shadow-sm" href="#">
-<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
-<span>Skills</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 text-[#555f6e] hover:bg-[#edeef0] dark:hover:bg-[#383a3c] transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="workspaces">workspaces</span>
-<span>Workspaces</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 text-[#555f6e] hover:bg-[#edeef0] dark:hover:bg-[#383a3c] transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
-<span>Release</span>
-</a>
-</nav>
-</aside>
-<!-- Right Detail Panel (Canvas) -->
-<main class="flex-1 overflow-y-auto bg-background relative flex flex-col">
-<!-- Breadcrumbs & Tab Row -->
-<div class="px-8 pt-8 pb-4">
-<div class="flex items-center gap-2 text-label-sm text-secondary mb-4">
-<span>Skills</span>
-<span class="material-symbols-outlined text-sm">chevron_right</span>
-<span>企业售前助手</span>
-<span class="material-symbols-outlined text-sm">chevron_right</span>
-<span class="text-on-surface font-medium">提示词编辑器</span>
-</div>
-<h1 class="text-3xl font-bold tracking-tight text-on-surface mb-6">企业售前助手</h1>
-<div class="flex gap-8 border-b border-surface-container">
-<button class="pb-3 text-secondary font-medium hover:text-on-surface transition-colors">基础设置</button>
-<button class="pb-3 text-primary font-bold border-b-2 border-primary">提示词</button>
-<button class="pb-3 text-secondary font-medium hover:text-on-surface transition-colors">知识库</button>
-<button class="pb-3 text-secondary font-medium hover:text-on-surface transition-colors">扩展技能</button>
-</div>
-</div>
-<!-- Content Area: Two-Column Layout -->
-<div class="flex-1 px-8 pb-32">
-<div class="grid grid-cols-[520px_488px] gap-8 mt-6">
-<!-- Left Column: Editor -->
-<div class="space-y-6">
-<!-- Inherit Card -->
-<div class="bg-surface-container-low rounded-xl p-4 flex items-center gap-3 border border-transparent hover:border-outline-variant transition-colors group">
-<input checked="" class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" id="inherit-prompt" type="checkbox"/>
-<label class="text-on-surface font-medium cursor-pointer" for="inherit-prompt">继承基础场景系统提示词</label>
-<span class="material-symbols-outlined text-secondary text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">info</span>
-</div>
-<!-- Prompt Editor Card -->
-<div class="bg-surface-container-lowest rounded-xl shadow-[0_12px_36px_rgba(16,24,40,0.06)] overflow-hidden flex flex-col">
-<div class="px-6 py-4 bg-surface-container-low flex justify-between items-center">
-<span class="font-bold text-on-surface flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">edit_note</span>
-                                    场景提示词 (Scene Prompt)
-                                </span>
-<span class="text-xs text-secondary">Markdown Supported</span>
-</div>
-<div class="p-6">
-<textarea class="w-full h-96 p-4 bg-white border-0 focus:ring-2 focus:ring-primary/20 rounded-lg text-on-surface-variant font-body leading-relaxed resize-none" placeholder="输入场景化的 System Prompt...">你是一个面向企业售前团队的专业助手。
-
-你的核心职责是：
-1. 协助售前经理分析客户需求文档 (RFP/RFI)。
-2. 根据公司产品库（Product Specs）生成定制化的技术解决方案初稿。
-3. 对比竞品功能，提炼核心差异化卖点。
-
-在回复时请保持：
-- 语调：专业、严谨、具有说服力。
-- 格式：多使用结构化的列表和加粗关键词。
-- 限制：不要虚构产品参数，如不确定请提示查询内部文档。</textarea>
-</div>
-</div>
-</div>
-<!-- Right Column: Preview -->
-<div class="space-y-6">
-<div class="bg-surface-container rounded-xl overflow-hidden flex flex-col h-full border border-surface-container-highest/50">
-<div class="px-6 py-4 flex justify-between items-center border-b border-surface-container-highest">
-<span class="font-bold text-on-secondary-container flex items-center gap-2">
-<span class="material-symbols-outlined">visibility</span>
-                                    预览最终 Prompt (Compiled Preview)
-                                </span>
-<div class="flex gap-2">
-<button class="p-1 hover:bg-surface-container-high rounded text-secondary"><span class="material-symbols-outlined text-sm">content_copy</span></button>
-</div>
-</div>
-<div class="p-6 flex-1 overflow-y-auto bg-surface-container-low/50">
-<div class="space-y-4">
-<!-- Base Prompt Segment -->
-<div class="space-y-2">
-<div class="flex items-center gap-2">
-<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-surface-container-highest text-secondary uppercase tracking-wider">Base Prompt</span>
-</div>
-<div class="p-4 bg-surface-container-high/30 rounded-lg border-l-4 border-surface-dim italic text-secondary text-sm">
-                                            你是一个名为 Polaris 的智能助手，由 Agent Platform 开发。你始终遵循安全合规的交互准则，优先保证回答的准确性与客观性。
-                                        </div>
-</div>
-<!-- Connector -->
-<div class="flex justify-center">
-<span class="material-symbols-outlined text-outline-variant">add</span>
-</div>
-<!-- Scene Prompt Segment -->
-<div class="space-y-2">
-<div class="flex items-center gap-2">
-<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary uppercase tracking-wider">Scene Prompt</span>
-</div>
-<div class="p-4 bg-surface-container-lowest rounded-lg shadow-sm text-on-surface-variant text-sm leading-loose">
-                                            你是一个面向企业售前团队的专业助手。<br/><br/>
-                                            你的核心职责是：<br/>
-                                            1. 协助售前经理分析客户需求文档 (RFP/RFI)。<br/>
-                                            2. 根据公司产品库（Product Specs）生成定制化的技术解决方案初稿。<br/>
-                                            3. 对比竞品功能，提炼核心差异化卖点。<br/><br/>
-                                            在回复时请保持：<br/>
-                                            - 语调：专业、严谨、具有说服力。<br/>
-                                            - 格式：多使用结构化的列表和加粗关键词。<br/>
-                                            - 限制：不要虚构产品参数，如不确定请提示查询内部文档。
-                                        </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Sticky Action Bar -->
-<footer class="fixed bottom-0 right-0 left-[280px] h-20 glass-panel border-t border-surface-container flex items-center justify-between px-12 z-40">
-<div class="flex items-center gap-4 text-sm text-secondary">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 最近保存：2分钟前</span>
-<span class="w-px h-4 bg-surface-container-highest"></span>
-<span class="text-on-surface font-medium">版本: V2.4 (Draft)</span>
-</div>
-<div class="flex items-center gap-3">
-<button class="px-6 py-2.5 rounded-xl font-semibold text-primary bg-surface-container-low hover:bg-surface-container-high transition-all active:scale-95 duration-200">
-                        保存草稿
-                    </button>
-<button class="px-6 py-2.5 rounded-xl font-semibold text-secondary-fixed-dim bg-secondary/10 hover:bg-secondary/20 transition-all active:scale-95 duration-200 flex items-center gap-2">
-<span class="material-symbols-outlined text-sm">preview</span>
-                        预览最终 Prompt
-                    </button>
-<button class="px-8 py-2.5 rounded-xl font-bold text-white bg-gradient-to-br from-primary to-primary-container shadow-lg shadow-primary/20 hover:brightness-110 transition-all active:scale-95 duration-200">
-                        发布新版本
-                    </button>
-</div>
-</footer>
-</main>
-</div>
-</body></html>
-
-<!-- Polaris Prompt Editor -->
-<!DOCTYPE html>
-
-<html lang="zh-CN"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary-fixed": "#d8e2ff",
-              "on-secondary-container": "#5b6574",
-              "inverse-primary": "#adc6ff",
-              "on-surface": "#191c1e",
-              "on-tertiary-fixed": "#311400",
-              "surface-container-lowest": "#ffffff",
-              "background": "#f8f9fb",
-              "on-secondary-fixed-variant": "#3e4756",
-              "secondary-fixed": "#d9e3f5",
-              "surface-tint": "#005ac2",
-              "tertiary-container": "#b75b00",
-              "error-container": "#ffdad6",
-              "primary-container": "#2170e4",
-              "on-error": "#ffffff",
-              "surface-dim": "#d9dadc",
-              "surface-bright": "#f8f9fb",
-              "inverse-surface": "#2e3132",
-              "on-primary-fixed-variant": "#004395",
-              "outline-variant": "#c2c6d6",
-              "surface": "#f8f9fb",
-              "tertiary-fixed": "#ffdcc6",
-              "surface-container-highest": "#e1e2e4",
-              "secondary": "#555f6e",
-              "on-secondary": "#ffffff",
-              "inverse-on-surface": "#f0f1f3",
-              "surface-variant": "#e1e2e4",
-              "on-primary-container": "#fefcff",
-              "on-primary": "#ffffff",
-              "surface-container": "#edeef0",
-              "on-secondary-fixed": "#121c29",
-              "on-surface-variant": "#424754",
-              "primary": "#0058be",
-              "surface-container-high": "#e7e8ea",
-              "secondary-container": "#d9e3f5",
-              "on-tertiary-container": "#fffbff",
-              "primary-fixed-dim": "#adc6ff",
-              "on-primary-fixed": "#001a42",
-              "tertiary": "#924700",
-              "error": "#ba1a1a",
-              "on-background": "#191c1e",
-              "outline": "#727785",
-              "on-tertiary": "#ffffff",
-              "on-error-container": "#93000a",
-              "tertiary-fixed-dim": "#ffb786",
-              "on-tertiary-fixed-variant": "#723600",
-              "secondary-fixed-dim": "#bdc7d8",
-              "surface-container-low": "#f2f4f6"
-            },
-            fontFamily: {
-              "headline": ["Inter", "PingFang SC", "sans-serif"],
-              "body": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-              "label": ["IBM Plex Sans", "PingFang SC", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
-          },
-        },
-      }
-    </script>
-<style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      }
-      .glass-panel {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(12px);
-      }
-      .primary-gradient {
-        background: linear-gradient(135deg, #0058be 0%, #2170e4 100%);
-      }
-    </style>
-</head>
-<body class="bg-background font-body text-on-surface antialiased overflow-hidden">
-<!-- TopNavBar -->
-<header class="fixed top-0 w-full h-16 z-50 flex justify-between items-center px-6 bg-[#ffffff] dark:bg-[#191c1e] shadow-[0_12px_36px_rgba(16,24,40,0.06)]">
-<div class="flex items-center gap-8">
-<span class="text-xl font-bold text-[#191c1e] dark:text-[#ffffff] tracking-tight">Polaris</span>
-<!-- Scene Selector -->
-<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors group">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low/50 hover:bg-surface-container transition-colors group">
 <span class="text-sm font-medium text-secondary group-hover:text-primary">场景: 售前助手</span>
 <span class="material-symbols-outlined text-secondary text-[18px]">keyboard_arrow_down</span>
 </button>
@@ -1127,46 +107,46 @@
 <a class="text-[#555f6e] hover:text-[#191c1e] py-5 transition-colors" href="#">管理后台</a>
 </nav>
 <div class="flex items-center gap-4">
-<button class="p-2 rounded-full hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors active:scale-95 duration-200">
+<button class="p-2 rounded-full hover:bg-white/40 transition-colors active:scale-95 duration-200">
 <span class="material-symbols-outlined text-secondary">notifications</span>
 </button>
-<button class="p-2 rounded-full hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors active:scale-95 duration-200">
+<button class="p-2 rounded-full hover:bg-white/40 transition-colors active:scale-95 duration-200">
 <span class="material-symbols-outlined text-secondary">help</span>
 </button>
-<div class="h-8 w-8 rounded-full overflow-hidden ml-2 bg-surface-container-high">
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 bg-surface-container-high ring-2 ring-white/50">
 <img alt="User profile avatar" data-alt="User profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCak9Z_Kqu10N4kvifxxmqmVc_157-y50NLPQ6f9EpZ1EZCx4-7IeFQWUeV9degmyvxDUHpV8R_by9uWdlpsSROZVQi76l_x6wKzQI0oZ84YB9uupKkMyr2DIcwo2dTpbZrB7jb2YBm5mNlKJ0UHBZkI1cPBMZczfOKumjtlFrfPcJQDRKoGOABHL9mr2TMK_d99mH26y1eMI_eUWEbV2nrlWwSXo1Cf9qHosWYvwzBtYLhG_7mqRoFTZZntxFJCKRyktcuDT_lC0s"/>
 </div>
 </div>
 </header>
 <!-- SideNavBar (Left Rail) -->
-<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[72px] z-40 bg-[#ffffff] dark:bg-[#191c1e] flex flex-col items-center py-4 gap-6 font-['IBM_Plex_Sans'] text-[11px] font-medium">
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[72px] z-40 glass-nav border-r border-white/20 flex flex-col items-center py-4 gap-6 font-['IBM_Plex_Sans'] text-[11px] font-medium">
 <!-- Home -->
-<a class="group flex flex-col items-center gap-1 text-[#0058be] bg-[#f2f4f6] dark:bg-[#2c2e30] border-l-4 border-[#0058be] w-full py-2 transition-all duration-300 ease-in-out" href="#">
+<a class="group flex flex-col items-center gap-1 text-[#0058be] bg-white/40 dark:bg-[#2c2e30] border-l-4 border-[#0058be] w-full py-2 transition-all duration-300 ease-in-out" href="#">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
 <span>首页</span>
 </a>
 <!-- New Session -->
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
+<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-white/30 w-full py-2 transition-all duration-300 ease-in-out" href="#">
 <span class="material-symbols-outlined">add_circle</span>
 <span>新会话</span>
 </a>
 <!-- History -->
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
+<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-white/30 w-full py-2 transition-all duration-300 ease-in-out" href="#">
 <span class="material-symbols-outlined">history</span>
 <span>历史会话</span>
 </a>
 <!-- Favorites -->
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
+<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-white/30 w-full py-2 transition-all duration-300 ease-in-out" href="#">
 <span class="material-symbols-outlined">star</span>
 <span>收藏场景</span>
 </a>
 <!-- Settings -->
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
+<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-white/30 w-full py-2 transition-all duration-300 ease-in-out" href="#">
 <span class="material-symbols-outlined">settings</span>
 <span>个人设置</span>
 </a>
 <div class="mt-auto pb-4">
-<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 ease-in-out" href="#">
+<a class="group flex flex-col items-center gap-1 text-[#555f6e] hover:text-[#0058be] hover:bg-white/30 w-full py-2 transition-all duration-300 ease-in-out" href="#">
 <span class="material-symbols-outlined">admin_panel_settings</span>
 <span>管理后台</span>
 </a>
@@ -1174,26 +154,33 @@
 </aside>
 <!-- Main Content Area -->
 <main class="ml-[72px] mt-16 h-[calc(100vh-64px)] w-[calc(100vw-72px)] overflow-y-auto scroll-smooth">
-<div class="max-w-[1320px] mx-auto px-10 flex flex-col items-center">
+<div class="max-w-[1320px] mx-auto px-10 flex flex-col items-center relative min-h-full">
+<!-- Background Aesthetic Accents -->
+<div class="fixed top-0 right-0 -z-10 w-[600px] h-[600px] opacity-20 pointer-events-none">
+<div class="absolute top-0 right-0 w-full h-full bg-primary rounded-full blur-[120px]"></div>
+</div>
+<div class="fixed bottom-0 left-[72px] -z-10 w-[500px] h-[500px] opacity-15 pointer-events-none">
+<div class="absolute bottom-0 left-0 w-full h-full bg-surface-tint rounded-full blur-[100px]"></div>
+</div>
 <!-- Hero Group -->
-<section class="mt-[174px] w-full max-w-[720px] text-center mb-8">
+<section class="mt-[174px] w-full max-w-[720px] text-center mb-8 relative z-10">
 <h1 class="text-4xl font-bold text-on-surface tracking-tight mb-4 headline">售前助手</h1>
 <p class="text-lg text-secondary body-md">帮你读取资料、整理需求、生成客户沟通内容</p>
 </section>
 <!-- Composer Card -->
-<section class="w-full max-w-[720px] bg-surface-container-lowest rounded-2xl shadow-[0_12px_36px_rgba(16,24,40,0.06)] overflow-hidden">
+<section class="w-full max-w-[720px] glass-panel rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden relative z-10">
 <div class="p-6">
-<textarea class="w-full h-32 bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-outline-variant resize-none font-body text-base" placeholder="输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"></textarea>
+<textarea class="w-full h-32 bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-outline/60 resize-none font-body text-base" placeholder="输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"></textarea>
 <div class="flex items-center justify-between mt-4">
 <div class="flex items-center gap-2">
-<button class="p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-secondary transition-colors group">
+<button class="p-2.5 rounded-xl bg-white/40 hover:bg-white/60 text-secondary transition-colors group">
 <span class="material-symbols-outlined">upload_file</span>
 </button>
-<button class="p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-secondary transition-colors group">
+<button class="p-2.5 rounded-xl bg-white/40 hover:bg-white/60 text-secondary transition-colors group">
 <span class="material-symbols-outlined">link</span>
 </button>
 </div>
-<button class="primary-gradient text-on-primary-container px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:opacity-90 transition-opacity active:scale-95">
+<button class="primary-gradient text-white px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:opacity-95 transition-all shadow-md active:scale-95">
 <span class="text-sm">发送</span>
 <span class="material-symbols-outlined text-[20px]">send</span>
 </button>
@@ -1201,32 +188,25 @@
 </div>
 </section>
 <!-- Suggestion Row -->
-<section class="w-full max-w-[720px] mt-8 flex flex-wrap gap-3 justify-center">
-<button class="px-5 py-2.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-sm font-medium rounded-full transition-all border border-transparent hover:border-primary/20">
+<section class="w-full max-w-[720px] mt-8 flex flex-wrap gap-3 justify-center relative z-10">
+<button class="px-5 py-2.5 glass-panel hover:bg-white/80 text-on-surface-variant text-sm font-medium rounded-full transition-all border border-white/40 shadow-sm">
                     总结产品卖点
                 </button>
-<button class="px-5 py-2.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-sm font-medium rounded-full transition-all border border-transparent hover:border-primary/20">
+<button class="px-5 py-2.5 glass-panel hover:bg-white/80 text-on-surface-variant text-sm font-medium rounded-full transition-all border border-white/40 shadow-sm">
                     生成客户回复
                 </button>
-<button class="px-5 py-2.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-sm font-medium rounded-full transition-all border border-transparent hover:border-primary/20">
+<button class="px-5 py-2.5 glass-panel hover:bg-white/80 text-on-surface-variant text-sm font-medium rounded-full transition-all border border-white/40 shadow-sm">
                     竞品对比
                 </button>
-<button class="px-5 py-2.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-sm font-medium rounded-full transition-all border border-transparent hover:border-primary/20">
+<button class="px-5 py-2.5 glass-panel hover:bg-white/80 text-on-surface-variant text-sm font-medium rounded-full transition-all border border-white/40 shadow-sm">
                     整理会议纪要
                 </button>
 </section>
-<!-- Background Aesthetic Accents (Digital Atelier) -->
-<div class="fixed top-0 right-0 -z-10 w-[500px] h-[500px] opacity-10 pointer-events-none">
-<div class="absolute top-0 right-0 w-full h-full bg-primary rounded-full blur-[120px]"></div>
-</div>
-<div class="fixed bottom-0 left-[72px] -z-10 w-[400px] h-[400px] opacity-5 pointer-events-none">
-<div class="absolute bottom-0 left-0 w-full h-full bg-surface-tint rounded-full blur-[100px]"></div>
-</div>
 </div>
 </main>
 </body></html>
 
-<!-- Polaris Chat Home -->
+<!-- Polaris Admin Overview (Glassmorphism) -->
 <!DOCTYPE html>
 
 <html class="light" lang="en"><head>
@@ -1235,7 +215,6 @@
 <title>Polaris Admin - Overview</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
@@ -1296,7 +275,7 @@
               "body": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
               "label": ["IBM Plex Sans", "sans-serif"]
             },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
           },
         },
       }
@@ -1307,40 +286,65 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             vertical-align: middle;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
+        .glass-header {
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .glass-sidebar {
+            background: rgba(242, 244, 246, 0.65);
+            backdrop-filter: blur(16px);
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+        }
+        .glass-card-inner {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
-<body class="bg-background text-on-surface antialiased">
+<body class="bg-background text-on-surface antialiased bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary-fixed/20 via-background to-background">
 <!-- Top Header -->
-<header class="fixed top-0 w-full h-16 z-50 bg-surface-container-lowest shadow-[0_12px_36px_rgba(16,24,40,0.06)] flex justify-between items-center px-6">
+<header class="fixed top-0 w-full h-16 z-50 glass-header flex justify-between items-center px-6">
 <div class="flex items-center gap-8">
 <span class="text-xl font-bold text-on-surface tracking-tight">Polaris Admin</span>
 <div class="relative group">
 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary material-symbols-outlined text-lg">search</span>
-<input class="w-64 pl-10 pr-4 py-1.5 bg-surface-container-low border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/40 transition-all outline-none" placeholder="Search Scene" type="text"/>
+<input class="w-64 pl-10 pr-4 py-1.5 bg-white/40 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/40 transition-all outline-none backdrop-blur-sm" placeholder="Search Scene" type="text"/>
 </div>
 </div>
 <div class="flex items-center gap-4">
-<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-primary font-medium rounded-lg hover:bg-surface-container transition-colors text-sm"><span class="material-symbols-outlined text-lg">add</span>
-                新建场景</button>
-<button class="px-6 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary font-medium rounded-lg shadow-sm active:scale-95 transition-all text-sm">发布</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white/50 text-primary font-medium rounded-lg hover:bg-white/80 transition-colors text-sm backdrop-blur-sm border border-white/20">
+<span class="material-symbols-outlined text-lg">add</span>
+                新建场景
+            </button>
+<button class="px-6 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary font-medium rounded-lg shadow-md hover:shadow-lg active:scale-95 transition-all text-sm">发布</button>
 <div class="h-8 w-px bg-outline-variant/30 mx-2"></div>
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-secondary hover:text-on-surface cursor-pointer">notifications</span>
 <span class="material-symbols-outlined text-secondary hover:text-on-surface cursor-pointer">help</span>
-<img class="w-8 h-8 rounded-full border border-outline-variant/20 object-cover" data-alt="User avatar icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_UYpq31IHL4P-HP9wYmmatj0tV0RNurfBlbKWg9F9uUuHLgZkgMLSh96Y7zJ0EvKgBOuLwur-i1mZaS6whiRlTEoFQmTM1yriob7KSd5Odl9KexvXyYOgwBlG7KO96_PqALtIi9T5y8Mseld1qwRQ31f3Yp7DHsZyQlOvC6oF6TWzD5J-871T3OctYpoe8q_sa_NRJkch00oldjsun2d3anqNbWdqoMSB-hybH-hSpmZmXkdEgdAGUq28lNQEWxDjRu7TPRVGlI0"/>
+<img class="w-8 h-8 rounded-full border-2 border-white object-cover shadow-sm" data-alt="User avatar icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_UYpq31IHL4P-HP9wYmmatj0tV0RNurfBlbKWg9F9uUuHLgZkgMLSh96Y7zJ0EvKgBOuLwur-i1mZaS6whiRlTEoFQmTM1yriob7KSd5Odl9KexvXyYOgwBlG7KO96_PqALtIi9T5y8Mseld1qwRQ31f3Yp7DHsZyQlOvC6oF6TWzD5J-871T3OctYpoe8q_sa_NRJkch00oldjsun2d3anqNbWdqoMSB-hybH-hSpmZmXkdEgdAGUq28lNQEWxDjRu7TPRVGlI0"/>
 </div>
 </div>
 </header>
 <div class="flex pt-16 min-h-screen">
 <!-- Left Scene Tree -->
-<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[280px] z-40 bg-surface-container-low flex flex-col pt-6 overflow-y-auto">
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[280px] z-40 glass-sidebar flex flex-col pt-6 overflow-y-auto">
 <div class="px-6 mb-8">
 <div class="flex items-center gap-3 mb-1">
-<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-on-primary shadow-sm">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-on-primary shadow-lg shadow-primary/20">
 <span class="material-symbols-outlined text-lg">account_tree</span>
 </div>
 <div>
@@ -1356,7 +360,7 @@
 <span class="material-symbols-outlined text-sm text-secondary group-hover:rotate-90 transition-transform">chevron_right</span>
 </div>
 <div class="space-y-1">
-<a class="flex items-center gap-3 px-6 py-2.5 text-secondary hover:bg-surface-container transition-all group" href="#">
+<a class="flex items-center gap-3 px-6 py-2.5 text-secondary hover:bg-white/40 transition-all group" href="#">
 <span class="material-symbols-outlined text-lg">schema</span>
 <span class="text-sm font-medium">corp-default</span>
 </a>
@@ -1369,34 +373,34 @@
 <span class="material-symbols-outlined text-sm text-secondary transition-transform rotate-90">chevron_right</span>
 </div>
 <div class="space-y-1">
-<a class="flex items-center gap-3 px-6 py-2.5 bg-surface-container-lowest text-primary font-bold rounded-l-xl ml-2 transition-all" href="#">
+<a class="flex items-center gap-3 px-6 py-2.5 bg-white/80 text-primary font-bold rounded-l-xl ml-2 shadow-sm transition-all" href="#">
 <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
 <span class="text-sm">售前助手</span>
 </a>
-<a class="flex items-center gap-3 px-6 py-2.5 text-secondary hover:bg-surface-container transition-all group" href="#">
+<a class="flex items-center gap-3 px-6 py-2.5 text-secondary hover:bg-white/40 transition-all group" href="#">
 <span class="material-symbols-outlined text-lg">analytics</span>
 <span class="text-sm font-medium">数据分析助手</span>
 </a>
-<a class="flex items-center gap-3 px-6 py-2.5 text-secondary hover:bg-surface-container transition-all group" href="#">
+<a class="flex items-center gap-3 px-6 py-2.5 text-secondary hover:bg-white/40 transition-all group" href="#">
 <span class="material-symbols-outlined text-lg">support_agent</span>
 <span class="text-sm font-medium">售后支持</span>
 </a>
 </div>
 </div>
 <div class="mt-auto p-6">
-<div class="p-4 bg-surface-container rounded-xl">
+<div class="p-4 glass-card-inner rounded-xl backdrop-blur-md">
 <p class="text-[11px] text-secondary font-medium mb-2">存储用量</p>
-<div class="w-full h-1.5 bg-outline-variant/30 rounded-full overflow-hidden">
-<div class="w-3/4 h-full bg-primary rounded-full"></div>
+<div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-primary rounded-full shadow-[0_0_8px_rgba(0,88,190,0.4)]"></div>
 </div>
 <p class="text-[10px] text-on-surface-variant mt-2">已使用 7.2 GB / 10 GB</p>
 </div>
 </div>
 </aside>
 <!-- Right Detail Panel -->
-<main class="ml-[280px] flex-1 p-8 bg-background max-w-[1080px]">
+<main class="ml-[280px] flex-1 p-8 bg-transparent max-w-[1080px]">
 <!-- Tab Row -->
-<nav class="flex items-center gap-8 mb-8 border-b border-outline-variant/20 overflow-x-auto no-scrollbar">
+<nav class="flex items-center gap-8 mb-8 border-b border-outline-variant/10 overflow-x-auto no-scrollbar">
 <a class="pb-4 text-sm font-semibold text-primary border-b-2 border-primary whitespace-nowrap" href="#">概览</a>
 <a class="pb-4 text-sm font-medium text-secondary hover:text-on-surface transition-colors whitespace-nowrap" href="#">模型</a>
 <a class="pb-4 text-sm font-medium text-secondary hover:text-on-surface transition-colors whitespace-nowrap" href="#">提示词</a>
@@ -1406,12 +410,12 @@
 </nav>
 <!-- Scene Summary Card -->
 <section class="mb-8">
-<div class="relative overflow-hidden bg-surface-container-lowest rounded-2xl p-8 shadow-[0_12px_36px_rgba(16,24,40,0.06)] border border-outline-variant/10">
+<div class="relative overflow-hidden glass-card rounded-2xl p-8">
 <div class="absolute top-0 right-0 p-6">
-<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest rounded-full">Active Environment</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest rounded-full backdrop-blur-md border border-primary/10">Active Environment</span>
 </div>
 <div class="flex items-start gap-6">
-<div class="w-16 h-16 bg-primary-container rounded-2xl flex items-center justify-center text-on-primary-container shrink-0">
+<div class="w-16 h-16 bg-gradient-to-br from-primary-container to-primary rounded-2xl flex items-center justify-center text-on-primary shadow-lg shadow-primary/20 shrink-0">
 <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
 </div>
 <div class="flex-1">
@@ -1429,8 +433,10 @@
 </div>
 <div class="flex flex-col gap-1">
 <span class="text-[10px] text-secondary font-bold uppercase tracking-wider">状态</span>
-<span class="text-sm font-semibold text-on-surface flex items-center gap-1"><span class="w-2 h-2 bg-amber-500 rounded-full"></span>
-                                        编辑中</span>
+<span class="text-sm font-semibold text-on-surface flex items-center gap-1">
+<span class="w-2 h-2 bg-amber-500 rounded-full shadow-[0_0_8px_rgba(245,158,11,0.5)]"></span>
+                                        编辑中
+                                    </span>
 </div>
 <div class="flex flex-col gap-1">
 <span class="text-[10px] text-secondary font-bold uppercase tracking-wider">线上版本</span>
@@ -1444,20 +450,20 @@
 <!-- Two Column Detailed Info -->
 <div class="grid grid-cols-2 gap-6">
 <!-- Visibility & Access -->
-<div class="bg-surface-container-low rounded-2xl p-6 flex flex-col gap-6">
+<div class="glass-card rounded-2xl p-6 flex flex-col gap-6">
 <div class="flex items-center justify-between">
 <h3 class="font-bold text-on-surface">访问控制</h3>
 <button class="text-primary text-xs font-semibold hover:underline">编辑</button>
 </div>
 <div class="space-y-4">
-<div class="p-4 bg-surface-container-lowest rounded-xl">
+<div class="p-4 glass-card-inner rounded-xl">
 <p class="text-[10px] text-secondary font-bold uppercase mb-2">可见范围</p>
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary text-lg">group</span>
 <span class="text-sm font-medium">Enterprise Wide (Default)</span>
 </div>
 </div>
-<div class="p-4 bg-surface-container-lowest rounded-xl">
+<div class="p-4 glass-card-inner rounded-xl">
 <p class="text-[10px] text-secondary font-bold uppercase mb-2">关联基础场景</p>
 <p class="text-sm font-medium">Global Enterprise Default Assistant</p>
 <p class="text-xs text-secondary mt-1">Inheriting 12 base skills and 3 workspace configs.</p>
@@ -1465,35 +471,35 @@
 </div>
 </div>
 <!-- Version Info -->
-<div class="bg-surface-container-low rounded-2xl p-6 flex flex-col gap-6">
+<div class="glass-card rounded-2xl p-6 flex flex-col gap-6">
 <div class="flex items-center justify-between">
 <h3 class="font-bold text-on-surface">草稿智能</h3>
 <span class="material-symbols-outlined text-secondary cursor-pointer hover:text-on-surface">history</span>
 </div>
 <div class="space-y-4">
-<div class="p-4 bg-surface-container-lowest rounded-xl flex items-center justify-between">
+<div class="p-4 glass-card-inner rounded-xl flex items-center justify-between">
 <div>
 <p class="text-[10px] text-secondary font-bold uppercase mb-1">当前草稿</p>
 <p class="text-sm font-semibold text-on-surface">v2026.04.12-rc1</p>
 </div>
-<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant text-[10px] font-bold rounded">UNPUBLISHED</span>
+<span class="px-2 py-0.5 bg-white/50 text-on-surface-variant text-[10px] font-bold rounded border border-white/40">UNPUBLISHED</span>
 </div>
-<div class="p-4 bg-surface-container-lowest rounded-xl">
+<div class="p-4 glass-card-inner rounded-xl">
 <p class="text-[10px] text-secondary font-bold uppercase mb-2">快捷操作</p>
 <div class="flex gap-2">
-<button class="flex-1 px-3 py-2 bg-surface-container text-on-surface text-xs font-semibold rounded-lg hover:bg-surface-container-highest transition-colors">对比版本</button>
-<button class="flex-1 px-3 py-2 bg-surface-container text-on-surface text-xs font-semibold rounded-lg hover:bg-surface-container-highest transition-colors">同步基准</button>
+<button class="flex-1 px-3 py-2 bg-white/60 text-on-surface text-xs font-semibold rounded-lg hover:bg-white/90 transition-colors border border-white/40">对比版本</button>
+<button class="flex-1 px-3 py-2 bg-white/60 text-on-surface text-xs font-semibold rounded-lg hover:bg-white/90 transition-colors border border-white/40">同步基准</button>
 </div>
 </div>
 </div>
 </div>
 </div>
-<!-- Detailed Stats / Activity (Bonus Visual Polish) -->
+<!-- Detailed Stats / Activity -->
 <section class="mt-8">
-<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
+<div class="glass-card rounded-2xl p-6">
 <h3 class="font-bold text-on-surface mb-6">交互性能</h3>
 <div class="grid grid-cols-4 gap-4">
-<div class="p-4 bg-background rounded-xl">
+<div class="p-4 glass-card-inner rounded-xl">
 <p class="text-secondary text-[11px] font-medium mb-1">总调用量 (24h)</p>
 <p class="text-2xl font-bold text-on-surface tracking-tight">12,482</p>
 <span class="text-[10px] text-emerald-600 font-bold flex items-center gap-0.5">
@@ -1501,19 +507,19 @@
                                 12.5%
                             </span>
 </div>
-<div class="p-4 bg-background rounded-xl">
+<div class="p-4 glass-card-inner rounded-xl">
 <p class="text-secondary text-[11px] font-medium mb-1">平均延迟</p>
 <p class="text-2xl font-bold text-on-surface tracking-tight">1.2s</p>
 <span class="text-[10px] text-secondary font-medium">Stable</span>
 </div>
-<div class="p-4 bg-background rounded-xl">
+<div class="p-4 glass-card-inner rounded-xl">
 <p class="text-secondary text-[11px] font-medium mb-1">准确率</p>
 <p class="text-2xl font-bold text-on-surface tracking-tight">98.2%</p>
-<div class="w-full h-1 bg-outline-variant/20 rounded-full mt-2">
-<div class="w-[98%] h-full bg-emerald-500 rounded-full"></div>
+<div class="w-full h-1 bg-black/5 rounded-full mt-2">
+<div class="w-[98%] h-full bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
 </div>
 </div>
-<div class="p-4 bg-background rounded-xl">
+<div class="p-4 glass-card-inner rounded-xl">
 <p class="text-secondary text-[11px] font-medium mb-1">Token 效率</p>
 <p class="text-2xl font-bold text-on-surface tracking-tight">0.85</p>
 <p class="text-[10px] text-secondary">per session</p>
@@ -1521,497 +527,6 @@
 </div>
 </div>
 </section>
-</main>
-</div>
-</body></html>
-
-<!-- Polaris Admin Overview -->
-<!DOCTYPE html>
-
-<html class="light" lang="zh-CN"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary-fixed": "#d8e2ff",
-              "on-secondary-container": "#5b6574",
-              "inverse-primary": "#adc6ff",
-              "on-surface": "#191c1e",
-              "on-tertiary-fixed": "#311400",
-              "surface-container-lowest": "#ffffff",
-              "background": "#f8f9fb",
-              "on-secondary-fixed-variant": "#3e4756",
-              "secondary-fixed": "#d9e3f5",
-              "surface-tint": "#005ac2",
-              "tertiary-container": "#b75b00",
-              "error-container": "#ffdad6",
-              "primary-container": "#2170e4",
-              "on-error": "#ffffff",
-              "surface-dim": "#d9dadc",
-              "surface-bright": "#f8f9fb",
-              "inverse-surface": "#2e3132",
-              "on-primary-fixed-variant": "#004395",
-              "outline-variant": "#c2c6d6",
-              "surface": "#f8f9fb",
-              "tertiary-fixed": "#ffdcc6",
-              "surface-container-highest": "#e1e2e4",
-              "secondary": "#555f6e",
-              "on-secondary": "#ffffff",
-              "inverse-on-surface": "#f0f1f3",
-              "surface-variant": "#e1e2e4",
-              "on-primary-container": "#fefcff",
-              "on-primary": "#ffffff",
-              "surface-container": "#edeef0",
-              "on-secondary-fixed": "#121c29",
-              "on-surface-variant": "#424754",
-              "primary": "#0058be",
-              "surface-container-high": "#e7e8ea",
-              "secondary-container": "#d9e3f5",
-              "on-tertiary-container": "#fffbff",
-              "primary-fixed-dim": "#adc6ff",
-              "on-primary-fixed": "#001a42",
-              "tertiary": "#924700",
-              "error": "#ba1a1a",
-              "on-background": "#191c1e",
-              "outline": "#727785",
-              "on-tertiary": "#ffffff",
-              "on-error-container": "#93000a",
-              "tertiary-fixed-dim": "#ffb786",
-              "on-tertiary-fixed-variant": "#723600",
-              "secondary-fixed-dim": "#bdc7d8",
-              "surface-container-low": "#f2f4f6"
-            },
-            fontFamily: {
-              "headline": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-              "body": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-              "label": ["IBM Plex Sans", "PingFang SC", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-          },
-        },
-      }
-    </script>
-<style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      }
-      body {
-        font-family: 'IBM Plex Sans', 'PingFang SC', sans-serif;
-      }
-    </style>
-</head>
-<body class="bg-background text-on-surface overflow-hidden">
-<!-- TopNavBar -->
-<header class="fixed top-0 w-full h-16 z-50 bg-[#ffffff] dark:bg-[#191c1e] shadow-[0_12px_36px_rgba(16,24,40,0.06)] flex justify-between items-center px-6">
-<div class="flex items-center gap-4">
-<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
-<span class="text-sm font-semibold text-on-surface">场景: 售前助手</span>
-<span class="material-symbols-outlined text-sm text-secondary group-hover:text-primary transition-colors">expand_more</span>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<nav class="hidden md:flex gap-8 items-center">
-<a class="text-[#0058be] border-b-2 border-[#0058be] font-semibold text-sm tracking-tight py-5" href="#">对话模式</a>
-<a class="text-[#555f6e] hover:text-[#191c1e] text-sm tracking-tight py-5 transition-colors" href="#">管理后台</a>
-</nav>
-<div class="flex items-center gap-3">
-<button class="p-2 rounded-full hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors active:scale-95">
-<span class="material-symbols-outlined text-secondary">notifications</span>
-</button>
-<button class="p-2 rounded-full hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors active:scale-95">
-<span class="material-symbols-outlined text-secondary">help</span>
-</button>
-<div class="w-8 h-8 rounded-full overflow-hidden ml-2 bg-primary-fixed border border-outline-variant/20">
-<img alt="User profile avatar" data-alt="Corporate professional user avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwtdgf5h-YlAmOUGu9FF6zj3U_wP6e8okKPAKy6qTCv2YIWREuH4xmrcz86-CvqoPXM2cgf3-nnNz2NY0Je8K0KF6Xlv5kP8zjrWzyWR-4oDiD8zIc1xr7PCFJGyqYjnBjPd2pNC-N_9hYEwaMaGXXjfF4esGGMLiSiDjQffaxz8r5DYyEEzMe-3Z0OZUgo3aqg0OjrGQGiwS8JX10zFFQ5KBgvTWyeiLa0EnvzFLNzOX7YPINuTJJQ89MmrSRbdHM0RLkzpY3N1s"/>
-</div>
-</div>
-</div>
-</header>
-<!-- SideNavBar (Left Rail) -->
-<aside class="fixed left-0 top-16 h-full w-[72px] z-40 bg-[#ffffff] dark:bg-[#191c1e] flex flex-col items-center py-4 gap-6">
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#0058be] bg-[#f2f4f6] dark:bg-[#2c2e30] border-l-4 border-[#0058be] w-full py-2">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">首页</span>
-</div>
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300">
-<span class="material-symbols-outlined">add_circle</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">新会话</span>
-</div>
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300">
-<span class="material-symbols-outlined">history</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">历史会话</span>
-</div>
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300">
-<span class="material-symbols-outlined">star</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">收藏场景</span>
-</div>
-<div class="flex flex-col items-center gap-2 group cursor-pointer text-[#555f6e] hover:text-[#0058be] hover:bg-[#f8f9fb] w-full py-2 transition-all duration-300 mt-auto mb-20">
-<span class="material-symbols-outlined">settings</span>
-<span class="font-['IBM_Plex_Sans'] text-[11px] font-medium">个人设置</span>
-</div>
-</aside>
-<!-- Main Content Area -->
-<main class="ml-[72px] pt-16 h-screen overflow-y-auto bg-background flex flex-col items-center">
-<!-- Message Column -->
-<div class="w-full max-w-[840px] mt-12 mb-40 px-6 flex flex-col gap-8">
-<!-- Date Divider -->
-<div class="flex items-center justify-center gap-4">
-<div class="h-[1px] flex-grow bg-surface-container-highest"></div>
-<span class="text-xs text-secondary font-medium tracking-widest px-4 py-1 rounded-full bg-surface-container-low">今天</span>
-<div class="h-[1px] flex-grow bg-surface-container-highest"></div>
-</div>
-<!-- User Message -->
-<div class="flex justify-end items-start gap-4">
-<div class="max-w-[70%] bg-[#EEF5FF] p-4 rounded-xl rounded-tr-none shadow-sm">
-<p class="text-on-surface text-sm leading-relaxed">帮我整理这个客户的核心诉求</p>
-</div>
-<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center flex-shrink-0">
-<span class="material-symbols-outlined text-sm text-on-secondary-fixed">person</span>
-</div>
-</div>
-<!-- Assistant Message Group -->
-<div class="flex flex-col gap-3">
-<!-- Tool Status Row -->
-<div class="flex items-center gap-3 px-12">
-<div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low rounded-lg">
-<span class="material-symbols-outlined text-[14px] text-primary">database</span>
-<span class="text-[11px] text-secondary font-medium">已读取: 销售资料库</span>
-</div>
-<div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low rounded-lg">
-<span class="material-symbols-outlined text-[14px] text-primary">bolt</span>
-<span class="text-[11px] text-secondary font-medium">调用技能 2 个</span>
-</div>
-<button class="text-[11px] text-primary font-bold hover:underline ml-1">查看过程</button>
-</div>
-<!-- AI Response Card -->
-<div class="flex justify-start items-start gap-4">
-<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0 shadow-sm">
-<span class="material-symbols-outlined text-white text-[20px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
-</div>
-<div class="max-w-[85%] bg-surface-container-lowest p-6 rounded-2xl rounded-tl-none shadow-[0_4px_12px_rgba(16,24,40,0.04)]">
-<p class="text-on-surface text-sm leading-relaxed mb-4">已根据销售资料和会议记录整理出以下 3 点核心诉求：</p>
-<div class="space-y-4">
-<div class="flex gap-3">
-<span class="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] flex items-center justify-center font-bold">1</span>
-<div>
-<h4 class="text-sm font-bold text-on-surface mb-1">系统稳定性与可扩展性</h4>
-<p class="text-secondary text-sm leading-relaxed">客户目前正处于业务高速扩张期，对平台在高并发场景下的稳定性有极高要求，并希望架构能支持未来三年的平滑扩展。</p>
-</div>
-</div>
-<div class="flex gap-3">
-<span class="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] flex items-center justify-center font-bold">2</span>
-<div>
-<h4 class="text-sm font-bold text-on-surface mb-1">全链路数据闭环</h4>
-<p class="text-secondary text-sm leading-relaxed">迫切需要打通现有的 CRM 与 ERP 系统，实现从线索捕获到订单完成的全流程数据监控与分析。</p>
-</div>
-</div>
-<div class="flex gap-3">
-<span class="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] flex items-center justify-center font-bold">3</span>
-<div>
-<h4 class="text-sm font-bold text-on-surface mb-1">智能化的售后支持</h4>
-<p class="text-secondary text-sm leading-relaxed">希望能引入 AI 驱动的自动化客服，降低 40% 以上的人工响应成本。</p>
-</div>
-</div>
-</div>
-<div class="mt-6 pt-6 border-t border-surface-container flex items-center gap-4">
-<button class="flex items-center gap-1.5 text-xs text-secondary hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-[16px]">content_copy</span>
-<span>复制内容</span>
-</button>
-<button class="flex items-center gap-1.5 text-xs text-secondary hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-[16px]">refresh</span>
-<span>重新生成</span>
-</button>
-<div class="ml-auto flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px] text-secondary cursor-pointer hover:text-primary">thumb_up</span>
-<span class="material-symbols-outlined text-[18px] text-secondary cursor-pointer hover:text-error">thumb_down</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Composer Dock (Fixed Bottom) -->
-<div class="fixed bottom-8 w-full max-w-[840px] px-6 z-30">
-<div class="bg-surface-container-lowest border border-surface-container-high rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.08)] p-4">
-<div class="flex flex-col gap-3">
-<div class="flex items-center gap-3 px-2">
-<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-xs text-secondary hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-[16px]">upload_file</span>
-<span>上传文件</span>
-</button>
-<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low text-xs text-secondary hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-[16px]">add_task</span>
-<span>追加要求</span>
-</button>
-</div>
-<div class="flex items-center gap-3 px-2">
-<textarea class="w-full bg-transparent border-none focus:ring-0 text-sm placeholder:text-secondary/50 resize-none py-2" placeholder="继续追问..." rows="1"></textarea>
-<button class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-95 transition-all">
-<span class="material-symbols-outlined text-[20px]">send</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Context Hint -->
-<div class="flex justify-center mt-3">
-<span class="text-[10px] text-secondary/60 flex items-center gap-1">
-<span class="material-symbols-outlined text-[12px]">info</span>
-                    AI 生成内容仅供参考，请核实关键信息
-                </span>
-</div>
-</div>
-</main>
-<!-- Floating Action Background Elements for "Atelier" feel -->
-<div class="fixed top-20 right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-<div class="fixed bottom-20 left-20 w-48 h-48 bg-primary-container/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-</body></html>
-
-<!-- Polaris Conversation View -->
-<!DOCTYPE html>
-
-<html class="light" lang="zh-CN"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary-fixed": "#d8e2ff",
-                        "on-secondary-container": "#5b6574",
-                        "inverse-primary": "#adc6ff",
-                        "on-surface": "#191c1e",
-                        "on-tertiary-fixed": "#311400",
-                        "surface-container-lowest": "#ffffff",
-                        "background": "#f8f9fb",
-                        "on-secondary-fixed-variant": "#3e4756",
-                        "secondary-fixed": "#d9e3f5",
-                        "surface-tint": "#005ac2",
-                        "tertiary-container": "#b75b00",
-                        "error-container": "#ffdad6",
-                        "primary-container": "#2170e4",
-                        "on-error": "#ffffff",
-                        "surface-dim": "#d9dadc",
-                        "surface-bright": "#f8f9fb",
-                        "inverse-surface": "#2e3132",
-                        "on-primary-fixed-variant": "#004395",
-                        "outline-variant": "#c2c6d6",
-                        "surface": "#f8f9fb",
-                        "tertiary-fixed": "#ffdcc6",
-                        "surface-container-highest": "#e1e2e4",
-                        "secondary": "#555f6e",
-                        "on-secondary": "#ffffff",
-                        "inverse-on-surface": "#f0f1f3",
-                        "surface-variant": "#e1e2e4",
-                        "on-primary-container": "#fefcff",
-                        "on-primary": "#ffffff",
-                        "surface-container": "#edeef0",
-                        "on-secondary-fixed": "#121c29",
-                        "on-surface-variant": "#424754",
-                        "primary": "#0058be",
-                        "surface-container-high": "#e7e8ea",
-                        "secondary-container": "#d9e3f5",
-                        "on-tertiary-container": "#fffbff",
-                        "primary-fixed-dim": "#adc6ff",
-                        "on-primary-fixed": "#001a42",
-                        "tertiary": "#924700",
-                        "error": "#ba1a1a",
-                        "on-background": "#191c1e",
-                        "outline": "#727785",
-                        "on-tertiary": "#ffffff",
-                        "on-error-container": "#93000a",
-                        "tertiary-fixed-dim": "#ffb786",
-                        "on-tertiary-fixed-variant": "#723600",
-                        "secondary-fixed-dim": "#bdc7d8",
-                        "surface-container-low": "#f2f4f6"
-                    },
-                    fontFamily: {
-                        "headline": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-                        "body": ["IBM Plex Sans", "PingFang SC", "sans-serif"],
-                        "label": ["IBM Plex Sans", "PingFang SC", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
-            },
-        }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        body { font-family: 'IBM Plex Sans', 'PingFang SC', sans-serif; }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-        }
-    </style>
-</head>
-<body class="bg-background text-on-surface min-h-screen flex flex-col">
-<!-- TopAppBar Shared Component -->
-<header class="fixed top-0 w-full h-16 z-50 bg-[#ffffff] dark:bg-[#191c1e] shadow-[0_12px_36px_rgba(16,24,40,0.06)] flex justify-between items-center px-6 font-['IBM_Plex_Sans'] text-sm tracking-tight">
-<div class="flex items-center gap-8">
-<span class="text-xl font-bold text-[#191c1e] dark:text-[#ffffff]">Polaris</span>
-<nav class="flex gap-6">
-<a class="text-[#555f6e] hover:text-[#191c1e] hover:bg-[#f2f4f6] dark:hover:bg-[#2c2e30] transition-colors px-3 py-1 rounded-md" href="#">Chat Mode</a>
-<a class="text-[#0058be] border-b-2 border-[#0058be] font-semibold px-3 py-1" href="#">Admin Console</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative">
-<span class="material-symbols-outlined text-secondary hover:bg-[#f2f4f6] p-2 rounded-full cursor-pointer transition-colors">notifications</span>
-</div>
-<span class="material-symbols-outlined text-secondary hover:bg-[#f2f4f6] p-2 rounded-full cursor-pointer transition-colors">help</span>
-<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container ml-2">
-<img alt="User profile avatar" data-alt="User profile avatar circle image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFyHONCSRlPsojUS1_KoQWhi-D4SyoF-giOAIzwF9q4PVI4y1R1yNqyqzIehHDtnHWHAwZky7h9wqU8p1vGiRd6vDFxfQQg_45dCQOg5ZpFuKCuNVTreeDWb2nKs7wdSIHqHLsxRSMOYCaWa16ujr1vZqczSHpIkvtB-C0AvW4KsKPFFJrtjulZN-HGTvx_WUbowZ6sR3LbaxF3rO6h2-mooSQznDWahDPcPneGDIVFawPLsYebnGEpdSACXpkuDkzbnw794kffm8"/>
-</div>
-</div>
-</header>
-<!-- Main Layout Container -->
-<div class="flex pt-16 h-[calc(100vh-64px)] overflow-hidden">
-<!-- SideNavBar Shared Component (Admin Console Variant) -->
-<aside class="w-[280px] flex flex-col pt-4 bg-[#f2f4f6] dark:bg-[#2c2e30] h-full overflow-y-auto">
-<div class="px-6 mb-8">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined">shield_person</span>
-</div>
-<div>
-<h2 class="text-lg font-semibold text-[#191c1e]">Polaris Admin</h2>
-<p class="text-xs text-secondary">Console</p>
-</div>
-</div>
-</div>
-<nav class="flex-1 space-y-1">
-<div class="px-4 py-2 text-xs font-bold text-secondary tracking-widest uppercase">System</div>
-<a class="flex items-center gap-3 py-3 px-4 text-[#555f6e] hover:bg-[#edeef0] dark:hover:bg-[#383a3c] transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
-<span>Resources</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 bg-[#ffffff] dark:bg-[#191c1e] text-[#0058be] font-bold rounded-l-xl ml-2 transition-all duration-200 shadow-sm" href="#">
-<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
-<span>Skills</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 text-[#555f6e] hover:bg-[#edeef0] dark:hover:bg-[#383a3c] transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="workspaces">workspaces</span>
-<span>Workspaces</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 text-[#555f6e] hover:bg-[#edeef0] dark:hover:bg-[#383a3c] transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
-<span>Release</span>
-</a>
-</nav>
-</aside>
-<!-- Right Detail Panel (Canvas) -->
-<main class="flex-1 overflow-y-auto bg-background relative flex flex-col">
-<!-- Breadcrumbs & Tab Row -->
-<div class="px-8 pt-8 pb-4">
-<div class="flex items-center gap-2 text-label-sm text-secondary mb-4"><span>Skills</span><span class="material-symbols-outlined text-sm">chevron_right</span><span>企业售前助手</span><span class="material-symbols-outlined text-sm">chevron_right</span><span class="text-on-surface font-medium">提示词编辑器</span></div>
-<h1 class="text-3xl font-bold tracking-tight text-on-surface mb-6">企业售前助手</h1>
-<div class="flex gap-8 border-b border-surface-container"><button class="pb-3 text-secondary font-medium hover:text-on-surface transition-colors">基础设置</button><button class="pb-3 text-primary font-bold border-b-2 border-primary">提示词</button><button class="pb-3 text-secondary font-medium hover:text-on-surface transition-colors">知识库</button><button class="pb-3 text-secondary font-medium hover:text-on-surface transition-colors">扩展技能</button></div>
-</div>
-<!-- Content Area: Two-Column Layout -->
-<div class="flex-1 px-8 pb-32">
-<div class="grid grid-cols-[520px_488px] gap-8 mt-6">
-<!-- Left Column: Editor -->
-<div class="space-y-6">
-<!-- Inherit Card -->
-<div class="bg-surface-container-low rounded-xl p-4 flex items-center gap-3 border border-transparent hover:border-outline-variant transition-colors group">
-<input checked="" class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" id="inherit-prompt" type="checkbox"/>
-<label class="text-on-surface font-medium cursor-pointer" for="inherit-prompt">继承基础场景系统提示词</label>
-<span class="material-symbols-outlined text-secondary text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">info</span>
-</div>
-<!-- Prompt Editor Card -->
-<div class="bg-surface-container-lowest rounded-xl shadow-[0_12px_36px_rgba(16,24,40,0.06)] overflow-hidden flex flex-col">
-<div class="px-6 py-4 bg-surface-container-low flex justify-between items-center">
-<span class="font-bold text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-primary">edit_note</span>场景提示词 (Scene Prompt)</span>
-<span class="text-xs text-secondary">Markdown Supported</span>
-</div>
-<div class="p-6">
-<textarea class="w-full h-96 p-4 bg-white border-0 focus:ring-2 focus:ring-primary/20 rounded-lg text-on-surface-variant font-body leading-relaxed resize-none" placeholder="输入场景化的 System Prompt...">你是一个面向企业售前团队的专业助手。
-
-你的核心职责是：
-1. 协助售前经理分析客户需求文档 (RFP/RFI)。
-2. 根据公司产品库（Product Specs）生成定制化的技术解决方案初稿。
-3. 对比竞品功能，提炼核心差异化卖点。
-
-在回复时请保持：
-- 语调：专业、严谨、具有说服力。
-- 格式：多使用结构化的列表和加粗关键词。
-- 限制：不要虚构产品参数，如不确定请提示查询内部文档。</textarea>
-</div>
-</div>
-</div>
-<!-- Right Column: Preview -->
-<div class="space-y-6">
-<div class="bg-surface-container rounded-xl overflow-hidden flex flex-col h-full border border-surface-container-highest/50">
-<div class="px-6 py-4 flex justify-between items-center border-b border-surface-container-highest">
-<span class="font-bold text-on-secondary-container flex items-center gap-2"><span class="material-symbols-outlined">visibility</span>预览最终 Prompt (Compiled Preview)</span>
-<div class="flex gap-2">
-<button class="p-1 hover:bg-surface-container-high rounded text-secondary"><span class="material-symbols-outlined text-sm">content_copy</span></button>
-</div>
-</div>
-<div class="p-6 flex-1 overflow-y-auto bg-surface-container-low/50">
-<div class="space-y-4">
-<!-- Base Prompt Segment -->
-<div class="space-y-2">
-<div class="flex items-center gap-2">
-<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-surface-container-highest text-secondary uppercase tracking-wider">BASE PROMPT</span>
-</div>
-<div class="p-4 bg-surface-container-high/30 rounded-lg border-l-4 border-surface-dim italic text-secondary text-sm">
-                                            你是一个名为 Polaris 的智能助手，由 Agent Platform 开发。你始终遵循安全合规的交互准则，优先保证回答的准确性与客观性。
-                                        </div>
-</div>
-<!-- Connector -->
-<div class="flex justify-center">
-<span class="material-symbols-outlined text-outline-variant">add</span>
-</div>
-<!-- Scene Prompt Segment -->
-<div class="space-y-2">
-<div class="flex items-center gap-2">
-<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary uppercase tracking-wider">SCENE PROMPT</span>
-</div>
-<div class="p-4 bg-surface-container-lowest rounded-lg shadow-sm text-on-surface-variant text-sm leading-loose">
-                                            你是一个面向企业售前团队的专业助手。<br/><br/>
-                                            你的核心职责是：<br/>
-                                            1. 协助售前经理分析客户需求文档 (RFP/RFI)。<br/>
-                                            2. 根据公司产品库（Product Specs）生成定制化的技术解决方案初稿。<br/>
-                                            3. 对比竞品功能，提炼核心差异化卖点。<br/><br/>
-                                            在回复时请保持：<br/>
-                                            - 语调：专业、严谨、具有说服力。<br/>
-                                            - 格式：多使用结构化的列表和加粗关键词。<br/>
-                                            - 限制：不要虚构产品参数，如不确定请提示查询内部文档。
-                                        </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Sticky Action Bar -->
-<footer class="fixed bottom-0 right-0 left-[280px] h-20 glass-panel border-t border-surface-container flex items-center justify-between px-12 z-40">
-<div class="flex items-center gap-4 text-sm text-secondary"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 最近保存：2 分钟前</span><span class="w-px h-4 bg-surface-container-highest"></span><span class="text-on-surface font-medium">版本: V2.4 (Draft)</span></div>
-<div class="flex items-center gap-3">
-<button class="px-6 py-2.5 rounded-xl font-semibold text-primary bg-surface-container-low hover:bg-surface-container-high transition-all active:scale-95 duration-200">保存草稿</button>
-<button class="px-6 py-2.5 rounded-xl font-semibold text-secondary-fixed-dim bg-secondary/10 hover:bg-secondary/20 transition-all active:scale-95 duration-200 flex items-center gap-2"><span class="material-symbols-outlined text-sm">preview</span>预览最终 Prompt</button>
-<button class="px-8 py-2.5 rounded-xl font-bold text-white bg-gradient-to-br from-primary to-primary-container shadow-lg shadow-primary/20 hover:brightness-110 transition-all active:scale-95 duration-200">发布新版本</button>
-</div>
-</footer>
 </main>
 </div>
 </body></html>

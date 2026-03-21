@@ -3,6 +3,7 @@ from pathlib import Path
 
 from deepagents import create_deep_agent
 from deepagents.backends import LocalShellBackend
+from langgraph.checkpoint.base import BaseCheckpointSaver
 from langchain_openai import ChatOpenAI
 
 from app.domain.models import SceneModelConfig
@@ -17,6 +18,7 @@ class AgentSpec:
     runtime_root: Path | None = None
     model_config: SceneModelConfig | None = None
     api_key: str = ""
+    checkpointer: BaseCheckpointSaver | None = None
 
 
 def build_agent_config(spec: AgentSpec) -> dict:
@@ -54,4 +56,5 @@ def build_deep_agent(spec: AgentSpec):
         system_prompt=spec.system_prompt,
         skills=spec.skill_paths,
         backend=backend,
+        checkpointer=spec.checkpointer,
     )

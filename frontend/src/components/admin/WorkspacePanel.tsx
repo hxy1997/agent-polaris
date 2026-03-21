@@ -6,10 +6,12 @@ const workspaces = [
 
 export function WorkspacePanel() {
   return (
-    <section className="admin-panel">
-      <header>
-        <h3>工作区绑定</h3>
-        <p>把受控的文件目录映射进运行时会话，同时不暴露平台内部状态。</p>
+    <section className="admin-panel glass-surface">
+      <header className="admin-panel__header">
+        <div>
+          <h3>工作区绑定</h3>
+          <p>把受控的文件目录映射进运行时会话，同时不暴露平台内部状态。</p>
+        </div>
       </header>
       <ul className="workspace-list">
         {workspaces.map((workspace) => (

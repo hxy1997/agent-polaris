@@ -1,72 +1,127 @@
-import { startTransition, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useChat } from "@ai-sdk/react";
+import type { UIMessage } from "ai";
+import { useEffect, useRef, useState } from "react";
 
-import { createChatSession, postChatMessage, streamChatSession } from "../lib/api";
+import { createClientId } from "../lib/createClientId";
+import { DEFAULT_CHAT_USER_ID } from "../lib/api";
+import { PolarisChatTransport } from "../lib/polarisChatTransport";
 
-export type ChatMessage = {
-  content: string;
-  role: "assistant" | "user";
+type PendingSubmission = {
+  draft: string;
+  messageId: string;
+  receivedAssistantChunk: boolean;
 };
 
-export function useChatSession() {
+type UseChatSessionOptions = {
+  sceneId?: string;
+  userId?: string;
+};
+
+export function useChatSession({ sceneId, userId = DEFAULT_CHAT_USER_ID }: UseChatSessionOptions) {
+  const [input, setInput] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [isStreaming, setIsStreaming] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const createSessionMutation = useMutation({
-    mutationFn: createChatSession
+  const sceneIdRef = useRef(sceneId);
+  const sessionIdRef = useRef<string | null>(null);
+  const userIdRef = useRef(userId);
+  const pendingSubmissionRef = useRef<PendingSubmission | null>(null);
+  const transportRef = useRef(
+    new PolarisChatTransport({
+      getSceneId: () => sceneIdRef.current,
+      getSessionId: () => sessionIdRef.current,
+      getUserId: () => userIdRef.current,
+      setSessionId: (nextSessionId) => {
+        sessionIdRef.current = nextSessionId;
+        setSessionId(nextSessionId);
+      },
+      onResponseStart: () => {
+        if (pendingSubmissionRef.current) {
+          pendingSubmissionRef.current.receivedAssistantChunk = true;
+        }
+      }
+    })
+  );
+
+  sceneIdRef.current = sceneId;
+  sessionIdRef.current = sessionId;
+  userIdRef.current = userId;
+
+  const { clearError, error, messages, sendMessage, setMessages, status } = useChat<UIMessage>({
+    onError: () => {
+      const pendingSubmission = pendingSubmissionRef.current;
+      if (pendingSubmission && !pendingSubmission.receivedAssistantChunk) {
+        setInput(pendingSubmission.draft);
+        setMessages((currentMessages) =>
+          currentMessages.filter((message) => message.id !== pendingSubmission.messageId)
+        );
+      }
+
+      pendingSubmissionRef.current = null;
+    },
+    onFinish: () => {
+      pendingSubmissionRef.current = null;
+    },
+    transport: transportRef.current
   });
 
-  async function sendMessage(sceneId: string, content: string) {
-    setError(null);
-    let activeSessionId = sessionId;
-    if (!activeSessionId) {
-      const session = await createSessionMutation.mutateAsync(sceneId);
-      activeSessionId = session.session_id;
-      setSessionId(activeSessionId);
+  useEffect(() => {
+    pendingSubmissionRef.current = null;
+    sessionIdRef.current = null;
+    setSessionId(null);
+    setInput("");
+    setMessages([]);
+    clearError();
+  }, [sceneId, userId]);
+
+  function startNewSession() {
+    pendingSubmissionRef.current = null;
+    sessionIdRef.current = null;
+    setSessionId(null);
+    setInput("");
+    setMessages([]);
+    clearError();
+  }
+
+  function restoreSession(nextSessionId: string, nextMessages: UIMessage[]) {
+    pendingSubmissionRef.current = null;
+    sessionIdRef.current = nextSessionId;
+    setSessionId(nextSessionId);
+    setInput("");
+    setMessages(nextMessages);
+    clearError();
+  }
+
+  async function submitInput(overrideInput?: string) {
+    const nextValue = (overrideInput ?? input).trim();
+    if (!sceneId || !nextValue || status === "submitted" || status === "streaming") {
+      return;
     }
 
-    setMessages((current) => [
-      ...current,
-      { content, role: "user" },
-      { content: "", role: "assistant" }
-    ]);
-    setIsStreaming(true);
-    try {
-      await postChatMessage(activeSessionId, content);
+    const messageId = createClientId("user");
+    pendingSubmissionRef.current = {
+      draft: nextValue,
+      messageId,
+      receivedAssistantChunk: false
+    };
+    setInput("");
 
-      let assistantDraft = "";
-      await streamChatSession(activeSessionId, (chunk) => {
-        assistantDraft += chunk;
-        startTransition(() => {
-          setMessages((current) => {
-            const next = [...current];
-            next[next.length - 1] = { content: assistantDraft, role: "assistant" };
-            return next;
-          });
-        });
-      });
-    } catch (caughtError) {
-      const message =
-        caughtError instanceof Error ? caughtError.message : "发送消息时发生未知错误";
-      setError(message);
-      setMessages((current) => {
-        const next = [...current];
-        if (next[next.length - 1]?.role === "assistant") {
-          next[next.length - 1] = { content: message, role: "assistant" };
-        }
-        return next;
-      });
-    } finally {
-      setIsStreaming(false);
-    }
+    await sendMessage({
+      id: messageId,
+      parts: [{ type: "text", text: nextValue }],
+      role: "user"
+    });
   }
 
   return {
-    error,
-    isStreaming,
+    error: error?.message ?? null,
+    input,
+    isStreaming: status === "submitted" || status === "streaming",
     messages,
-    sendMessage,
-    sessionId
+    restoreSession,
+    sendMessage: submitInput,
+    sessionId,
+    userId,
+    setInput,
+    startNewSession,
+    status
   };
 }

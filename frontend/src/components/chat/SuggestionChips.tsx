@@ -5,11 +5,15 @@ const suggestions = [
   "压缩会议纪要"
 ];
 
-export function SuggestionChips() {
+type SuggestionChipsProps = {
+  onSelect?: (suggestion: string) => void;
+};
+
+export function SuggestionChips({ onSelect }: SuggestionChipsProps) {
   return (
     <div className="suggestion-chips" aria-label="建议提示词">
       {suggestions.map((suggestion) => (
-        <button key={suggestion} type="button">
+        <button key={suggestion} onClick={() => onSelect?.(suggestion)} type="button">
           {suggestion}
         </button>
       ))}

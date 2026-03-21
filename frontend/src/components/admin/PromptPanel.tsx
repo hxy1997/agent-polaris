@@ -16,10 +16,12 @@ export function PromptPanel({
   isSaving
 }: PromptPanelProps) {
   return (
-    <section className="admin-panel">
-      <header>
-        <h3>模型路由配置</h3>
-        <p>将场景专属的模型服务地址和模型名称写入该场景的 .env 文件。</p>
+    <section className="admin-panel glass-surface">
+      <header className="admin-panel__header">
+        <div>
+          <h3>模型路由配置</h3>
+          <p>将场景专属的模型服务地址和模型名称写入该场景的 .env 文件。</p>
+        </div>
       </header>
       <div className="admin-form-grid">
         <label className="admin-field">
