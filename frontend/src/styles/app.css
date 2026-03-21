@@ -1,0 +1,68 @@
+:root {
+  color: #18202a;
+  background: #f7f8fa;
+  font-family: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 28%),
+    linear-gradient(180deg, #fbfcfd 0%, #f2f5f9 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.app-shell__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 28px;
+  border: 1px solid #d8dee6;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(16px);
+}
+
+.app-shell__eyebrow {
+  margin: 0 0 8px;
+  color: #5c6675;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app-shell__header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.app-shell__nav {
+  display: flex;
+  gap: 12px;
+}
+
+.app-shell__nav a {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #5c6675;
+}
+
+.app-shell__main {
+  padding-top: 28px;
+}
