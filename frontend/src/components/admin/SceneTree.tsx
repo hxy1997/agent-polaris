@@ -1,7 +1,9 @@
-const baseScenes = ["Corporate Default", "Sales Enablement"];
-const scenes = ["Sales Assistant", "Renewal Coach", "Partner QA"];
+type SceneTreeProps = {
+  baseScenes: string[];
+  scenes: string[];
+};
 
-export function SceneTree() {
+export function SceneTree({ baseScenes, scenes }: SceneTreeProps) {
   return (
     <aside className="scene-tree">
       <section>

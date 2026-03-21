@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import { afterEach, beforeEach, test, vi } from "vitest";
+import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
 import { ChatPage } from "../pages/ChatPage";
 import { renderWithProviders } from "./renderWithProviders";
@@ -8,10 +8,6 @@ const fetchMock = vi.fn();
 
 beforeEach(() => {
   vi.stubGlobal("fetch", fetchMock);
-  fetchMock.mockResolvedValue({
-    ok: true,
-    json: async () => [{ id: "sales-assistant", name: "Sales Assistant" }]
-  });
 });
 
 afterEach(() => {
@@ -19,11 +15,14 @@ afterEach(() => {
   fetchMock.mockReset();
 });
 
-test("renders chat home state with scene title and composer", async () => {
+test("loads available scenes from the API", async () => {
+  fetchMock.mockResolvedValue({
+    ok: true,
+    json: async () => [{ id: "sales-assistant", name: "Sales Assistant" }]
+  });
+
   renderWithProviders(<ChatPage />);
 
   expect(await screen.findByText("Sales Assistant")).toBeInTheDocument();
-  expect(
-    screen.getByPlaceholderText(/Enter a request, customer notes, or product context/i)
-  ).toBeInTheDocument();
+  expect(fetchMock).toHaveBeenCalledWith("/api/chat/scenes", undefined);
 });
