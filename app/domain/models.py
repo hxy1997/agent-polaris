@@ -6,6 +6,11 @@ class WorkspaceBinding(BaseModel):
     mode: str
 
 
+class SceneModelConfig(BaseModel):
+    base_url: str = ""
+    model_name: str = ""
+
+
 class BaseScene(BaseModel):
     id: str
     name: str

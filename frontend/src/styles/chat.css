@@ -44,6 +44,15 @@
   min-height: 180px;
 }
 
+.chat-shell__error {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid #fecaca;
+  border-radius: 18px;
+  background: #fff1f2;
+  color: #b42318;
+}
+
 .conversation {
   display: grid;
   gap: 14px;

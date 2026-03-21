@@ -9,13 +9,13 @@ import "../styles/chat.css";
 
 export function ChatPage() {
   const { data: scenes = [] } = useScenes();
-  const { isStreaming, messages, sendMessage } = useChatSession();
+  const { error, isStreaming, messages, sendMessage } = useChatSession();
   const [draft, setDraft] = useState("");
   const activeScene = scenes[0];
-  const title = activeScene?.name ?? "Loading scene";
+  const title = activeScene?.name ?? "正在加载场景";
   const description = activeScene
-    ? "Read customer context, organize needs, and turn raw notes into crisp business answers."
-    : "Loading the latest published scene configuration.";
+    ? "读取客户上下文，整理需求，并把原始记录转成清晰的业务答复。"
+    : "正在加载最新发布的场景配置。";
 
   async function handleSubmit() {
     if (!activeScene || !draft.trim()) {
@@ -31,17 +31,21 @@ export function ChatPage() {
     <ChatShell
       title={title}
       description={description}
+      errorMessage={error}
       conversation={
         <div className="conversation">
           {messages.length === 0 ? (
             <div className="conversation__empty">
-              <p>Start with a prompt, a rough customer note, or a meeting summary.</p>
+              <p>从一个需求、一段客户笔记或一份会议纪要开始。</p>
             </div>
           ) : (
             messages.map((message, index) => (
-              <article key={`${message.role}-${index}`} className={`conversation__message conversation__message--${message.role}`}>
-                <span>{message.role === "user" ? "You" : "Polaris"}</span>
-                <p>{message.content || (isStreaming ? "Streaming response..." : "")}</p>
+              <article
+                key={`${message.role}-${index}`}
+                className={`conversation__message conversation__message--${message.role}`}
+              >
+                <span>{message.role === "user" ? "你" : "Polaris"}</span>
+                <p>{message.content || (isStreaming ? "正在生成回复..." : "")}</p>
               </article>
             ))
           )}
@@ -55,7 +59,7 @@ export function ChatPage() {
           onSubmit={() => {
             void handleSubmit();
           }}
-          placeholder="Enter a request, customer notes, or product context"
+          placeholder="输入请求、客户笔记或产品背景"
           value={draft}
         />
       }

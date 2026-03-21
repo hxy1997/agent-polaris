@@ -1,15 +1,15 @@
 const workspaces = [
-  { name: "sales-materials", mode: "read" },
-  { name: "call-logs", mode: "read" },
-  { name: "draft-output", mode: "write" }
+  { name: "销售资料", mode: "只读" },
+  { name: "通话记录", mode: "只读" },
+  { name: "草稿输出", mode: "写入" }
 ];
 
 export function WorkspacePanel() {
   return (
     <section className="admin-panel">
       <header>
-        <h3>Workspace bindings</h3>
-        <p>Resolve controlled file roots into the runtime session without exposing platform state.</p>
+        <h3>工作区绑定</h3>
+        <p>把受控的文件目录映射进运行时会话，同时不暴露平台内部状态。</p>
       </header>
       <ul className="workspace-list">
         {workspaces.map((workspace) => (

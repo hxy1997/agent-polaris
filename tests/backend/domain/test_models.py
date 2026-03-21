@@ -1,6 +1,7 @@
 from app.domain.models import (
     BaseScene,
     ReleaseSnapshot,
+    SceneModelConfig,
     SceneDraft,
     SkillRecord,
     WorkspaceBinding,
@@ -62,3 +63,13 @@ def test_control_plane_records_preserve_core_identifiers():
     assert skill.artifact_path.endswith("artifact")
     assert workspace.relative_path == "sales/files"
     assert release.version == "v0001"
+
+
+def test_scene_model_config_tracks_runtime_connection_fields():
+    config = SceneModelConfig(
+        base_url="https://openrouter.ai/api/v1",
+        model_name="openai/gpt-4.1-mini",
+    )
+
+    assert config.base_url.startswith("https://")
+    assert config.model_name == "openai/gpt-4.1-mini"

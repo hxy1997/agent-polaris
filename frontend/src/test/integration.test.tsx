@@ -18,11 +18,11 @@ afterEach(() => {
 test("loads available scenes from the API", async () => {
   fetchMock.mockResolvedValue({
     ok: true,
-    json: async () => [{ id: "sales-assistant", name: "Sales Assistant" }]
+    json: async () => [{ id: "sales-assistant", name: "销售助理" }]
   });
 
   renderWithProviders(<ChatPage />);
 
-  expect(await screen.findByText("Sales Assistant")).toBeInTheDocument();
+  expect(await screen.findByText("销售助理")).toBeInTheDocument();
   expect(fetchMock).toHaveBeenCalledWith("/api/chat/scenes", undefined);
 });

@@ -3,6 +3,18 @@ export type SceneSummary = {
   name: string;
 };
 
+export type SceneDetail = {
+  id: string;
+  name: string;
+  base_url: string;
+  model_name: string;
+};
+
+export type SceneConfigUpdate = {
+  base_url: string;
+  model_name: string;
+};
+
 export type ChatSessionResponse = {
   session_id: string;
   scene_id: string;
@@ -13,10 +25,23 @@ export type ChatMessageResponse = {
   status: string;
 };
 
+async function buildRequestError(response: Response, url: string): Promise<Error> {
+  try {
+    const payload = (await response.json()) as { detail?: string };
+    if (payload.detail) {
+      return new Error(payload.detail);
+    }
+  } catch {
+    // Fall back to a generic message when the response is not JSON.
+  }
+
+  return new Error(`Request failed for ${url}`);
+}
+
 async function requestJson<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, init);
   if (!response.ok) {
-    throw new Error(`Request failed for ${url}`);
+    throw await buildRequestError(response, url);
   }
 
   return response.json() as Promise<T>;
@@ -32,6 +57,23 @@ export async function listAdminScenes(): Promise<SceneSummary[]> {
 
 export async function listBaseScenes(): Promise<SceneSummary[]> {
   return requestJson<SceneSummary[]>("/api/admin/base-scenes");
+}
+
+export async function getAdminScene(sceneId: string): Promise<SceneDetail> {
+  return requestJson<SceneDetail>(`/api/admin/scenes/${sceneId}`);
+}
+
+export async function updateAdminScene(
+  sceneId: string,
+  payload: SceneConfigUpdate
+): Promise<SceneDetail> {
+  return requestJson<SceneDetail>(`/api/admin/scenes/${sceneId}`, {
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "PUT"
+  });
 }
 
 export async function createChatSession(sceneId: string): Promise<ChatSessionResponse> {

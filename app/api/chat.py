@@ -1,8 +1,9 @@
 import json
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 
+from app.core.settings import Settings
 from app.schemas.chat import (
     ChatMessageRequest,
     ChatMessageResponse,
@@ -13,7 +14,12 @@ from app.schemas.chat import (
 from app.services.session_service import SessionService
 
 router = APIRouter(prefix="/api/chat", tags=["chat"])
-session_service = SessionService()
+settings = Settings()
+session_service = SessionService(
+    platform_root=settings.platform_root,
+    session_root=settings.session_root,
+    api_key=settings.model_api_key,
+)
 
 
 @router.get("/scenes", response_model=list[ChatSceneSummary])
@@ -33,7 +39,10 @@ def get_session(session_id: str) -> ChatSessionResponse:
 
 @router.post("/sessions/{session_id}/messages", response_model=ChatMessageResponse, status_code=202)
 def add_message(session_id: str, payload: ChatMessageRequest) -> ChatMessageResponse:
-    return session_service.add_message(session_id, payload.content)
+    try:
+        return session_service.add_message(session_id, payload.content)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 @router.get("/sessions/{session_id}/stream")

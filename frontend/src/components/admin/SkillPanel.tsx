@@ -1,11 +1,11 @@
-const skills = ["Summarize", "Meeting Notes", "Competitor Brief", "Reply Drafting"];
+const skills = ["摘要生成", "会议纪要", "竞品简报", "回复起草"];
 
 export function SkillPanel() {
   return (
     <section className="admin-panel">
       <header>
-        <h3>Skill bindings</h3>
-        <p>Control which reusable capabilities are inherited and which are scene-owned.</p>
+        <h3>技能绑定</h3>
+        <p>控制哪些通用能力来自基础场景继承，哪些能力由业务场景单独管理。</p>
       </header>
       <div className="admin-pill-grid">
         {skills.map((skill) => (

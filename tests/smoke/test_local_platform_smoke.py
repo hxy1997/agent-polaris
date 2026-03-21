@@ -2,10 +2,28 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
+from app.api import chat as chat_api
 from app.main import app
 
 
 def test_local_platform_smoke():
+    class FakeSessionService:
+        def list_scenes(self):
+            return [type("Scene", (), {"id": "sales-assistant", "name": "Sales Assistant"})()]
+
+        def create_session(self, scene_id: str):
+            return type("Session", (), {"session_id": "session-001", "scene_id": scene_id})()
+
+        def get_session(self, session_id: str):
+            return type("Session", (), {"session_id": session_id, "scene_id": "sales-assistant"})()
+
+        def add_message(self, session_id: str, content: str):
+            return type("Response", (), {"session_id": session_id, "status": "accepted"})()
+
+        def stream_session(self, session_id: str):
+            yield "Prepare a concise follow-up"
+
+    chat_api.session_service = FakeSessionService()
     client = TestClient(app)
 
     scenes_response = client.get("/api/chat/scenes")

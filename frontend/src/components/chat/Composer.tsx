@@ -24,7 +24,7 @@ export function Composer({
       }}
     >
       <label className="composer__label" htmlFor="chat-composer">
-        Ask Polaris
+        向 Polaris 提问
       </label>
       <textarea
         disabled={disabled}
@@ -37,13 +37,13 @@ export function Composer({
       />
       <div className="composer__actions">
         <button disabled={disabled} type="button">
-          Attach
+          附件
         </button>
         <button disabled={disabled} type="button">
-          Tools
+          工具
         </button>
         <button className="composer__submit" disabled={disabled} type="submit">
-          {isBusy ? "Streaming..." : "Send"}
+          {isBusy ? "生成中..." : "发送"}
         </button>
       </div>
     </form>

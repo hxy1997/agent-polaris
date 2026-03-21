@@ -11,10 +11,10 @@ export function AppShell() {
     <div className="app-shell">
       <header className="app-shell__header">
         <div>
-          <p className="app-shell__eyebrow">Internal agent platform</p>
+          <p className="app-shell__eyebrow">内部智能体平台</p>
           <h1>Polaris</h1>
         </div>
-        <nav className="app-shell__nav" aria-label="Primary">
+        <nav className="app-shell__nav" aria-label="主导航">
           {routes
             .filter((route) => route.navLabel)
             .map((route) => (

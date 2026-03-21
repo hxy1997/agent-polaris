@@ -20,17 +20,16 @@ type AppRoute = {
 export const routes: AppRoute[] = [
   {
     path: "/",
-    element: <ChatPage />,
-    navLabel: "Chat"
+    element: <ChatPage />
   },
   {
     path: "/chat",
     element: <ChatPage />,
-    navLabel: "Chat"
+    navLabel: "对话"
   },
   {
     path: "/admin",
     element: <AdminPage />,
-    navLabel: "Admin"
+    navLabel: "管理台"
   }
 ];

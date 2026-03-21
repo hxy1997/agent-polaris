@@ -37,11 +37,21 @@
 }
 
 .scene-tree li {
-  padding: 12px 14px;
   border-radius: 18px;
-  color: #233041;
 }
 
+.scene-tree button {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 18px;
+  background: transparent;
+  color: #233041;
+  font: inherit;
+  text-align: left;
+}
+
+.scene-tree button.is-selected,
 .scene-tree li:first-child,
 .workspace-list li:first-child {
   background: #eef5ff;
@@ -106,21 +116,51 @@
   color: #5c6675;
 }
 
-.admin-panel__editor {
+.admin-form-grid {
   display: grid;
   gap: 14px;
 }
 
-.admin-panel__editor div {
-  padding: 16px;
-  border-radius: 20px;
-  background: #f7f9fc;
+.admin-field {
+  display: grid;
+  gap: 8px;
 }
 
-.admin-panel__editor span {
-  display: block;
-  margin-bottom: 10px;
+.admin-field span {
   font-weight: 600;
+}
+
+.admin-field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d8dee6;
+  border-radius: 16px;
+  background: #f7f9fc;
+  color: #233041;
+  font: inherit;
+}
+
+.admin-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.admin-panel__hint {
+  margin: 0;
+  color: #5c6675;
+}
+
+.admin-button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 999px;
+  background: #18202a;
+  color: #f8fafc;
+  font: inherit;
 }
 
 .admin-pill-grid {

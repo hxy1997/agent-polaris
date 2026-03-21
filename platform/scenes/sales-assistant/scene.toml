@@ -1,0 +1,6 @@
+id = "sales-assistant"
+name = "销售助理"
+description = "支持售前需求发现、客户跟进起草与报价表达。"
+status = "active"
+base_scene_id = "corp-default"
+system_prompt_path = "system.md"

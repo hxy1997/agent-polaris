@@ -1,0 +1,6 @@
+id = "corp-default"
+name = "企业默认场景"
+description = "内部助手业务场景共享的基础运行规范。"
+status = "active"
+system_prompt_path = "system.md"
+skill_ids = []
