@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 
+import { AdminPage } from "./pages/AdminPage";
 import { ChatPage } from "./pages/ChatPage";
 
 function PlaceholderPage({ title }: { title: string }) {
@@ -29,7 +30,7 @@ export const routes: AppRoute[] = [
   },
   {
     path: "/admin",
-    element: <PlaceholderPage title="Admin" />,
+    element: <AdminPage />,
     navLabel: "Admin"
   }
 ];
