@@ -8,6 +8,7 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from app.domain.models import SceneDraft, SceneModelConfig
 from app.runtime.agent_factory import AgentSpec, build_deep_agent
 from app.runtime.chat_runner import stream_chat_chunks
+from app.services.skill_service import SkillService
 from app.schemas.chat import (
     ChatHistoryEntryResponse,
     ChatMessageResponse,
@@ -52,10 +53,16 @@ class SessionService:
         self._sessions: dict[str, SessionState] = {}
         self.scene_repository = SceneRepository(platform_root)
         self.base_scene_repository = BaseSceneRepository(platform_root)
+        self.skill_service = SkillService(platform_root)
 
     def list_scenes(self) -> list[ChatSceneSummary]:
         return [
-            ChatSceneSummary(id=scene.id, name=scene.name)
+            ChatSceneSummary(
+                id=scene.id,
+                name=scene.name,
+                description=scene.description,
+                hints=scene.hints,
+            )
             for scene in self.scene_repository.list_scenes()
         ]
 
@@ -193,7 +200,7 @@ class SessionService:
         runtime_root.mkdir(parents=True, exist_ok=True)
         return AgentSpec(
             system_prompt=self._build_system_prompt(scene),
-            skill_paths=[],
+            skill_paths=self.skill_service.resolve_runtime_skill_paths(scene.id),
             tool_names=[],
             runtime_root=runtime_root,
             model_config=model_config,

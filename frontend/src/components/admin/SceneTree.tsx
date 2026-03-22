@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 import type { SceneSummary } from "../../lib/api";
 
 type SceneTreeProps = {
@@ -5,33 +7,21 @@ type SceneTreeProps = {
   scenes: SceneSummary[];
   selectedSceneId: string | null;
   onSelectScene: (sceneId: string) => void;
+  onCreateScene: () => void;
 };
 
 export function SceneTree({
   baseScenes,
   scenes,
   selectedSceneId,
-  onSelectScene
+  onSelectScene,
+  onCreateScene
 }: SceneTreeProps) {
   return (
     <aside className="scene-tree glass-surface--soft">
-      <div className="scene-tree__brand">
-        <div className="scene-tree__brand-icon">
-          <span aria-hidden="true" className="material-symbols-outlined">
-            account_tree
-          </span>
-        </div>
-        <div>
-          <h2>Polaris Admin</h2>
-          <p>Console</p>
-        </div>
-      </div>
       <section>
         <div className="scene-tree__section-header">
           <p className="scene-tree__label">基础场景</p>
-          <span aria-hidden="true" className="material-symbols-outlined">
-            chevron_right
-          </span>
         </div>
         <ul>
           {baseScenes.map((scene) => (
@@ -49,9 +39,16 @@ export function SceneTree({
       <section>
         <div className="scene-tree__section-header">
           <p className="scene-tree__label">业务场景</p>
-          <span aria-hidden="true" className="material-symbols-outlined">
-            expand_more
-          </span>
+          <button
+            aria-label="新建场景"
+            className="scene-tree__section-action"
+            type="button"
+            onClick={onCreateScene}
+          >
+            <span aria-hidden="true" className="material-symbols-outlined">
+              add
+            </span>
+          </button>
         </div>
         <ul>
           {scenes.map((scene) => (
@@ -70,12 +67,14 @@ export function SceneTree({
           ))}
         </ul>
       </section>
-      <div className="scene-tree__usage admin-glass-tile">
-        <p>存储用量</p>
-        <div className="scene-tree__usage-bar" aria-hidden="true">
-          <div />
-        </div>
-        <span>已使用 7.2 GB / 10 GB</span>
+      <div className="scene-tree__spacer" />
+      <div className="scene-tree__footer">
+        <NavLink className={({ isActive }) => `scene-tree__item${isActive ? " is-selected" : ""}`} to="/chat">
+          <span aria-hidden="true" className="material-symbols-outlined">
+            chat
+          </span>
+          <span>返回对话</span>
+        </NavLink>
       </div>
     </aside>
   );

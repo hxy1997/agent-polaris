@@ -32,6 +32,7 @@ class SceneDraft(BaseModel):
     system_prompt_path: str | None = None
     workspace_bindings: list[WorkspaceBinding] = Field(default_factory=list)
     skill_ids: list[str] = Field(default_factory=list)
+    hints: list[str] = Field(default_factory=list)
 
 
 class SkillRecord(BaseModel):

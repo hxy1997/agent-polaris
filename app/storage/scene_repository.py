@@ -13,7 +13,10 @@ class SceneRepository:
 
     def get_scene(self, scene_id: str) -> SceneDraft:
         scene_dir = self.platform_root / "scenes" / scene_id
-        data = self.file_store.read_toml(scene_dir / "scene.toml")
+        try:
+            data = self.file_store.read_toml(scene_dir / "scene.toml")
+        except FileNotFoundError as exc:
+            raise KeyError(scene_id) from exc
         return SceneDraft(**data)
 
     def list_scenes(self) -> list[SceneDraft]:
@@ -65,6 +68,7 @@ class SceneRepository:
         description: str = "",
         base_scene_id: str | None = None,
         system_prompt: str = "",
+        hints: list[str] | None = None,
     ) -> SceneDraft:
         scene_dir = self.platform_root / "scenes" / scene_id
         scene_dir.mkdir(parents=True, exist_ok=False)
@@ -78,6 +82,9 @@ class SceneRepository:
         if base_scene_id:
             lines.append(f'base_scene_id = "{base_scene_id}"')
         lines.append('system_prompt_path = "system.md"')
+        if hints:
+            serialized_hints = ", ".join(f'"{hint}"' for hint in hints)
+            lines.append(f"hints = [{serialized_hints}]")
 
         (scene_dir / "scene.toml").write_text("\n".join(lines) + "\n", encoding="utf-8")
         (scene_dir / "system.md").write_text(system_prompt, encoding="utf-8")
@@ -95,6 +102,9 @@ class SceneRepository:
             lines.append(f'base_scene_id = "{scene.base_scene_id}"')
         if scene.system_prompt_path:
             lines.append(f'system_prompt_path = "{scene.system_prompt_path}"')
+        if scene.hints:
+            serialized_hints = ", ".join(f'"{hint}"' for hint in scene.hints)
+            lines.append(f"hints = [{serialized_hints}]")
 
         (scene_dir / "scene.toml").write_text("\n".join(lines) + "\n", encoding="utf-8")
         return self.get_scene(scene_id)
@@ -112,7 +122,10 @@ class BaseSceneRepository:
 
     def get_base_scene(self, base_scene_id: str) -> BaseScene:
         base_scene_dir = self.platform_root / "base-scenes" / base_scene_id
-        data = self.file_store.read_toml(base_scene_dir / "base-scene.toml")
+        try:
+            data = self.file_store.read_toml(base_scene_dir / "base-scene.toml")
+        except FileNotFoundError as exc:
+            raise KeyError(base_scene_id) from exc
         return BaseScene(**data)
 
     def list_base_scenes(self) -> list[BaseScene]:

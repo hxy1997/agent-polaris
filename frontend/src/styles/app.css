@@ -130,3 +130,38 @@ a {
   font-weight: 700;
   box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
 }
+
+.empty-scene-guide {
+  width: min(100%, 760px);
+  padding: 36px;
+  border-radius: 32px;
+}
+
+.empty-scene-guide__content {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  text-align: center;
+}
+
+.empty-scene-guide__content h2,
+.empty-scene-guide__content p {
+  margin: 0;
+}
+
+.empty-scene-guide__eyebrow {
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.empty-scene-guide__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  color: var(--color-text-muted);
+}

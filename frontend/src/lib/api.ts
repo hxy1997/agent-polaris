@@ -1,6 +1,8 @@
 export type SceneSummary = {
   id: string;
   name: string;
+  description?: string;
+  hints?: string[];
 };
 
 export type SceneDetail = {
@@ -32,6 +34,53 @@ export type SceneMetadataUpdate = {
 
 export type ScenePromptUpdate = {
   system_prompt: string;
+};
+
+export type SkillNode = {
+  id: string;
+  name: string;
+  path: string;
+  node_type: "directory" | "file";
+  source: "base" | "scene";
+  is_read_only: boolean;
+  is_overridden: boolean;
+  is_skill_root: boolean;
+  children: SkillNode[];
+};
+
+export type SkillTreeResponse = {
+  nodes: SkillNode[];
+};
+
+export type SkillFileResponse = {
+  path: string;
+  name: string;
+  source: "base" | "scene";
+  content: string;
+  is_read_only: boolean;
+};
+
+export type CreateSkillPayload = {
+  skill_id: string;
+};
+
+export type CreateSkillNodePayload = {
+  parent_path: string;
+  name: string;
+};
+
+export type CopySkillFromBasePayload = {
+  skill_id: string;
+};
+
+export type UpdateSkillFilePayload = {
+  path: string;
+  content: string;
+};
+
+export type RenameSkillNodePayload = {
+  path: string;
+  new_name: string;
 };
 
 export type ChatSessionResponse = {
@@ -152,6 +201,107 @@ export async function updateAdminScenePrompt(
       "Content-Type": "application/json"
     },
     method: "PUT"
+  });
+}
+
+export async function getAdminSkillTree(sceneId: string): Promise<SkillTreeResponse> {
+  return requestJson<SkillTreeResponse>(`/api/admin/scenes/${sceneId}/skills/tree`);
+}
+
+export async function getAdminSkillFile(
+  sceneId: string,
+  source: "base" | "scene",
+  path: string
+): Promise<SkillFileResponse> {
+  const query = new URLSearchParams({ path, source });
+  return requestJson<SkillFileResponse>(`/api/admin/scenes/${sceneId}/skills/file?${query.toString()}`);
+}
+
+export async function createAdminSkill(
+  sceneId: string,
+  payload: CreateSkillPayload
+): Promise<SkillTreeResponse> {
+  return requestJson<SkillTreeResponse>(`/api/admin/scenes/${sceneId}/skills/skill`, {
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "POST"
+  });
+}
+
+export async function createAdminSkillFile(
+  sceneId: string,
+  payload: CreateSkillNodePayload
+): Promise<SkillTreeResponse> {
+  return requestJson<SkillTreeResponse>(`/api/admin/scenes/${sceneId}/skills/file`, {
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "POST"
+  });
+}
+
+export async function createAdminSkillDirectory(
+  sceneId: string,
+  payload: CreateSkillNodePayload
+): Promise<SkillTreeResponse> {
+  return requestJson<SkillTreeResponse>(`/api/admin/scenes/${sceneId}/skills/directory`, {
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "POST"
+  });
+}
+
+export async function copyAdminSkillFromBase(
+  sceneId: string,
+  payload: CopySkillFromBasePayload
+): Promise<SkillTreeResponse> {
+  return requestJson<SkillTreeResponse>(`/api/admin/scenes/${sceneId}/skills/copy-from-base`, {
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "POST"
+  });
+}
+
+export async function updateAdminSkillFile(
+  sceneId: string,
+  payload: UpdateSkillFilePayload
+): Promise<SkillFileResponse> {
+  return requestJson<SkillFileResponse>(`/api/admin/scenes/${sceneId}/skills/file`, {
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "PUT"
+  });
+}
+
+export async function renameAdminSkillNode(
+  sceneId: string,
+  payload: RenameSkillNodePayload
+): Promise<SkillTreeResponse> {
+  return requestJson<SkillTreeResponse>(`/api/admin/scenes/${sceneId}/skills/rename`, {
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "PUT"
+  });
+}
+
+export async function deleteAdminSkillNode(
+  sceneId: string,
+  path: string
+): Promise<SkillTreeResponse> {
+  const query = new URLSearchParams({ path });
+  return requestJson<SkillTreeResponse>(`/api/admin/scenes/${sceneId}/skills/node?${query.toString()}`, {
+    method: "DELETE"
   });
 }
 

@@ -109,6 +109,7 @@ class SceneService:
             model_config=scene.model_settings,
             workspace_bindings=scene.workspace_bindings,
             skill_ids=scene.skill_ids,
+            hints=scene.hints,
         )
         self.scene_repository.save_scene_metadata(scene_id, updated_scene)
         return self.get_scene_detail(scene_id)

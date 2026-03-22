@@ -1,11 +1,12 @@
 import type { UIMessage } from "ai";
-import { useEffect, useLayoutEffect, useState, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
+import { EmptySceneGuide } from "../components/common/EmptySceneGuide";
+import { PolarisMark } from "../components/common/PolarisMark";
 import { ChatShell } from "../components/chat/ChatShell";
 import { Composer } from "../components/chat/Composer";
 import { MarkdownMessage } from "../components/chat/MarkdownMessage";
-import { SuggestionChips } from "../components/chat/SuggestionChips";
 import { useChatSession } from "../hooks/useChatSession";
 import { useScenes } from "../hooks/useScenes";
 import { createClientId } from "../lib/createClientId";
@@ -49,8 +50,12 @@ function formatHistoryTimestamp(value: string): string {
 }
 
 export function ChatPage() {
+  const navigate = useNavigate();
   const { data: scenes = [] } = useScenes();
-  const activeScene = scenes[0];
+  const [selectedSceneId, setSelectedSceneId] = useState<string | null>(null);
+  const [isSceneMenuOpen, setIsSceneMenuOpen] = useState(false);
+  const activeScene = scenes.find((scene) => scene.id === selectedSceneId) ?? scenes[0];
+  const [emptySceneCountdown, setEmptySceneCountdown] = useState(10);
   const {
     error,
     input,
@@ -75,9 +80,71 @@ export function ChatPage() {
   const shouldAutoScrollRef = useRef(true);
   const hasConversation = messages.length > 0;
   const title = activeScene?.name ?? "正在加载场景";
-  const description = activeScene
-    ? "读取客户上下文，整理需求，并把原始记录转成清晰的业务答复。"
-    : "正在加载最新发布的场景配置。";
+  const titleControl = activeScene ? (
+    <div className="chat-page__scene-switcher">
+      <button
+        aria-expanded={isSceneMenuOpen}
+        className="chat-shell__scene-selector"
+        type="button"
+        onClick={() => setIsSceneMenuOpen((current) => !current)}
+      >
+        <span>{title}</span>
+        <span aria-hidden="true" className="material-symbols-outlined">
+          keyboard_arrow_down
+        </span>
+      </button>
+      {isSceneMenuOpen ? (
+        <div className="chat-page__scene-menu glass-surface--strong">
+          {scenes.map((scene) => (
+            <button
+              key={scene.id}
+              className={scene.id === activeScene.id ? "is-active" : undefined}
+              type="button"
+              onClick={() => handleSelectScene(scene.id)}
+            >
+              <strong>{scene.name}</strong>
+              {scene.description ? (
+                <span className="chat-page__scene-menu-description">{scene.description}</span>
+              ) : null}
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  ) : (
+    title
+  );
+
+  useEffect(() => {
+    if (selectedSceneId && scenes.some((scene) => scene.id === selectedSceneId)) {
+      return;
+    }
+
+    setSelectedSceneId(scenes[0]?.id ?? null);
+  }, [scenes, selectedSceneId]);
+
+  useEffect(() => {
+    if (activeScene) {
+      setEmptySceneCountdown(10);
+      return;
+    }
+
+    setEmptySceneCountdown(10);
+    const timer = window.setInterval(() => {
+      setEmptySceneCountdown((current) => {
+        if (current <= 1) {
+          window.clearInterval(timer);
+          navigate("/admin?createScene=1");
+          return 0;
+        }
+        return current - 1;
+      });
+    }, 1000);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [activeScene, navigate]);
 
   useEffect(() => {
     if (!isHistoryOpen || !activeScene) {
@@ -152,6 +219,11 @@ export function ChatPage() {
     startNewSession();
   }
 
+  function handleSelectScene(sceneId: string) {
+    setSelectedSceneId(sceneId);
+    setIsSceneMenuOpen(false);
+  }
+
   async function handleOpenConversation(nextSessionId: string) {
     shouldAutoScrollRef.current = true;
     try {
@@ -177,7 +249,10 @@ export function ChatPage() {
       isBusy={isStreaming}
       onChange={setInput}
       onSubmit={handleSubmit}
-      placeholder="输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"
+      placeholder={
+        activeScene?.description?.trim() ||
+        "输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"
+      }
       value={input}
       variant={hasConversation ? "dock" : "landing"}
     />
@@ -187,22 +262,9 @@ export function ChatPage() {
     <div className="chat-page">
       <header className="chat-page__topbar glass-surface--strong">
         <div className="chat-page__brand">
+          <PolarisMark className="chat-page__brand-mark" />
           <span className="chat-page__brand-name">Polaris</span>
-          <button className="chat-page__scene-selector" type="button">
-            <span>场景: {title}</span>
-            <span aria-hidden="true" className="material-symbols-outlined">
-              keyboard_arrow_down
-            </span>
-          </button>
         </div>
-        <nav className="chat-page__nav" aria-label="模式导航">
-          <NavLink className={({ isActive }) => (isActive ? "is-active" : undefined)} to="/chat">
-            对话模式
-          </NavLink>
-          <NavLink className={({ isActive }) => (isActive ? "is-active" : undefined)} to="/admin">
-            管理后台
-          </NavLink>
-        </nav>
         <div className="chat-page__actions" aria-label="页面操作">
           <button className="chat-page__icon-button" type="button">
             <span aria-hidden="true" className="material-symbols-outlined">
@@ -223,12 +285,6 @@ export function ChatPage() {
       </header>
 
       <aside className="chat-page__rail glass-surface--strong" aria-label="快捷导航">
-        <button className="chat-page__rail-item chat-page__rail-item--active" type="button">
-          <span aria-hidden="true" className="material-symbols-outlined">
-            home
-          </span>
-          <span>首页</span>
-        </button>
         <button className="chat-page__rail-item" type="button" onClick={handleStartNewSession}>
           <span aria-hidden="true" className="material-symbols-outlined">
             add_circle
@@ -248,28 +304,33 @@ export function ChatPage() {
         </button>
         <button className="chat-page__rail-item" type="button">
           <span aria-hidden="true" className="material-symbols-outlined">
-            star
-          </span>
-          <span>收藏场景</span>
-        </button>
-        <button className="chat-page__rail-item" type="button">
-          <span aria-hidden="true" className="material-symbols-outlined">
             settings
           </span>
           <span>个人设置</span>
         </button>
-        <NavLink className="chat-page__rail-item chat-page__rail-item--admin" to="/admin">
+        <div className="chat-page__rail-spacer" />
+        <NavLink className={({ isActive }) => `chat-page__rail-item${isActive ? " is-active" : ""}`} to="/admin">
           <span aria-hidden="true" className="material-symbols-outlined">
-            admin_panel_settings
+            dashboard
           </span>
-          <span>管理后台</span>
+          <span>后台管理</span>
         </NavLink>
       </aside>
 
       <main className="chat-page__main">
         <div aria-hidden="true" className="chat-page__glow chat-page__glow--primary" />
         <div aria-hidden="true" className="chat-page__glow chat-page__glow--secondary" />
-        {isHistoryOpen ? (
+        {!activeScene ? (
+          <div className="chat-page__empty-state-shell">
+            <EmptySceneGuide
+              countdown={emptySceneCountdown}
+              description="当前还没有可用业务场景。请先前往管理后台创建一个场景，然后再开始对话。"
+              title="还没有可用场景"
+              onNavigate={() => navigate("/admin?createScene=1")}
+            />
+          </div>
+        ) : null}
+        {activeScene && isHistoryOpen ? (
           <section className="chat-page__history-panel glass-surface--strong" aria-label="历史会话列表">
             <div className="chat-page__history-panel-header">
               <h2>历史会话</h2>
@@ -299,63 +360,63 @@ export function ChatPage() {
             ) : null}
           </section>
         ) : null}
-        <div className="chat-page__content">
-          <ChatShell
-            title={title}
-            description={description}
-            errorMessage={error}
-            composer={composer}
-            conversationViewportRef={conversationViewportRef}
-            conversation={
-              hasConversation ? (
-                <div className="conversation">
-                  {messages.map((message) => {
-                    const text =
-                      getMessageText(message) ||
-                      (message.role === "assistant" && isStreaming ? "正在生成回复..." : "");
-                    const files = getMessageFiles(message);
+        {activeScene ? (
+          <div className="chat-page__content">
+            <ChatShell
+              title={titleControl}
+              errorMessage={error}
+              composer={composer}
+              conversationViewportRef={conversationViewportRef}
+              conversation={
+                hasConversation ? (
+                  <div className="conversation">
+                    {messages.map((message) => {
+                      const text =
+                        getMessageText(message) ||
+                        (message.role === "assistant" && isStreaming ? "正在生成回复..." : "");
+                      const files = getMessageFiles(message);
 
-                    return (
-                      <article
-                        key={message.id}
-                        className={`conversation__message conversation__message--${message.role}`}
-                      >
-                        <span>{message.role === "user" ? "你" : "Polaris"}</span>
-                        {files.length > 0 ? (
-                          <div className="conversation__attachments">
-                            {files.map((file) => (
-                              <div
-                                key={`${message.id}-${file.filename ?? file.url}`}
-                                className="conversation__attachment"
-                              >
-                                <span aria-hidden="true" className="material-symbols-outlined">
-                                  attachment
-                                </span>
-                                <span>{file.filename ?? "附件"}</span>
-                              </div>
-                            ))}
-                          </div>
-                        ) : null}
-                        {text ? (
-                          message.role === "assistant" ? (
-                            <MarkdownMessage content={text} />
-                          ) : (
-                            <p>{text}</p>
-                          )
-                        ) : null}
-                      </article>
-                    );
-                  })}
-                  <div ref={conversationBottomRef} className="conversation__bottom-anchor" />
-                </div>
-              ) : null
-            }
-            emptyHint="从一个需求、一段客户笔记或一份会议纪要开始。"
-            mode={hasConversation ? "conversation" : "landing"}
-            onConversationScroll={updateAutoScrollState}
-            suggestions={!hasConversation ? <SuggestionChips onSelect={setInput} /> : null}
-          />
-        </div>
+                      return (
+                        <article
+                          key={message.id}
+                          className={`conversation__message conversation__message--${message.role}`}
+                        >
+                          <span>{message.role === "user" ? "你" : "Polaris"}</span>
+                          {files.length > 0 ? (
+                            <div className="conversation__attachments">
+                              {files.map((file) => (
+                                <div
+                                  key={`${message.id}-${file.filename ?? file.url}`}
+                                  className="conversation__attachment"
+                                >
+                                  <span aria-hidden="true" className="material-symbols-outlined">
+                                    attachment
+                                  </span>
+                                  <span>{file.filename ?? "附件"}</span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : null}
+                          {text ? (
+                            message.role === "assistant" ? (
+                              <MarkdownMessage content={text} />
+                            ) : (
+                              <p>{text}</p>
+                            )
+                          ) : null}
+                        </article>
+                      );
+                    })}
+                    <div ref={conversationBottomRef} className="conversation__bottom-anchor" />
+                  </div>
+                ) : null
+              }
+              mode={hasConversation ? "conversation" : "landing"}
+              onConversationScroll={updateAutoScrollState}
+              suggestions={null}
+            />
+          </div>
+        ) : null}
       </main>
     </div>
   );
