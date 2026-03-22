@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 
+import { PolarisMark } from "../common/PolarisMark";
 import type { SceneSummary } from "../../lib/api";
 
 type SceneTreeProps = {
@@ -18,7 +19,13 @@ export function SceneTree({
   onCreateScene
 }: SceneTreeProps) {
   return (
-    <aside className="scene-tree glass-surface--soft">
+    <aside className="scene-tree glass-surface--strong">
+      <div className="scene-tree__header">
+        <div className="sidebar-brand">
+          <PolarisMark className="sidebar-brand__mark" />
+          <span className="sidebar-brand__name">Polaris</span>
+        </div>
+      </div>
       <section>
         <div className="scene-tree__section-header">
           <p className="scene-tree__label">基础场景</p>
@@ -75,6 +82,15 @@ export function SceneTree({
           </span>
           <span>返回对话</span>
         </NavLink>
+        <div className="sidebar-account glass-surface">
+          <div aria-hidden="true" className="page-avatar">
+            P
+          </div>
+          <div className="sidebar-account__meta">
+            <strong>默认用户</strong>
+            <span>工号 0000</span>
+          </div>
+        </div>
       </div>
     </aside>
   );

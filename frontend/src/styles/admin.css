@@ -1,87 +1,35 @@
 .admin-page {
+  --admin-rail-width: var(--app-sidebar-width);
   min-height: 100vh;
-}
-
-.admin-page__header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  height: 64px;
-  padding: 0 24px;
-}
-
-.admin-page__header-brand,
-.admin-page__header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.admin-page__brand-name {
-  font-family: "Inter", "PingFang SC", sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.admin-page__brand-mark {
-  width: 28px;
-  height: 28px;
-  flex: none;
-  filter: drop-shadow(0 2px 6px rgba(13, 93, 120, 0.14));
-}
-
-.admin-page__icon-button {
-  border: 0;
-  transition:
-    background 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease;
-}
-
-.admin-page__icon-button {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--color-text-muted);
-}
-
-.admin-page__icon-button:hover {
-  background: rgba(255, 255, 255, 0.28);
-  color: var(--color-text);
 }
 
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  padding-top: 64px;
 }
 
 .scene-tree {
   position: fixed;
-  top: 64px;
+  top: 0;
   left: 0;
   bottom: 0;
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  width: 280px;
-  padding: 28px 0;
+  gap: 18px;
+  width: var(--admin-rail-width);
+  padding: 24px 18px 18px;
   overflow-y: auto;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.scene-tree__header,
+.scene-tree__footer {
+  display: grid;
+  gap: 12px;
 }
 
 .scene-tree section {
-  padding: 0 24px;
+  padding: 0;
 }
 
 .scene-tree__section-header {
@@ -89,6 +37,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+  padding: 0 14px;
 }
 
 .scene-tree__label {
@@ -128,7 +77,7 @@
 }
 
 .scene-tree li + li {
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 .scene-tree__item {
@@ -136,12 +85,13 @@
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 12px 18px;
+  padding: 12px 14px;
   border: 0;
-  border-radius: 0 18px 18px 0;
+  border-radius: 16px;
   background: transparent;
   color: var(--color-text-muted);
   text-align: left;
+  text-decoration: none;
   transition:
     background 180ms ease,
     color 180ms ease;
@@ -149,7 +99,8 @@
 
 .scene-tree__item:hover,
 .scene-tree__item--static:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.34);
+  color: var(--color-primary);
 }
 
 .scene-tree__item--static {
@@ -157,26 +108,26 @@
 }
 
 .scene-tree__item.is-selected {
-  margin-left: 8px;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.34);
   color: var(--color-primary);
-  font-weight: 700;
-  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.05);
+}
+
+.scene-tree__item span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .scene-tree__spacer {
   flex: 1 1 auto;
 }
 
-.scene-tree__footer {
-  padding: 0 24px;
-}
-
 .admin-content {
   flex: 1;
   max-width: 1080px;
-  margin-left: 280px;
-  padding: 32px;
+  margin-left: calc(var(--admin-rail-width) + 16px);
+  padding: 16px 32px 32px;
 }
 
 .admin-tabs {
@@ -602,7 +553,7 @@
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 96px 24px 24px;
+  padding: 24px;
 }
 
 .skill-panel {
@@ -781,15 +732,8 @@
 }
 
 @media (max-width: 920px) {
-  .admin-page__header {
-    height: auto;
-    padding: 14px 18px;
-    flex-wrap: wrap;
-  }
-
   .admin-layout {
     display: block;
-    padding-top: 102px;
   }
 
   .scene-tree {
@@ -815,25 +759,6 @@
 }
 
 @media (max-width: 720px) {
-  .admin-page__header-brand,
-  .admin-page__header-actions {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-
-  .admin-page__mode-nav {
-    width: 100%;
-    gap: 16px;
-  }
-
-  .admin-page__search {
-    flex: 1;
-  }
-
-  .admin-page__search input {
-    width: 100%;
-  }
-
   .admin-summary-card {
     flex-direction: column;
   }

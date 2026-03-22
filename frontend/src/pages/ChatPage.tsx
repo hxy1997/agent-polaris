@@ -260,31 +260,13 @@ export function ChatPage() {
 
   return (
     <div className="chat-page">
-      <header className="chat-page__topbar glass-surface--strong">
-        <div className="chat-page__brand">
-          <PolarisMark className="chat-page__brand-mark" />
-          <span className="chat-page__brand-name">Polaris</span>
-        </div>
-        <div className="chat-page__actions" aria-label="页面操作">
-          <button className="chat-page__icon-button" type="button">
-            <span aria-hidden="true" className="material-symbols-outlined">
-              notifications
-            </span>
-            <span className="visually-hidden">通知</span>
-          </button>
-          <button className="chat-page__icon-button" type="button">
-            <span aria-hidden="true" className="material-symbols-outlined">
-              help
-            </span>
-            <span className="visually-hidden">帮助</span>
-          </button>
-          <div aria-hidden="true" className="page-avatar">
-            P
+      <aside className="chat-page__rail glass-surface--strong" aria-label="快捷导航">
+        <div className="chat-page__rail-header">
+          <div className="sidebar-brand">
+            <PolarisMark className="sidebar-brand__mark" />
+            <span className="sidebar-brand__name">Polaris</span>
           </div>
         </div>
-      </header>
-
-      <aside className="chat-page__rail glass-surface--strong" aria-label="快捷导航">
         <button className="chat-page__rail-item" type="button" onClick={handleStartNewSession}>
           <span aria-hidden="true" className="material-symbols-outlined">
             add_circle
@@ -309,12 +291,23 @@ export function ChatPage() {
           <span>个人设置</span>
         </button>
         <div className="chat-page__rail-spacer" />
-        <NavLink className={({ isActive }) => `chat-page__rail-item${isActive ? " is-active" : ""}`} to="/admin">
-          <span aria-hidden="true" className="material-symbols-outlined">
-            dashboard
-          </span>
-          <span>后台管理</span>
-        </NavLink>
+        <div className="chat-page__rail-footer">
+          <NavLink className={({ isActive }) => `chat-page__rail-item${isActive ? " is-active" : ""}`} to="/admin">
+            <span aria-hidden="true" className="material-symbols-outlined">
+              dashboard
+            </span>
+            <span>后台管理</span>
+          </NavLink>
+          <div className="sidebar-account glass-surface">
+            <div aria-hidden="true" className="page-avatar">
+              P
+            </div>
+            <div className="sidebar-account__meta">
+              <strong>默认用户</strong>
+              <span>工号 0000</span>
+            </div>
+          </div>
+        </div>
       </aside>
 
       <main className="chat-page__main">

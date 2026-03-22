@@ -8,7 +8,6 @@ import { SceneTree } from "../components/admin/SceneTree";
 import { SkillPanel } from "../components/admin/SkillPanel";
 import { WorkspacePanel } from "../components/admin/WorkspacePanel";
 import { EmptySceneGuide } from "../components/common/EmptySceneGuide";
-import { PolarisMark } from "../components/common/PolarisMark";
 import {
   useBaseScenes,
   useCreateScene,
@@ -209,30 +208,6 @@ export function AdminPage() {
 
   return (
     <section className="admin-page">
-      <header className="admin-page__header glass-surface--strong">
-        <div className="admin-page__header-brand">
-          <PolarisMark className="admin-page__brand-mark" />
-          <span className="admin-page__brand-name">Polaris</span>
-        </div>
-        <div className="admin-page__header-actions">
-          <button className="admin-page__icon-button" type="button">
-            <span aria-hidden="true" className="material-symbols-outlined">
-              notifications
-            </span>
-            <span className="visually-hidden">通知</span>
-          </button>
-          <button className="admin-page__icon-button" type="button">
-            <span aria-hidden="true" className="material-symbols-outlined">
-              help
-            </span>
-            <span className="visually-hidden">帮助</span>
-          </button>
-          <div aria-hidden="true" className="page-avatar">
-            A
-          </div>
-        </div>
-      </header>
-
       <CreateSceneModal
         baseScenes={baseScenes}
         error={createError}
