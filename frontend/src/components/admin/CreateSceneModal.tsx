@@ -74,7 +74,7 @@ export function CreateSceneModal({
             <input value={form.name} onChange={(event) => onChange("name", event.target.value)} />
           </label>
           <label className="admin-field">
-            <span>场景 ID</span>
+            <span>场景编码</span>
             <input value={form.scene_id} onChange={(event) => onChange("scene_id", event.target.value)} />
           </label>
           <label className="admin-field">

@@ -42,7 +42,7 @@ export function AdminOverviewPanel({
         <div className="admin-summary-card__body">
           <div className="admin-summary-card__title">
             <h2>{sceneName}</h2>
-            <span>场景 ID: {sceneId}</span>
+            <span>场景编码: {sceneId}</span>
           </div>
           <div className="admin-summary-card__meta">
             <div>

@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { AdminOverviewPanel } from "../components/admin/AdminOverviewPanel";
+import { AdminWorkspacePanel } from "../components/admin/AdminWorkspacePanel";
 import { CreateSceneModal } from "../components/admin/CreateSceneModal";
-import { PromptPanel } from "../components/admin/PromptPanel";
 import { SceneTree } from "../components/admin/SceneTree";
 import { SkillPanel } from "../components/admin/SkillPanel";
-import { WorkspacePanel } from "../components/admin/WorkspacePanel";
 import { EmptySceneGuide } from "../components/common/EmptySceneGuide";
 import {
   useBaseScenes,
@@ -19,15 +17,11 @@ import {
 } from "../hooks/useScenes";
 import "../styles/admin.css";
 
-type AdminTab = "overview" | "model" | "prompt" | "skills" | "workspace" | "release";
+type AdminTab = "workspace" | "skills";
 
 const tabs: Array<{ id: AdminTab; label: string }> = [
-  { id: "overview", label: "概览" },
-  { id: "model", label: "模型" },
-  { id: "prompt", label: "提示词" },
+  { id: "workspace", label: "工作台" },
   { id: "skills", label: "Skills" },
-  { id: "workspace", label: "工作空间" },
-  { id: "release", label: "发布" }
 ];
 
 type CreateSceneForm = {
@@ -52,7 +46,7 @@ export function AdminPage() {
   const { data: scenes = [] } = useScenes("admin");
   const [emptySceneCountdown, setEmptySceneCountdown] = useState(10);
   const [selectedSceneId, setSelectedSceneId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<AdminTab>("overview");
+  const [activeTab, setActiveTab] = useState<AdminTab>("workspace");
   const { data: sceneDetail } = useSceneDetail(selectedSceneId);
   const updateSceneDetail = useUpdateSceneDetail(selectedSceneId);
   const updateSceneMetadata = useUpdateSceneMetadata(selectedSceneId);
@@ -174,19 +168,19 @@ export function AdminPage() {
 
   async function handleCreateScene() {
     if (!createForm.name.trim() || !createForm.scene_id.trim() || !createForm.description.trim()) {
-      setCreateError("请填写完整的场景名称、场景 ID 和场景描述");
+      setCreateError("请填写完整的场景名称、场景编码和场景描述");
       return;
     }
 
     if (!/^[a-z0-9-]+$/.test(createForm.scene_id)) {
-      setCreateError("场景 ID 只允许小写字母、数字和连字符");
+      setCreateError("场景编码只允许小写字母、数字和连字符");
       return;
     }
 
     try {
       const createdScene = await createScene.mutateAsync(createForm);
       setSelectedSceneId(createdScene.id);
-      setActiveTab("overview");
+      setActiveTab("workspace");
       setIsCreateModalOpen(false);
       setCreateError(null);
       setCreateForm({
@@ -201,10 +195,6 @@ export function AdminPage() {
   }
 
   const activeScene = sceneDetail ?? scenes.find((scene) => scene.id === selectedSceneId) ?? scenes[0] ?? null;
-  const baseSceneName =
-    baseScenes.find((scene) => scene.id === sceneDetail?.base_scene_id)?.name ??
-    baseScenes[0]?.name ??
-    "corp-default";
 
   return (
     <section className="admin-page">
@@ -270,74 +260,28 @@ export function AdminPage() {
             ))}
           </nav>
           <div className="admin-stack" role="tabpanel">
-            {activeTab === "overview" ? (
-              <AdminOverviewPanel
-                baseSceneName={baseSceneName}
+            {activeTab === "workspace" ? (
+              <AdminWorkspacePanel
+                baseUrl={baseUrl}
+                isSavingModel={updateSceneDetail.isPending}
                 scene={activeScene}
                 isSavingMetadata={updateSceneMetadata.isPending}
+                isSavingPrompt={updateScenePrompt.isPending}
                 metadataDescription={metadataDescription}
                 metadataName={metadataName}
-                onMetadataDescriptionChange={setMetadataDescription}
-                onMetadataNameChange={setMetadataName}
-                onSaveMetadata={() => {
-                  void handleSaveMetadata();
-                }}
-              />
-            ) : null}
-            {activeTab === "model" ? (
-              <PromptPanel
-                baseUrl={baseUrl}
-                isSaving={updateSceneDetail.isPending}
                 modelName={modelName}
                 onBaseUrlChange={setBaseUrl}
+                onMetadataDescriptionChange={setMetadataDescription}
+                onMetadataNameChange={setMetadataName}
                 onModelNameChange={setModelName}
-                onSave={() => {
-                  void handleSaveModelConfig();
-                }}
+                onSaveMetadata={handleSaveMetadata}
+                onSaveModel={handleSaveModelConfig}
+                onSavePrompt={handleSavePrompt}
+                onSystemPromptChange={setSystemPrompt}
+                systemPrompt={systemPrompt}
               />
             ) : null}
-            {activeTab === "prompt" ? (
-              <section className="admin-panel glass-surface">
-                <header className="admin-panel__header">
-                  <div>
-                    <h3>提示词工作台</h3>
-                    <p>直接编辑当前场景的 `system.md`，保存后运行时会读取最新提示词。</p>
-                  </div>
-                </header>
-                <div className="admin-placeholder">
-                  <p>把业务目标、边界、输出格式和禁止事项写清楚，避免模型行为发散。</p>
-                  <textarea value={systemPrompt} onChange={(event) => setSystemPrompt(event.target.value)} />
-                </div>
-                <div className="admin-panel__actions">
-                  <p className="admin-panel__hint">保存后会立即写回场景目录。</p>
-                  <button className="admin-button" onClick={() => void handleSavePrompt()} type="button">
-                    {updateScenePrompt.isPending ? "保存中..." : "保存提示词"}
-                  </button>
-                </div>
-              </section>
-            ) : null}
             {activeTab === "skills" ? <SkillPanel sceneId={selectedSceneId} /> : null}
-            {activeTab === "workspace" ? <WorkspacePanel /> : null}
-            {activeTab === "release" ? (
-              <section className="admin-panel glass-surface">
-                <header className="admin-panel__header">
-                  <div>
-                    <h3>发布面板</h3>
-                    <p>保留新稿中的版本感知和发布入口，不引入新的后端流程。</p>
-                  </div>
-                </header>
-                <div className="admin-release">
-                  <div className="admin-glass-tile">
-                    <p>当前草稿</p>
-                    <strong>v2026.04.12-rc1</strong>
-                    <span>最近一次视觉调整已完成结构重排，待进一步接入发布链路。</span>
-                  </div>
-                  <button className="admin-page__primary-action" type="button">
-                    发布新版本
-                  </button>
-                </div>
-              </section>
-            ) : null}
           </div>
         </div>
       </div>

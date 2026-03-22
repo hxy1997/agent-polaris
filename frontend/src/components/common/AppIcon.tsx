@@ -3,6 +3,8 @@ import type { SVGProps } from "react";
 type IconName =
   | "chevron-down"
   | "chevron-right"
+  | "check"
+  | "edit"
   | "upload"
   | "trash"
   | "folder"
@@ -15,6 +17,7 @@ type IconName =
   | "message"
   | "dashboard"
   | "settings"
+  | "undo"
   | "paperclip"
   | "image"
   | "send";
@@ -29,6 +32,15 @@ function renderIcon(name: IconName) {
       return <path d="m6 9 6 6 6-6" />;
     case "chevron-right":
       return <path d="m9 6 6 6-6 6" />;
+    case "check":
+      return <path d="m5 12 4.2 4.2L19 6.8" />;
+    case "edit":
+      return (
+        <>
+          <path d="M12 20h9" />
+          <path d="m16.5 3.5 4 4L8 20H4v-4z" />
+        </>
+      );
     case "upload":
       return (
         <>
@@ -123,6 +135,13 @@ function renderIcon(name: IconName) {
         <>
           <circle cx="12" cy="12" r="3.25" />
           <path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a2 2 0 0 1-4 0v-.2a1 1 0 0 0-.7-.9 1 1 0 0 0-1 .2l-.2.1a2 2 0 1 1-2.8-2.8l.2-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a2 2 0 0 1 0-4h.2a1 1 0 0 0 .9-.7 1 1 0 0 0-.2-1l-.1-.2a2 2 0 1 1 2.8-2.8l.1.2a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V4a2 2 0 0 1 4 0v.2a1 1 0 0 0 .7.9 1 1 0 0 0 1-.2l.2-.1a2 2 0 0 1 2.8 2.8l-.2.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6h.2a2 2 0 0 1 0 4h-.2a1 1 0 0 0-.9.7Z" />
+        </>
+      );
+    case "undo":
+      return (
+        <>
+          <path d="M9 14 4 9l5-5" />
+          <path d="M20 20a8 8 0 0 0-8-8H4" />
         </>
       );
     case "paperclip":
