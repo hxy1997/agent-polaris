@@ -96,26 +96,49 @@ a {
   border: 0;
 }
 
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--color-primary);
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.12);
+  transform: translateY(-150%);
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
 .glass-surface {
   background: var(--glass-surface);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-shadow: var(--glass-shadow);
 }
 
 .glass-surface--soft {
   background: var(--glass-surface-soft);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .glass-surface--strong {
   background: var(--glass-surface-strong);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+:where(button, a, input, textarea, select):focus-visible {
+  outline: 2px solid rgba(0, 88, 190, 0.55);
+  outline-offset: 2px;
 }
 
 .page-avatar {

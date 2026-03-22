@@ -9,6 +9,9 @@ const queryClient = new QueryClient();
 export function AppShell() {
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main-content">
+        跳到主内容
+      </a>
       <Outlet />
     </div>
   );

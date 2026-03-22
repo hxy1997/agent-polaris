@@ -1,3 +1,5 @@
+import { useEffect, useId } from "react";
+
 import type { SceneSummary } from "../../lib/api";
 
 type CreateSceneForm = {
@@ -28,6 +30,25 @@ export function CreateSceneModal({
   onClose,
   onSubmit
 }: CreateSceneModalProps) {
+  const titleId = useId();
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) {
     return null;
   }
@@ -35,10 +56,15 @@ export function CreateSceneModal({
   return (
     <div className="admin-modal">
       <button aria-label="关闭新建场景弹窗" className="admin-modal__backdrop" onClick={onClose} type="button" />
-      <section className="admin-modal__panel glass-surface" aria-label="新建场景">
+      <section
+        aria-labelledby={titleId}
+        aria-modal="true"
+        className="admin-modal__panel glass-surface"
+        role="dialog"
+      >
         <header className="admin-panel__header">
           <div>
-            <h3>新建场景</h3>
+            <h3 id={titleId}>新建场景</h3>
             <p>填写场景基础信息后再创建，避免生成无效草稿。</p>
           </div>
         </header>
