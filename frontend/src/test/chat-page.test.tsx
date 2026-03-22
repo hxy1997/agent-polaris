@@ -22,7 +22,20 @@ beforeEach(() => {
   });
   fetchMock.mockResolvedValue({
     ok: true,
-    json: async () => [{ id: "sales-assistant", name: "销售助理" }]
+    json: async () => [
+      {
+        id: "sales-assistant",
+        name: "销售助理",
+        description: "销售支持",
+        hints: ["总结产品优势", "起草客户回复"]
+      },
+      {
+        id: "stockana",
+        name: "股票分析专家",
+        description: "股票分析",
+        hints: ["分析行业趋势"]
+      }
+    ]
   });
   scrollIntoViewMock.mockReset();
   scrollToMock.mockReset();
@@ -37,10 +50,11 @@ test("renders chat home state with scene title and composer", async () => {
   renderWithProviders(<ChatPage />);
 
   expect(await screen.findByText("销售助理")).toBeInTheDocument();
-  expect(
-    screen.getByPlaceholderText("输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要")
-  ).toBeInTheDocument();
-  expect(screen.getByText("从一个需求、一段客户笔记或一份会议纪要开始。")).toBeInTheDocument();
+  expect(screen.getByPlaceholderText("销售支持")).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole("button", { name: "销售助理" }));
+
+  expect(screen.getByText("股票分析专家")).toBeInTheDocument();
 });
 
 
@@ -50,7 +64,14 @@ test("shows backend configuration errors when sending a message fails", async ()
     if (url === "/api/chat/scenes") {
       return {
         ok: true,
-        json: async () => [{ id: "sales-assistant", name: "销售助理" }]
+        json: async () => [
+          {
+            id: "sales-assistant",
+            name: "销售助理",
+            description: "销售支持",
+            hints: ["总结产品优势", "起草客户回复"]
+          }
+        ]
       };
     }
     if (url === "/api/chat/sessions") {
@@ -75,7 +96,7 @@ test("shows backend configuration errors when sending a message fails", async ()
   renderWithProviders(<ChatPage />);
 
   await screen.findByText("销售助理");
-  fireEvent.change(await screen.findByPlaceholderText("输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"), {
+  fireEvent.change(await screen.findByPlaceholderText("销售支持"), {
     target: { value: "帮我写一封跟进邮件" }
   });
   fireEvent.click(screen.getByRole("button", { name: "发送" }));
@@ -93,7 +114,14 @@ test("restores the draft when sending fails", async () => {
     if (url === "/api/chat/scenes") {
       return {
         ok: true,
-        json: async () => [{ id: "sales-assistant", name: "销售助理" }]
+        json: async () => [
+          {
+            id: "sales-assistant",
+            name: "销售助理",
+            description: "销售支持",
+            hints: ["总结产品优势", "起草客户回复"]
+          }
+        ]
       };
     }
     if (url === "/api/chat/sessions") {
@@ -118,7 +146,7 @@ test("restores the draft when sending fails", async () => {
   renderWithProviders(<ChatPage />);
 
   await screen.findByText("销售助理");
-  const composer = await screen.findByPlaceholderText("输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要");
+  const composer = await screen.findByPlaceholderText("销售支持");
   fireEvent.change(composer, {
     target: { value: "帮我整理客户需求" }
   });
@@ -137,7 +165,14 @@ test("submits on Enter and allows Option+Enter for newline", async () => {
     if (url === "/api/chat/scenes") {
       return {
         ok: true,
-        json: async () => [{ id: "sales-assistant", name: "销售助理" }]
+        json: async () => [
+          {
+            id: "sales-assistant",
+            name: "销售助理",
+            description: "销售支持",
+            hints: ["总结产品优势", "起草客户回复"]
+          }
+        ]
       };
     }
     if (url === "/api/chat/sessions") {
@@ -175,8 +210,7 @@ test("submits on Enter and allows Option+Enter for newline", async () => {
   renderWithProviders(<ChatPage />);
 
   await screen.findByText("销售助理");
-  const composer = await screen.findByPlaceholderText("输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要");
-  expect(screen.getByText("Enter 发送，Option + Enter 换行")).toBeInTheDocument();
+  const composer = await screen.findByPlaceholderText("销售支持");
 
   fireEvent.change(composer, {
     target: { value: "第一行" }
@@ -206,13 +240,32 @@ test("submits on Enter and allows Option+Enter for newline", async () => {
   });
 });
 
+test("opens the attachment menu from the composer", async () => {
+  renderWithProviders(<ChatPage />);
+
+  await screen.findByText("销售助理");
+  expect(screen.queryByRole("menu", { name: "附件菜单" })).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "附件菜单" }));
+
+  expect(screen.getByRole("menu", { name: "附件菜单" })).toBeInTheDocument();
+  expect(screen.getByRole("menuitem", { name: "附件" })).toBeInTheDocument();
+  expect(screen.getByRole("menuitem", { name: "生成图片" })).toBeInTheDocument();
+});
+
 test("switches to docked composer layout after a conversation starts", async () => {
   fetchMock.mockImplementation(async (input: RequestInfo | URL) => {
     const url = input.toString();
     if (url === "/api/chat/scenes") {
       return {
         ok: true,
-        json: async () => [{ id: "sales-assistant", name: "销售助理" }]
+        json: async () => [
+          {
+            id: "sales-assistant",
+            name: "销售助理",
+            description: "销售支持",
+            hints: ["总结产品优势", "起草客户回复"]
+          }
+        ]
       };
     }
     if (url === "/api/chat/sessions") {
@@ -248,7 +301,7 @@ test("switches to docked composer layout after a conversation starts", async () 
   renderWithProviders(<ChatPage />);
 
   await screen.findByText("销售助理");
-  fireEvent.change(await screen.findByPlaceholderText("输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"), {
+  fireEvent.change(await screen.findByPlaceholderText("销售支持"), {
     target: { value: "你好" }
   });
   fireEvent.click(screen.getByRole("button", { name: "发送" }));
@@ -267,7 +320,14 @@ test("scrolls to the newest message when the conversation grows", async () => {
     if (url === "/api/chat/scenes") {
       return {
         ok: true,
-        json: async () => [{ id: "sales-assistant", name: "销售助理" }]
+        json: async () => [
+          {
+            id: "sales-assistant",
+            name: "销售助理",
+            description: "销售支持",
+            hints: ["总结产品优势", "起草客户回复"]
+          }
+        ]
       };
     }
     if (url === "/api/chat/sessions") {
@@ -304,7 +364,7 @@ test("scrolls to the newest message when the conversation grows", async () => {
   renderWithProviders(<ChatPage />);
 
   await screen.findByText("销售助理");
-  fireEvent.change(await screen.findByPlaceholderText("输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"), {
+  fireEvent.change(await screen.findByPlaceholderText("销售支持"), {
     target: { value: "继续" }
   });
   fireEvent.click(screen.getByRole("button", { name: "发送" }));
@@ -322,7 +382,14 @@ test("renders assistant replies as markdown", async () => {
     if (url === "/api/chat/scenes") {
       return {
         ok: true,
-        json: async () => [{ id: "sales-assistant", name: "销售助理" }]
+        json: async () => [
+          {
+            id: "sales-assistant",
+            name: "销售助理",
+            description: "销售支持",
+            hints: ["总结产品优势", "起草客户回复"]
+          }
+        ]
       };
     }
     if (url === "/api/chat/sessions") {
@@ -362,7 +429,7 @@ test("renders assistant replies as markdown", async () => {
   renderWithProviders(<ChatPage />);
 
   await screen.findByText("销售助理");
-  fireEvent.change(await screen.findByPlaceholderText("输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"), {
+  fireEvent.change(await screen.findByPlaceholderText("销售支持"), {
     target: { value: "给我一段 markdown" }
   });
   fireEvent.click(screen.getByRole("button", { name: "发送" }));
@@ -378,7 +445,14 @@ test("starts a new session from the rail", async () => {
     if (url === "/api/chat/scenes") {
       return {
         ok: true,
-        json: async () => [{ id: "sales-assistant", name: "销售助理" }]
+        json: async () => [
+          {
+            id: "sales-assistant",
+            name: "销售助理",
+            description: "销售支持",
+            hints: ["总结产品优势", "起草客户回复"]
+          }
+        ]
       };
     }
     if (url === "/api/chat/sessions") {
@@ -414,7 +488,7 @@ test("starts a new session from the rail", async () => {
   renderWithProviders(<ChatPage />);
 
   await screen.findByText("销售助理");
-  fireEvent.change(await screen.findByPlaceholderText("输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"), {
+  fireEvent.change(await screen.findByPlaceholderText("销售支持"), {
     target: { value: "你好" }
   });
   fireEvent.click(screen.getByRole("button", { name: "发送" }));
@@ -429,7 +503,7 @@ test("starts a new session from the rail", async () => {
     expect(document.querySelectorAll(".conversation__message")).toHaveLength(0);
   });
 
-  expect(screen.getByText("从一个需求、一段客户笔记或一份会议纪要开始。")).toBeInTheDocument();
+  expect(screen.getByPlaceholderText("销售支持")).toBeInTheDocument();
 });
 
 test("restores a previous conversation from history", async () => {
@@ -438,7 +512,14 @@ test("restores a previous conversation from history", async () => {
     if (url === "/api/chat/scenes") {
       return {
         ok: true,
-        json: async () => [{ id: "sales-assistant", name: "销售助理" }]
+        json: async () => [
+          {
+            id: "sales-assistant",
+            name: "销售助理",
+            description: "销售支持",
+            hints: ["总结产品优势", "起草客户回复"]
+          }
+        ]
       };
     }
     if (url === "/api/chat/sessions") {
@@ -503,7 +584,7 @@ test("restores a previous conversation from history", async () => {
   renderWithProviders(<ChatPage />);
 
   await screen.findByText("销售助理");
-  fireEvent.change(await screen.findByPlaceholderText("输入你的问题, 或粘贴客户需求 / 产品资料 / 会议摘要"), {
+  fireEvent.change(await screen.findByPlaceholderText("销售支持"), {
     target: { value: "跟进 ACME 客户" }
   });
   fireEvent.click(screen.getByRole("button", { name: "发送" }));

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type KeyboardEvent } from "react";
+import { useLayoutEffect, useRef, useState, type ChangeEvent, type KeyboardEvent } from "react";
 
 type ComposerProps = {
   disabled?: boolean;
@@ -20,6 +20,9 @@ export function Composer({
   variant = "landing"
 }: ComposerProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [isAttachmentMenuOpen, setIsAttachmentMenuOpen] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   useLayoutEffect(() => {
     const textarea = textareaRef.current;
@@ -42,6 +45,16 @@ export function Composer({
 
     event.preventDefault();
     onSubmit();
+  }
+
+  function handleAttachmentChange(event: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(event.target.files ?? []);
+    setSelectedFiles(files);
+    setIsAttachmentMenuOpen(false);
+  }
+
+  function handleImageGeneration() {
+    setIsAttachmentMenuOpen(false);
   }
 
   return (
@@ -68,28 +81,74 @@ export function Composer({
           value={value}
         />
       </div>
+      {selectedFiles.length > 0 ? (
+        <div className="composer__attachments" aria-label="待发送附件">
+          {selectedFiles.map((file) => (
+            <span key={`${file.name}-${file.lastModified}`} className="composer__attachment-chip">
+              <span aria-hidden="true" className="material-symbols-outlined">
+                description
+              </span>
+              <span>{file.name}</span>
+            </span>
+          ))}
+        </div>
+      ) : null}
       <div className="composer__footer">
         <div className="composer__meta">
           <div className="composer__tools" aria-label="输入扩展能力">
-            <button className="composer__tool-button" disabled={disabled} type="button">
-              <span aria-hidden="true" className="material-symbols-outlined">
-                attach_file
-              </span>
-              <span>附件</span>
-            </button>
-            <button className="composer__tool-button" disabled={disabled} type="button">
-              <span aria-hidden="true" className="material-symbols-outlined">
-                link
-              </span>
-              <span>链接</span>
-            </button>
+            <div className="composer__tool-group">
+              <button
+                aria-expanded={isAttachmentMenuOpen}
+                aria-label="附件菜单"
+                className="composer__tool-trigger"
+                disabled={disabled}
+                type="button"
+                onClick={() => setIsAttachmentMenuOpen((current) => !current)}
+              >
+                <span aria-hidden="true" className="material-symbols-outlined">
+                  add
+                </span>
+              </button>
+              {isAttachmentMenuOpen ? (
+                <div className="composer__tool-menu" role="menu" aria-label="附件菜单">
+                  <input
+                    ref={fileInputRef}
+                    className="visually-hidden"
+                    multiple
+                    type="file"
+                    onChange={handleAttachmentChange}
+                  />
+                  <button
+                    className="composer__tool-menu-item"
+                    role="menuitem"
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <span aria-hidden="true" className="material-symbols-outlined">
+                      attach_file
+                    </span>
+                    <span>附件</span>
+                  </button>
+                  <button
+                    className="composer__tool-menu-item"
+                    role="menuitem"
+                    type="button"
+                    onClick={handleImageGeneration}
+                  >
+                    <span aria-hidden="true" className="material-symbols-outlined">
+                      image
+                    </span>
+                    <span>生成图片</span>
+                  </button>
+                </div>
+              ) : null}
+            </div>
           </div>
-          <p className="composer__hint">Enter 发送，Option + Enter 换行</p>
         </div>
         <button className="composer__submit" disabled={disabled} type="submit">
-          <span>{isBusy ? "生成中..." : "发送"}</span>
+          <span className="visually-hidden">{isBusy ? "生成中..." : "发送"}</span>
           <span aria-hidden="true" className="material-symbols-outlined">
-            north_east
+            send
           </span>
         </button>
       </div>

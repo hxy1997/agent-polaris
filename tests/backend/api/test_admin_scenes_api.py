@@ -5,6 +5,7 @@ from fastapi.testclient import TestClient
 from app.api.admin import scenes as admin_scenes_api
 from app.main import app
 from app.services.scene_service import SceneService
+from app.services.skill_service import SkillService
 
 
 def test_list_scenes_returns_http_200():
@@ -124,3 +125,76 @@ def test_post_scene_creates_new_scene(tmp_path: Path, monkeypatch):
     assert response.status_code == 201
     assert response.json()["id"] == "sales-draft"
     assert response.json()["description"] == "Draft description"
+
+
+def test_get_skill_tree_merges_base_and_scene_skills(tmp_path: Path, monkeypatch):
+    platform_root = tmp_path / "platform"
+    scene_dir = platform_root / "scenes" / "sales-assistant"
+    scene_dir.mkdir(parents=True)
+    (scene_dir / "scene.toml").write_text(
+        '\n'.join(
+            [
+                'id = "sales-assistant"',
+                'name = "Sales Assistant"',
+                'description = "Sales support"',
+                'status = "active"',
+            ]
+        ),
+        encoding="utf-8",
+    )
+    inherited_skill = platform_root / "base-scene" / "skills" / "reply-draft"
+    overridden_skill = platform_root / "base-scene" / "skills" / "brief"
+    scene_override = platform_root / "scenes" / "sales-assistant" / "skills" / "brief"
+    inherited_skill.mkdir(parents=True)
+    overridden_skill.mkdir(parents=True)
+    scene_override.mkdir(parents=True)
+    (inherited_skill / "SKILL.md").write_text("base reply", encoding="utf-8")
+    (overridden_skill / "SKILL.md").write_text("base brief", encoding="utf-8")
+    (scene_override / "SKILL.md").write_text("scene brief", encoding="utf-8")
+
+    monkeypatch.setattr(admin_scenes_api, "scene_service", SceneService(platform_root))
+    monkeypatch.setattr(admin_scenes_api, "skill_service", SkillService(platform_root))
+
+    client = TestClient(app)
+    response = client.get("/api/admin/scenes/sales-assistant/skills/tree")
+
+    assert response.status_code == 200
+    nodes = response.json()["nodes"]
+    assert [node["name"] for node in nodes] == ["brief", "reply-draft"]
+    assert nodes[0]["source"] == "scene"
+    assert nodes[0]["is_overridden"] is True
+    assert nodes[1]["source"] == "base"
+    assert nodes[1]["is_read_only"] is True
+
+
+def test_get_skill_file_returns_content(tmp_path: Path, monkeypatch):
+    platform_root = tmp_path / "platform"
+    scene_dir = platform_root / "scenes" / "sales-assistant"
+    scene_dir.mkdir(parents=True)
+    (scene_dir / "scene.toml").write_text(
+        '\n'.join(
+            [
+                'id = "sales-assistant"',
+                'name = "Sales Assistant"',
+                'description = "Sales support"',
+                'status = "active"',
+            ]
+        ),
+        encoding="utf-8",
+    )
+    skill_dir = platform_root / "scenes" / "sales-assistant" / "skills" / "reply-draft"
+    skill_dir.mkdir(parents=True)
+    (skill_dir / "SKILL.md").write_text("# reply-draft", encoding="utf-8")
+
+    monkeypatch.setattr(admin_scenes_api, "scene_service", SceneService(platform_root))
+    monkeypatch.setattr(admin_scenes_api, "skill_service", SkillService(platform_root))
+
+    client = TestClient(app)
+    response = client.get(
+        "/api/admin/scenes/sales-assistant/skills/file",
+        params={"source": "scene", "path": "reply-draft/SKILL.md"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["content"] == "# reply-draft"
+    assert response.json()["is_read_only"] is False

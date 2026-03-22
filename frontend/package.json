@@ -9,9 +9,11 @@
     "test": "node ./scripts/run-vitest.mjs"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "@ai-sdk/react": "^3.0.136",
     "@tanstack/react-query": "^5.79.0",
     "ai": "^6.0.134",
+    "react-arborist": "^3.4.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",

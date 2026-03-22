@@ -1,9 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ChatSceneSummary(BaseModel):
     id: str
     name: str
+    description: str = ""
+    hints: list[str] = Field(default_factory=list)
 
 
 class CreateSessionRequest(BaseModel):

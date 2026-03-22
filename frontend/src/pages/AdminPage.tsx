@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { AdminOverviewPanel } from "../components/admin/AdminOverviewPanel";
 import { CreateSceneModal } from "../components/admin/CreateSceneModal";
@@ -7,6 +7,8 @@ import { PromptPanel } from "../components/admin/PromptPanel";
 import { SceneTree } from "../components/admin/SceneTree";
 import { SkillPanel } from "../components/admin/SkillPanel";
 import { WorkspacePanel } from "../components/admin/WorkspacePanel";
+import { EmptySceneGuide } from "../components/common/EmptySceneGuide";
+import { PolarisMark } from "../components/common/PolarisMark";
 import {
   useBaseScenes,
   useCreateScene,
@@ -45,8 +47,11 @@ function slugifySceneId(value: string): string {
 }
 
 export function AdminPage() {
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data: baseScenes = [] } = useBaseScenes();
   const { data: scenes = [] } = useScenes("admin");
+  const [emptySceneCountdown, setEmptySceneCountdown] = useState(10);
   const [selectedSceneId, setSelectedSceneId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<AdminTab>("overview");
   const { data: sceneDetail } = useSceneDetail(selectedSceneId);
@@ -69,10 +74,26 @@ export function AdminPage() {
   });
 
   useEffect(() => {
+    if (selectedSceneId && !scenes.some((scene) => scene.id === selectedSceneId)) {
+      setSelectedSceneId(scenes[0]?.id ?? null);
+      return;
+    }
+
     if (!selectedSceneId && scenes[0]) {
       setSelectedSceneId(scenes[0].id);
     }
   }, [scenes, selectedSceneId]);
+
+  useEffect(() => {
+    if (searchParams.get("createScene") !== "1") {
+      return;
+    }
+
+    setIsCreateModalOpen(true);
+    const next = new URLSearchParams(searchParams);
+    next.delete("createScene");
+    setSearchParams(next, { replace: true });
+  }, [searchParams, setSearchParams]);
 
   useEffect(() => {
     if (!sceneDetail) {
@@ -96,6 +117,29 @@ export function AdminPage() {
       base_scene_id: baseScenes[0].id
     }));
   }, [baseScenes, createForm.base_scene_id]);
+
+  useEffect(() => {
+    if (scenes.length > 0) {
+      setEmptySceneCountdown(10);
+      return;
+    }
+
+    setEmptySceneCountdown(10);
+    const timer = window.setInterval(() => {
+      setEmptySceneCountdown((current) => {
+        if (current <= 1) {
+          window.clearInterval(timer);
+          setIsCreateModalOpen(true);
+          return 0;
+        }
+        return current - 1;
+      });
+    }, 1000);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [scenes.length]);
 
   async function handleSaveModelConfig() {
     if (!selectedSceneId) {
@@ -167,38 +211,10 @@ export function AdminPage() {
     <section className="admin-page">
       <header className="admin-page__header glass-surface--strong">
         <div className="admin-page__header-brand">
-          <span className="admin-page__brand-name">Polaris Admin</span>
-          <label className="admin-page__search">
-            <span aria-hidden="true" className="material-symbols-outlined">
-              search
-            </span>
-            <input placeholder="Search Scene" type="text" />
-          </label>
+          <PolarisMark className="admin-page__brand-mark" />
+          <span className="admin-page__brand-name">Polaris</span>
         </div>
-        <nav className="admin-page__mode-nav" aria-label="模式导航">
-          <NavLink className={({ isActive }) => (isActive ? "is-active" : undefined)} to="/chat">
-            对话模式
-          </NavLink>
-          <NavLink className={({ isActive }) => (isActive ? "is-active" : undefined)} to="/admin">
-            管理后台
-          </NavLink>
-        </nav>
         <div className="admin-page__header-actions">
-          <button
-            className="admin-page__secondary-action"
-            disabled={createScene.isPending}
-            type="button"
-            onClick={() => setIsCreateModalOpen(true)}
-          >
-            <span aria-hidden="true" className="material-symbols-outlined">
-              add
-            </span>
-            新建场景
-          </button>
-          <button className="admin-page__primary-action" type="button">
-            发布
-          </button>
-          <div className="admin-page__divider" aria-hidden="true" />
           <button className="admin-page__icon-button" type="button">
             <span aria-hidden="true" className="material-symbols-outlined">
               notifications
@@ -242,9 +258,23 @@ export function AdminPage() {
         }}
       />
 
+      {scenes.length === 0 ? (
+        <main className="admin-page__empty-shell">
+          <EmptySceneGuide
+            countdown={emptySceneCountdown}
+            description="当前还没有任何业务场景。先创建一个场景，才能继续配置提示词、技能和工作区。"
+            title="还没有业务场景"
+            onNavigate={() => {
+              navigate("/admin?createScene=1", { replace: true });
+              setIsCreateModalOpen(true);
+            }}
+          />
+        </main>
+      ) : (
       <div className="admin-layout">
         <SceneTree
           baseScenes={baseScenes}
+          onCreateScene={() => setIsCreateModalOpen(true)}
           onSelectScene={setSelectedSceneId}
           scenes={scenes}
           selectedSceneId={selectedSceneId}
@@ -311,7 +341,7 @@ export function AdminPage() {
                 </div>
               </section>
             ) : null}
-            {activeTab === "skills" ? <SkillPanel /> : null}
+            {activeTab === "skills" ? <SkillPanel sceneId={selectedSceneId} /> : null}
             {activeTab === "workspace" ? <WorkspacePanel /> : null}
             {activeTab === "release" ? (
               <section className="admin-panel glass-surface">
@@ -336,6 +366,7 @@ export function AdminPage() {
           </div>
         </div>
       </div>
+      )}
     </section>
   );
 }

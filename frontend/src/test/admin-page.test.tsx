@@ -47,8 +47,7 @@ test("renders admin page with scene list and tabs", async () => {
   renderWithProviders(<AdminPage />);
 
   expect(await screen.findByRole("button", { name: "销售助理" })).toBeInTheDocument();
-  expect(screen.getByRole("link", { name: "对话模式" })).toHaveAttribute("href", "/chat");
-  expect(screen.getByRole("link", { name: "管理后台" })).toHaveAttribute("href", "/admin");
+  expect(screen.getByRole("link", { name: "返回对话" })).toHaveAttribute("href", "/chat");
   expect(screen.getByRole("tab", { name: "概览" })).toBeInTheDocument();
   expect(screen.getByText("交互性能")).toBeInTheDocument();
 });
@@ -203,7 +202,14 @@ test("creates and selects a new scene from the header action", async () => {
   renderWithProviders(<AdminPage />);
 
   fireEvent.click(await screen.findByRole("button", { name: "新建场景" }));
-  const modal = screen.getByLabelText("新建场景");
+  const modal = screen
+    .getAllByLabelText("新建场景")
+    .find((element) => element.tagName === "SECTION");
+
+  expect(modal).toBeDefined();
+  if (!modal) {
+    throw new Error("新建场景弹窗未找到");
+  }
   fireEvent.change(within(modal).getByLabelText("场景名称"), { target: { value: "新建场景 1" } });
   fireEvent.change(within(modal).getByLabelText("场景描述"), { target: { value: "新场景描述" } });
   fireEvent.change(within(modal).getByLabelText("场景 ID"), { target: { value: "scene" } });
