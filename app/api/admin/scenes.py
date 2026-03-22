@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
 from app.bootstrap.runtime_initializer import ensure_platform_initialized
 from app.core.settings import Settings
@@ -138,6 +138,25 @@ def copy_skill_from_base(scene_id: str, payload: CopySkillFromBaseRequest) -> Sk
         raise HTTPException(status_code=404, detail="Scene was not found") from exc
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail="Base skill was not found") from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@router.post("/{scene_id}/skills/upload", response_model=SkillTreeResponse, status_code=201)
+async def upload_skill_directory(
+    scene_id: str,
+    folder_name: str = Form(...),
+    paths: list[str] = Form(...),
+    files: list[UploadFile] = File(...),
+) -> SkillTreeResponse:
+    if len(paths) != len(files):
+        raise HTTPException(status_code=422, detail="Uploaded files do not match their relative paths")
+
+    try:
+        uploaded_files = [(path, await file.read()) for path, file in zip(paths, files, strict=True)]
+        return skill_service.upload_skill_directory(scene_id, folder_name, uploaded_files)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="Scene was not found") from exc
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 

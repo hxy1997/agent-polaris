@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import { EmptySceneGuide } from "../components/common/EmptySceneGuide";
 import { PolarisMark } from "../components/common/PolarisMark";
+import { AppIcon } from "../components/common/AppIcon";
 import { ChatShell } from "../components/chat/ChatShell";
 import { Composer } from "../components/chat/Composer";
 import { MarkdownMessage } from "../components/chat/MarkdownMessage";
@@ -89,9 +90,7 @@ export function ChatPage() {
         onClick={() => setIsSceneMenuOpen((current) => !current)}
       >
         <span>{title}</span>
-        <span aria-hidden="true" className="material-symbols-outlined">
-          keyboard_arrow_down
-        </span>
+        <AppIcon name="chevron-down" />
       </button>
       {isSceneMenuOpen ? (
         <div className="chat-page__scene-menu glass-surface--strong">
@@ -268,9 +267,7 @@ export function ChatPage() {
           </div>
         </div>
         <button className="chat-page__rail-item" type="button" onClick={handleStartNewSession}>
-          <span aria-hidden="true" className="material-symbols-outlined">
-            add_circle
-          </span>
+          <AppIcon name="plus-circle" />
           <span>新会话</span>
         </button>
         <button
@@ -279,23 +276,17 @@ export function ChatPage() {
           type="button"
           onClick={() => setIsHistoryOpen((current) => !current)}
         >
-          <span aria-hidden="true" className="material-symbols-outlined">
-            history
-          </span>
+          <AppIcon name="history" />
           <span>历史会话</span>
         </button>
         <button className="chat-page__rail-item" type="button">
-          <span aria-hidden="true" className="material-symbols-outlined">
-            settings
-          </span>
+          <AppIcon name="settings" />
           <span>个人设置</span>
         </button>
         <div className="chat-page__rail-spacer" />
         <div className="chat-page__rail-footer">
           <NavLink className={({ isActive }) => `chat-page__rail-item${isActive ? " is-active" : ""}`} to="/admin">
-            <span aria-hidden="true" className="material-symbols-outlined">
-              dashboard
-            </span>
+            <AppIcon name="dashboard" />
             <span>后台管理</span>
           </NavLink>
           <div className="sidebar-account glass-surface">
@@ -382,9 +373,7 @@ export function ChatPage() {
                                   key={`${message.id}-${file.filename ?? file.url}`}
                                   className="conversation__attachment"
                                 >
-                                  <span aria-hidden="true" className="material-symbols-outlined">
-                                    attachment
-                                  </span>
+                                  <AppIcon name="paperclip" />
                                   <span>{file.filename ?? "附件"}</span>
                                 </div>
                               ))}

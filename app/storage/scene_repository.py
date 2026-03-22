@@ -39,10 +39,8 @@ class SceneRepository:
 
     def get_scene_system_prompt(self, scene_id: str) -> str:
         scene = self.get_scene(scene_id)
-        if not scene.system_prompt_path:
-            return ""
-
-        prompt_path = self.platform_root / "scenes" / scene_id / scene.system_prompt_path
+        prompt_name = scene.system_prompt_path or "system.md"
+        prompt_path = self.platform_root / "scenes" / scene_id / prompt_name
         if not prompt_path.exists():
             return ""
 

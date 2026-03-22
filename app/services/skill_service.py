@@ -1,5 +1,6 @@
 from pathlib import Path
 import re
+from typing import Iterable
 
 from app.schemas.admin import SkillFileResponse, SkillTreeNode, SkillTreeResponse
 from app.storage.scene_repository import SceneRepository
@@ -19,7 +20,8 @@ class SkillService:
 
     def get_file(self, scene_id: str, source: str, path: str) -> SkillFileResponse:
         self.scene_repository.get_scene(scene_id)
-        return SkillFileResponse.model_validate(self.skill_repository.read_file(scene_id, source, path))
+        record = self.skill_repository.read_file(scene_id, source, path)
+        return SkillFileResponse.model_validate(record.model_dump())
 
     def create_skill(self, scene_id: str, skill_id: str) -> SkillTreeResponse:
         self.scene_repository.get_scene(scene_id)
@@ -54,6 +56,25 @@ class SkillService:
     def copy_from_base(self, scene_id: str, skill_id: str) -> SkillTreeResponse:
         self.scene_repository.get_scene(scene_id)
         self.skill_repository.copy_skill_from_base(scene_id, skill_id)
+        return self.get_tree(scene_id)
+
+    def upload_skill_directory(
+        self,
+        scene_id: str,
+        folder_name: str,
+        files: Iterable[tuple[str, bytes]],
+    ) -> SkillTreeResponse:
+        self.scene_repository.get_scene(scene_id)
+        normalized_folder_name = self._normalize_name(folder_name, allow_nested=False)
+        normalized_files = [
+            (self._normalize_name(relative_path, allow_nested=True), content)
+            for relative_path, content in files
+        ]
+        self.skill_repository.upload_skill_directory(
+            scene_id,
+            normalized_folder_name,
+            normalized_files,
+        )
         return self.get_tree(scene_id)
 
     def resolve_runtime_skill_paths(self, scene_id: str) -> list[str]:

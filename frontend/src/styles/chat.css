@@ -52,8 +52,9 @@
   color: var(--color-primary);
 }
 
-.chat-page__rail-item .material-symbols-outlined {
-  font-size: 1.5rem;
+.chat-page__rail-item .app-icon {
+  width: 1.4rem;
+  height: 1.4rem;
 }
 
 .chat-page__rail-spacer {
@@ -331,12 +332,14 @@
   color: var(--color-primary);
 }
 
-.chat-shell__scene-selector .material-symbols-outlined {
-  font-size: 1.8rem;
+.chat-shell__scene-selector .app-icon {
+  width: 1.35rem;
+  height: 1.35rem;
   color: var(--color-text-muted);
+  transition: transform 180ms ease;
 }
 
-.chat-shell__scene-selector[aria-expanded="true"] .material-symbols-outlined {
+.chat-shell__scene-selector[aria-expanded="true"] .app-icon {
   transform: rotate(180deg);
 }
 
@@ -345,8 +348,9 @@
   font-size: clamp(1.5rem, 2.1vw, 1.85rem);
 }
 
-.chat-shell--conversation .chat-shell__scene-selector .material-symbols-outlined {
-  font-size: 1.3rem;
+.chat-shell--conversation .chat-shell__scene-selector .app-icon {
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
 .chat-shell__error {
@@ -649,8 +653,9 @@
   color: var(--color-primary);
 }
 
-.composer__tool-trigger .material-symbols-outlined {
-  font-size: 1.5rem;
+.composer__tool-trigger .app-icon {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .composer__tool-menu {
@@ -719,8 +724,9 @@
   box-shadow: 0 10px 22px rgba(80, 138, 226, 0.18);
 }
 
-.composer__submit .material-symbols-outlined {
-  font-size: 1rem;
+.composer__submit .app-icon {
+  width: 1rem;
+  height: 1rem;
 }
 
 .composer__submit:disabled,

@@ -75,12 +75,11 @@ a {
   min-height: 100vh;
 }
 
-.material-symbols-outlined {
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 24;
+.app-icon {
+  display: inline-block;
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: none;
   vertical-align: middle;
 }
 

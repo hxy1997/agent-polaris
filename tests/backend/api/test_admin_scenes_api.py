@@ -198,3 +198,74 @@ def test_get_skill_file_returns_content(tmp_path: Path, monkeypatch):
     assert response.status_code == 200
     assert response.json()["content"] == "# reply-draft"
     assert response.json()["is_read_only"] is False
+
+
+def test_upload_skill_directory_creates_scene_skill_tree(tmp_path: Path, monkeypatch):
+    platform_root = tmp_path / "platform"
+    scene_dir = platform_root / "scenes" / "sales-assistant"
+    scene_dir.mkdir(parents=True)
+    (scene_dir / "scene.toml").write_text(
+        '\n'.join(
+            [
+                'id = "sales-assistant"',
+                'name = "Sales Assistant"',
+                'description = "Sales support"',
+                'status = "active"',
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(admin_scenes_api, "scene_service", SceneService(platform_root))
+    monkeypatch.setattr(admin_scenes_api, "skill_service", SkillService(platform_root))
+
+    client = TestClient(app)
+    response = client.post(
+        "/api/admin/scenes/sales-assistant/skills/upload",
+        files=[
+            ("folder_name", (None, "draft-skill")),
+            ("paths", (None, "SKILL.md")),
+            ("paths", (None, "prompts/system.md")),
+            ("files", ("SKILL.md", b"# Draft skill", "text/markdown")),
+            ("files", ("system.md", b"Follow the process.", "text/markdown")),
+        ],
+    )
+
+    assert response.status_code == 201
+    uploaded_root = platform_root / "scenes" / "sales-assistant" / "skills" / "draft-skill"
+    assert (uploaded_root / "SKILL.md").read_text(encoding="utf-8") == "# Draft skill"
+    assert (uploaded_root / "prompts" / "system.md").read_text(encoding="utf-8") == "Follow the process."
+    assert response.json()["nodes"][0]["name"] == "draft-skill"
+
+
+def test_upload_skill_directory_rejects_path_escape(tmp_path: Path, monkeypatch):
+    platform_root = tmp_path / "platform"
+    scene_dir = platform_root / "scenes" / "sales-assistant"
+    scene_dir.mkdir(parents=True)
+    (scene_dir / "scene.toml").write_text(
+        '\n'.join(
+            [
+                'id = "sales-assistant"',
+                'name = "Sales Assistant"',
+                'description = "Sales support"',
+                'status = "active"',
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(admin_scenes_api, "scene_service", SceneService(platform_root))
+    monkeypatch.setattr(admin_scenes_api, "skill_service", SkillService(platform_root))
+
+    client = TestClient(app)
+    response = client.post(
+        "/api/admin/scenes/sales-assistant/skills/upload",
+        files=[
+            ("folder_name", (None, "draft-skill")),
+            ("paths", (None, "../escape.md")),
+            ("files", ("escape.md", b"bad", "text/markdown")),
+        ],
+    )
+
+    assert response.status_code == 422
+    assert response.json()["detail"] == "Invalid path"

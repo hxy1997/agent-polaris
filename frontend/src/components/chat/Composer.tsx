@@ -1,5 +1,7 @@
 import { useLayoutEffect, useRef, useState, type ChangeEvent, type KeyboardEvent } from "react";
 
+import { AppIcon } from "../common/AppIcon";
+
 type ComposerProps = {
   disabled?: boolean;
   isBusy?: boolean;
@@ -85,9 +87,7 @@ export function Composer({
         <div className="composer__attachments" aria-label="待发送附件">
           {selectedFiles.map((file) => (
             <span key={`${file.name}-${file.lastModified}`} className="composer__attachment-chip">
-              <span aria-hidden="true" className="material-symbols-outlined">
-                description
-              </span>
+              <AppIcon name="file" />
               <span>{file.name}</span>
             </span>
           ))}
@@ -105,9 +105,7 @@ export function Composer({
                 type="button"
                 onClick={() => setIsAttachmentMenuOpen((current) => !current)}
               >
-                <span aria-hidden="true" className="material-symbols-outlined">
-                  add
-                </span>
+                <AppIcon name="plus" />
               </button>
               {isAttachmentMenuOpen ? (
                 <div className="composer__tool-menu" role="menu" aria-label="附件菜单">
@@ -124,9 +122,7 @@ export function Composer({
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                   >
-                    <span aria-hidden="true" className="material-symbols-outlined">
-                      attach_file
-                    </span>
+                    <AppIcon name="paperclip" />
                     <span>附件</span>
                   </button>
                   <button
@@ -135,9 +131,7 @@ export function Composer({
                     type="button"
                     onClick={handleImageGeneration}
                   >
-                    <span aria-hidden="true" className="material-symbols-outlined">
-                      image
-                    </span>
+                    <AppIcon name="image" />
                     <span>生成图片</span>
                   </button>
                 </div>
@@ -147,9 +141,7 @@ export function Composer({
         </div>
         <button className="composer__submit" disabled={disabled} type="submit">
           <span className="visually-hidden">{isBusy ? "生成中..." : "发送"}</span>
-          <span aria-hidden="true" className="material-symbols-outlined">
-            send
-          </span>
+          <AppIcon name="send" />
         </button>
       </div>
     </form>

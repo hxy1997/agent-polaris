@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 import { PolarisMark } from "../common/PolarisMark";
+import { AppIcon } from "../common/AppIcon";
 import type { SceneSummary } from "../../lib/api";
 
 type SceneTreeProps = {
@@ -34,9 +35,7 @@ export function SceneTree({
           {baseScenes.map((scene) => (
             <li key={scene.id}>
               <div className="scene-tree__item scene-tree__item--static">
-                <span aria-hidden="true" className="material-symbols-outlined">
-                  schema
-                </span>
+                <AppIcon name="layers" />
                 <span>{scene.name}</span>
               </div>
             </li>
@@ -52,9 +51,7 @@ export function SceneTree({
             type="button"
             onClick={onCreateScene}
           >
-            <span aria-hidden="true" className="material-symbols-outlined">
-              add
-            </span>
+            <AppIcon name="plus" />
           </button>
         </div>
         <ul>
@@ -65,9 +62,7 @@ export function SceneTree({
                 onClick={() => onSelectScene(scene.id)}
                 type="button"
               >
-                <span aria-hidden="true" className="material-symbols-outlined">
-                  smart_toy
-                </span>
+                <AppIcon name="robot" />
                 <span>{scene.name}</span>
               </button>
             </li>
@@ -77,9 +72,7 @@ export function SceneTree({
       <div className="scene-tree__spacer" />
       <div className="scene-tree__footer">
         <NavLink className={({ isActive }) => `scene-tree__item${isActive ? " is-selected" : ""}`} to="/chat">
-          <span aria-hidden="true" className="material-symbols-outlined">
-            chat
-          </span>
+          <AppIcon name="message" />
           <span>返回对话</span>
         </NavLink>
         <div className="sidebar-account glass-surface">

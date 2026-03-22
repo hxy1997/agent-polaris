@@ -22,11 +22,13 @@ import {
   type SceneMetadataUpdate,
   type ScenePromptUpdate,
   type UpdateSkillFilePayload,
+  type UploadSkillDirectoryPayload,
   renameAdminSkillNode,
   updateAdminSceneMetadata,
   updateAdminScenePrompt,
   updateAdminScene,
-  updateAdminSkillFile
+  updateAdminSkillFile,
+  uploadAdminSkillDirectory
 } from "../lib/api";
 
 export function useScenes(scope: "chat" | "admin" = "chat") {
@@ -158,6 +160,17 @@ export function useCopySkillFromBase(sceneId: string | null) {
 
   return useMutation({
     mutationFn: (payload: CopySkillFromBasePayload) => copyAdminSkillFromBase(sceneId ?? "", payload),
+    onSuccess: () => {
+      invalidateSkillQueries(queryClient, sceneId);
+    }
+  });
+}
+
+export function useUploadSkillDirectory(sceneId: string | null) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: UploadSkillDirectoryPayload) => uploadAdminSkillDirectory(sceneId ?? "", payload),
     onSuccess: () => {
       invalidateSkillQueries(queryClient, sceneId);
     }

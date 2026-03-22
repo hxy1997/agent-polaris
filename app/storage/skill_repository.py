@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import shutil
+from typing import Iterable
 
 from pydantic import BaseModel
 
@@ -174,6 +175,36 @@ class SkillRepository:
             source="scene",
             is_read_only=False,
             is_overridden=True,
+            is_skill_root=True,
+        )
+
+    def upload_skill_directory(
+        self,
+        scene_id: str,
+        folder_name: str,
+        files: Iterable[tuple[str, bytes]],
+    ) -> SkillNodeRecord:
+        root = self.scene_skill_root(scene_id)
+        root.mkdir(parents=True, exist_ok=True)
+        skill_dir = root / folder_name
+        if skill_dir.exists():
+            raise ValueError("Skill already exists")
+
+        uploaded_files = list(files)
+        if not uploaded_files:
+            raise ValueError("At least one file is required")
+
+        skill_dir.mkdir(parents=True)
+        for relative_path, content in uploaded_files:
+            file_path = self._safe_join(skill_dir, relative_path)
+            file_path.parent.mkdir(parents=True, exist_ok=True)
+            file_path.write_bytes(content)
+
+        return self._build_tree_node(
+            root=skill_dir,
+            relative_path=folder_name,
+            source="scene",
+            is_read_only=False,
             is_skill_root=True,
         )
 

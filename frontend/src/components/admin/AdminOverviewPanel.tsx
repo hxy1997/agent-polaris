@@ -1,4 +1,5 @@
 import type { SceneDetail, SceneSummary } from "../../lib/api";
+import { AppIcon } from "../common/AppIcon";
 
 type AdminOverviewPanelProps = {
   baseSceneName: string;
@@ -36,9 +37,7 @@ export function AdminOverviewPanel({
       <section className="admin-summary-card glass-surface">
         <div className="admin-summary-card__badge">Active Environment</div>
         <div className="admin-summary-card__icon">
-          <span aria-hidden="true" className="material-symbols-outlined">
-            smart_toy
-          </span>
+          <AppIcon name="robot" />
         </div>
         <div className="admin-summary-card__body">
           <div className="admin-summary-card__title">
@@ -101,9 +100,7 @@ export function AdminOverviewPanel({
               <h3>草稿智能</h3>
               <p>跟踪当前草稿版本和后续操作入口。</p>
             </div>
-            <span aria-hidden="true" className="material-symbols-outlined admin-panel__icon">
-              history
-            </span>
+            <AppIcon className="admin-panel__icon" name="history" />
           </header>
           <div className="admin-overview__stack">
             <div className="admin-glass-tile admin-glass-tile--split">

@@ -83,6 +83,10 @@ export type RenameSkillNodePayload = {
   new_name: string;
 };
 
+export type UploadSkillDirectoryPayload = {
+  formData: FormData;
+};
+
 export type ChatSessionResponse = {
   session_id: string;
   scene_id: string;
@@ -265,6 +269,16 @@ export async function copyAdminSkillFromBase(
     headers: {
       "Content-Type": "application/json"
     },
+    method: "POST"
+  });
+}
+
+export async function uploadAdminSkillDirectory(
+  sceneId: string,
+  payload: UploadSkillDirectoryPayload
+): Promise<SkillTreeResponse> {
+  return requestJson<SkillTreeResponse>(`/api/admin/scenes/${sceneId}/skills/upload`, {
+    body: payload.formData,
     method: "POST"
   });
 }
